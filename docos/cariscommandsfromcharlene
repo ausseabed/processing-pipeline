@@ -1,0 +1,1024 @@
+
+**********Starting Charlene File Transfer**********
+
+Transferring MBES...see cmd prompt for details
+
+Transferring BlueFin.hvf
+
+Transferring POS...see cmd prompt for details
+
+Transferring Logs...see cmd prompt for details
+
+**********File Transfer Complete**********
+
+
+**********Verifying Transferred Files**********
+
+MBES files verified
+
+POS files verified
+
+ACQ LOG files verified
+
+**********Verifying Transferred Files Complete**********
+
+
+*******Charlene 3.1.0 (r9919) Settings*******
+
+Process Multibeam, Transfer and Process Data, Network
+
+WGS84, UTM Zone 55S
+
+Using NOAA_2018.ini and NOAA Support files
+
+Project: GA-0364A
+
+Sheet: GA-0364_BlueFin
+
+Vessel: BlueFin
+
+Day: 2018-172
+
+To (processed): C:\\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data
+
+To (raw): C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172
+
+---------------------------------
+
+HVF: C:\GA-0364_BlueFin\Processing\CARIS\HDCS_Data\VesselConfig\BlueFin.hvf
+
+MBES: C:\GA-0364_BlueFin\Rawdata
+
+POS: C:\GA-0364_BlueFin\000
+
+MVP: 
+
+SVP: 
+
+Tides: None
+
+POSMV: .000 (Delayed Heave)
+
+POS Files: C:\\GA-0364A\GA-0364_BlueFin\Raw\Positioning\BlueFin\2018-172\*.*
+
+SVC: None
+
+GPS Tides: VDatum w/ Delayed Heave
+
+VDatum File: C:\bathy\Caris\Tide\Geoid\s45e135.asc
+
+Surfacing: Raster
+
+Surface: C:\\GA-0364A\GA-0364_BlueFin\Working_Surfaces_Mosaics\Bathymetry\2018-172\BlueFin_2018-172_1m.csar
+
+TPU Options: tide measured 0.0m, tide zone 0.1m, sv measured 1.0m/s, sv surface 0.2m/s
+
+*****************************
+
+
+
+**********Running Caris Multibeam Processor**********
+
+====== Create HIPS File start: 06/07/2019 6:20:25 PM ======
+====== Create HIPS File end: 06/07/2019 6:20:26 PM (Elapsed Time: 00:00:01) ======
+
+==CARIS COMMAND==
+C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe --run CreateHIPSFile --output-crs EPSG:32655 "C:\\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
+=================
+
+
+==CARIS COMMAND==
+C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe --run ImportToHIPS --input-format KONGSBERG --input-crs EPSG:32655 --vessel-file "C:\\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\VesselConfig\BlueFin.hvf" --overwrite BATHY --overwrite NAVIGATION --overwrite MOTION --convert-navigation --gps-height-device GGK "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0495_20180621_105318_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0496_20180621_110822_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0497_20180621_111046_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0498_20180621_112703_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0499_20180621_112911_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0500_20180621_114426_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0501_20180621_120302_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0502_20180621_120432_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0503_20180621_122002_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0504_20180621_122207_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0505_20180621_123824_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0506_20180621_124011_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0507_20180621_125550_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0508_20180621_125754_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0509_20180621_131343_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0510_20180621_131530_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0511_20180621_133120_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0512_20180621_133316_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0513_20180621_134904_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0514_20180621_135044_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0515_20180621_140626_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0516_20180621_140842_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0517_20180621_142350_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0518_20180621_142553_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0519_20180621_144133_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0520_20180621_144511_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0521_20180621_145910_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0522_20180621_150123_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0523_20180621_151718_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0524_20180621_151913_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0525_20180621_153417_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0526_20180621_153608_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0527_20180621_155221_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0528_20180621_155426_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0529_20180621_161000_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0530_20180621_161135_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0531_20180621_162836_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0532_20180621_162947_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0533_20180621_164533_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0534_20180621_164728_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0535_20180621_170332_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-1====== Kongsberg ALL start: 06/07/2019 6:20:28 PM ======
+Converted Line: 0496_20180621_110822_BlueFin.all
+    Ship Navigation: 1441 (0 filtered)
+    Depths Converted: 492800
+        Accepted: 468561
+        Rejected by Disabled Beam: 24239
+
+Converted Line: 0501_20180621_120302_BlueFin.all
+    Ship Navigation: 899 (0 filtered)
+    Depths Converted: 310000
+        Accepted: 299822
+        Rejected by Disabled Beam: 10178
+
+Converted Line: 0498_20180621_112703_BlueFin.all
+    Ship Navigation: 1275 (0 filtered)
+    Depths Converted: 435200
+        Accepted: 417872
+        Rejected by Disabled Beam: 17328
+
+Converted Line: 0509_20180621_131343_BlueFin.all
+    Ship Navigation: 1065 (0 filtered)
+    Depths Converted: 373600
+        Accepted: 358413
+        Rejected by Disabled Beam: 15187
+
+Converted Line: 0517_20180621_142350_BlueFin.all
+    Ship Navigation: 1225 (0 filtered)
+    Depths Converted: 428000
+        Accepted: 410979
+        Rejected by Disabled Beam: 17021
+
+Converted Line: 0497_20180621_111046_BlueFin.all
+    Ship Navigation: 9771 (0 filtered)
+    Depths Converted: 3338800
+        Accepted: 3195444
+        Rejected by Disabled Beam: 143356
+
+Converted Line: 0502_20180621_120432_BlueFin.all
+    Ship Navigation: 9306 (0 filtered)
+    Depths Converted: 3168800
+        Accepted: 3032413
+        Rejected by Disabled Beam: 136387
+
+Converted Line: 0506_20180621_124011_BlueFin.all
+    Ship Navigation: 9389 (0 filtered)
+    Depths Converted: 3213600
+        Accepted: 3073965
+        Rejected by Disabled Beam: 139635
+
+Converted Line: 0525_20180621_153417_BlueFin.all
+    Ship Navigation: 1111 (0 filtered)
+    Depths Converted: 387200
+        Accepted: 373212
+        Rejected by Disabled Beam: 13988
+
+Converted Line: 0495_20180621_105318_BlueFin.all
+    Ship Navigation: 9039 (0 filtered)
+    Depths Converted: 3057200
+        Accepted: 2925727
+        Rejected by Disabled Beam: 131473
+
+Converted Line: 0504_20180621_122207_BlueFin.all
+    Ship Navigation: 9765 (0 filtered)
+    Depths Converted: 3368000
+        Accepted: 3233168
+        Rejected by Disabled Beam: 134832
+
+Converted Line: 0499_20180621_112911_BlueFin.all
+    Ship Navigation: 9151 (0 filtered)
+    Depths Converted: 3104400
+        Accepted: 2972025
+        Rejected by Disabled Beam: 132375
+
+Converted Line: 0500_20180621_114426_BlueFin.all
+    Ship Navigation: 11159 (0 filtered)
+    Depths Converted: 3825600
+        Accepted: 3664160
+        Rejected by Disabled Beam: 161440
+
+Converted Line: 0505_20180621_123824_BlueFin.all
+    Ship Navigation: 1070 (0 filtered)
+    Depths Converted: 370400
+        Accepted: 356782
+        Rejected by Disabled Beam: 13618
+
+Converted Line: 0510_20180621_131530_BlueFin.all
+    Ship Navigation: 9499 (0 filtered)
+    Depths Converted: 3257200
+        Accepted: 3121855
+        Rejected by Disabled Beam: 135345
+
+Converted Line: 0503_20180621_122002_BlueFin.all
+    Ship Navigation: 1253 (0 filtered)
+    Depths Converted: 429600
+        Accepted: 407172
+        Rejected by Disabled Beam: 22428
+
+Converted Line: 0533_20180621_164533_BlueFin.all
+    Ship Navigation: 1147 (0 filtered)
+    Depths Converted: 394400
+        Accepted: 379648
+        Rejected by Disabled Beam: 14752
+
+Converted Line: 0513_20180621_134904_BlueFin.all
+    Ship Navigation: 1002 (0 filtered)
+    Depths Converted: 352000
+        Accepted: 337643
+        Rejected by Disabled Beam: 14357
+
+Converted Line: 0512_20180621_133316_BlueFin.all
+    Ship Navigation: 9478 (0 filtered)
+    Depths Converted: 3267600
+        Accepted: 3136313
+        Rejected by Disabled Beam: 131287
+
+Converted Line: 0541_20180621_175645_BlueFin.all
+    Ship Navigation: 761 (0 filtered)
+    Depths Converted: 260800
+        Accepted: 251934
+        Rejected by Disabled Beam: 8866
+
+Converted Line: 0507_20180621_125550_BlueFin.all
+    Ship Navigation: 1244 (0 filtered)
+    Depths Converted: 424800
+        Accepted: 401821
+        Rejected by Disabled Beam: 22979
+
+Converted Line: 0514_20180621_135044_BlueFin.all
+    Ship Navigation: 9410 (0 filtered)
+    Depths Converted: 3225600
+        Accepted: 3089781
+        Rejected by Disabled Beam: 135819
+
+Converted Line: 0521_20180621_145910_BlueFin.all
+    Ship Navigation: 1327 (0 filtered)
+    Depths Converted: 460000
+        Accepted: 442224
+        Rejected by Disabled Beam: 17776
+
+Converted Line: 0511_20180621_133120_BlueFin.all
+    Ship Navigation: 1167 (0 filtered)
+    Depths Converted: 399200
+        Accepted: 378351
+        Rejected by Disabled Beam: 20849
+
+Converted Line: 0508_20180621_125754_BlueFin.all
+    Ship Navigation: 9492 (0 filtered)
+    Depths Converted: 3271200
+        Accepted: 3140614
+        Rejected by Disabled Beam: 130586
+
+Converted Line: 0518_20180621_142553_BlueFin.all
+    Ship Navigation: 9406 (0 filtered)
+    Depths Converted: 3222800
+        Accepted: 3087048
+        Rejected by Disabled Beam: 135752
+
+Converted Line: 0520_20180621_144511_BlueFin.all
+    Ship Navigation: 8384 (0 filtered)
+    Depths Converted: 2895200
+        Accepted: 2781434
+        Rejected by Disabled Beam: 113766
+
+Converted Line: 0529_20180621_161000_BlueFin.all
+    Ship Navigation: 953 (0 filtered)
+    Depths Converted: 331200
+        Accepted: 318568
+        Rejected by Disabled Beam: 12632
+
+Converted Line: 0515_20180621_140626_BlueFin.all
+    Ship Navigation: 1361 (0 filtered)
+    Depths Converted: 468000
+        Accepted: 445611
+        Rejected by Disabled Beam: 22389
+
+Converted Line: 0519_20180621_144133_BlueFin.all
+    Ship Navigation: 2177 (0 filtered)
+    Depths Converted: 749200
+        Accepted: 713367
+        Rejected by Disabled Beam: 35833
+
+Converted Line: 0522_20180621_150123_BlueFin.all
+    Ship Navigation: 9553 (0 filtered)
+    Depths Converted: 3275200
+        Accepted: 3137798
+        Rejected by Disabled Beam: 137402
+
+Converted Line: 0528_20180621_155426_BlueFin.all
+    Ship Navigation: 9337 (0 filtered)
+    Depths Converted: 3211200
+        Accepted: 3082848
+        Rejected by Disabled Beam: 128352
+
+Converted Line: 0537_20180621_172122_BlueFin.all
+    Ship Navigation: 566 (0 filtered)
+    Depths Converted: 190400
+        Accepted: 183475
+        Rejected by Disabled Beam: 6925
+
+Converted Line: 0523_20180621_151718_BlueFin.all
+    Ship Navigation: 1148 (0 filtered)
+    Depths Converted: 393600
+        Accepted: 373026
+        Rejected by Disabled Beam: 20574
+
+Converted Line: 0516_20180621_140842_BlueFin.all
+    Ship Navigation: 9088 (0 filtered)
+    Depths Converted: 3136800
+        Accepted: 3011660
+        Rejected by Disabled Beam: 125140
+
+Converted Line: 0527_20180621_155221_BlueFin.all
+    Ship Navigation: 1259 (0 filtered)
+    Depths Converted: 429600
+        Accepted: 406847
+        Rejected by Disabled Beam: 22753
+
+Converted Line: 0526_20180621_153608_BlueFin.all
+    Ship Navigation: 9723 (0 filtered)
+    Depths Converted: 3330400
+        Accepted: 3184971
+        Rejected by Disabled Beam: 145429
+
+Converted Line: 0530_20180621_161135_BlueFin.all
+    Ship Navigation: 10206 (0 filtered)
+    Depths Converted: 3488400
+        Accepted: 3340733
+        Rejected by Disabled Beam: 147667
+
+Converted Line: 0531_20180621_162836_BlueFin.all
+    Ship Navigation: 700 (0 filtered)
+    Depths Converted: 236000
+        Accepted: 222318
+        Rejected by Disabled Beam: 13682
+
+Converted Line: 0536_20180621_170457_BlueFin.all
+    Ship Navigation: 9848 (0 filtered)
+    Depths Converted: 3352800
+        Accepted: 3219841
+        Rejected by Disabled Beam: 132959
+
+Converted Line: 0535_20180621_170332_BlueFin.all
+    Ship Navigation: 853 (0 filtered)
+    Depths Converted: 287200
+        Accepted: 271318
+        Rejected by Disabled Beam: 15882
+
+Converted Line: 0524_20180621_151913_BlueFin.all
+    Ship Navigation: 9045 (0 filtered)
+    Depths Converted: 3117200
+        Accepted: 2993127
+        Rejected by Disabled Beam: 124073
+
+Converted Line: 0539_20180621_173905_BlueFin.all
+    Ship Navigation: 800 (0 filtered)
+    Depths Converted: 268000
+        Accepted: 252883
+        Rejected by Disabled Beam: 15117
+
+Converted Line: 0534_20180621_164728_BlueFin.all
+    Ship Navigation: 9641 (0 filtered)
+    Depths Converted: 3273600
+        Accepted: 3133321
+        Rejected by Disabled Beam: 140279
+
+Converted Line: 0543_20180621_180321_BlueFin.all
+    Ship Navigation: 1575 (0 filtered)
+    Depths Converted: 526400
+        Accepted: 497685
+        Rejected by Disabled Beam: 28715
+
+Converted Line: 0538_20180621_172219_BlueFin.all
+    Ship Navigation: 10064 (0 filtered)
+    Depths Converted: 3408800
+        Accepted: 3258641
+        Rejected by Disabled Beam: 150159
+
+Converted Line: 0542_20180621_175801_BlueFin.all
+    Ship Navigation: 3200 (0 filtered)
+    Depths Converted: 1086400
+        Accepted: 1039223
+        Rejected by Disabled Beam: 47177
+
+Converted Line: 0532_20180621_162947_BlueFin.all
+    Ship Navigation: 9469 (0 filtered)
+    Depths Converted: 3239600
+        Accepted: 3110748
+        Rejected by Disabled Beam: 128852
+
+Converted Line: 0540_20180621_174025_BlueFin.all
+    Ship Navigation: 9800 (0 filtered)
+    Depths Converted: 3317600
+        Accepted: 3182929
+        Rejected by Disabled Beam: 134671
+
+49 lines added to C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips
+49 of 49 lines successfully converted.
+====== Kongsberg ALL end: 06/07/2019 6:22:24 PM (Elapsed Time: 00:01:56) ======
+72\0536_20180621_170457_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0537_20180621_172122_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0538_20180621_172219_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0539_20180621_173905_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0540_20180621_174025_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0541_20180621_175645_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0542_20180621_175801_BlueFin.all" "C:\\GA-0364A\GA-0364_BlueFin\Raw\MBES\BlueFin\2018-172\0543_20180621_180321_BlueFin.all" "file:///C:\\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
+=================
+
+====== Import HIPS From Applanix POS MV start: 06/07/2019 6:22:27 PM ======
+Indexing files...
+Indexing: GA0364_applanix.141
+Indexing: GA0364_applanix.142
+Indexing: GA0364_applanix.143
+Indexing: GA0364_applanix.144
+Indexing: GA0364_applanix.145
+Indexing: GA0364_applanix.146
+Indexing: GA0364_applanix.147
+Indexing: GA0364_applanix.148
+Indexing: GA0364_applanix.149
+Indexing: GA0364_applanix.150
+Indexing: GA0364_applanix.151
+Indexing: GA0364_applanix.152
+Loading data...
+0537_20180621_172122_BlueFin
+     Total DelayedHeave records applied: 1411
+     Total DelayedHeaveRMS records applied: 1411
+
+0541_20180621_175645_BlueFin
+     Total DelayedHeave records applied: 1898
+     Total DelayedHeaveRMS records applied: 1898
+
+0539_20180621_173905_BlueFin
+     Total DelayedHeave records applied: 1998
+     Total DelayedHeaveRMS records applied: 1998
+
+0543_20180621_180321_BlueFin
+     Total DelayedHeave records applied: 3933
+     Total DelayedHeaveRMS records applied: 3933
+
+0535_20180621_170332_BlueFin
+     Total DelayedHeave records applied: 2131
+     Total DelayedHeaveRMS records applied: 2131
+
+0542_20180621_175801_BlueFin
+     Total DelayedHeave records applied: 7996
+     Total DelayedHeaveRMS records applied: 7996
+
+0533_20180621_164533_BlueFin
+     Total DelayedHeave records applied: 2864
+     Total DelayedHeaveRMS records applied: 2864
+
+0531_20180621_162836_BlueFin
+     Total DelayedHeave records applied: 1748
+     Total DelayedHeaveRMS records applied: 1748
+
+0538_20180621_172219_BlueFin
+     Total DelayedHeave records applied: 25155
+     Total DelayedHeaveRMS records applied: 25155
+
+0536_20180621_170457_BlueFin
+     Total DelayedHeave records applied: 24615
+     Total DelayedHeaveRMS records applied: 24615
+
+0540_20180621_174025_BlueFin
+     Total DelayedHeave records applied: 24496
+     Total DelayedHeaveRMS records applied: 24496
+
+0529_20180621_161000_BlueFin
+     Total DelayedHeave records applied: 2379
+     Total DelayedHeaveRMS records applied: 2379
+
+0525_20180621_153417_BlueFin
+     Total DelayedHeave records applied: 2776
+     Total DelayedHeaveRMS records applied: 2776
+
+0527_20180621_155221_BlueFin
+     Total DelayedHeave records applied: 3143
+     Total DelayedHeaveRMS records applied: 3143
+
+0534_20180621_164728_BlueFin
+     Total DelayedHeave records applied: 24098
+     Total DelayedHeaveRMS records applied: 24098
+
+0532_20180621_162947_BlueFin
+     Total DelayedHeave records applied: 23667
+     Total DelayedHeaveRMS records applied: 23667
+
+0530_20180621_161135_BlueFin
+     Total DelayedHeave records applied: 25512
+     Total DelayedHeaveRMS records applied: 25512
+
+0528_20180621_155426_BlueFin
+     Total DelayedHeave records applied: 23341
+     Total DelayedHeaveRMS records applied: 23341
+
+0523_20180621_151718_BlueFin
+     Total DelayedHeave records applied: 2866
+     Total DelayedHeaveRMS records applied: 2866
+
+0521_20180621_145910_BlueFin
+     Total DelayedHeave records applied: 3282
+     Total DelayedHeaveRMS records applied: 3282
+
+0519_20180621_144133_BlueFin
+     Total DelayedHeave records applied: 5444
+     Total DelayedHeaveRMS records applied: 5444
+
+0526_20180621_153608_BlueFin
+     Total DelayedHeave records applied: 24302
+     Total DelayedHeaveRMS records applied: 24302
+
+0517_20180621_142350_BlueFin
+     Total DelayedHeave records applied: 3056
+     Total DelayedHeaveRMS records applied: 3056
+
+0515_20180621_140626_BlueFin
+     Total DelayedHeave records applied: 3401
+     Total DelayedHeaveRMS records applied: 3401
+
+0520_20180621_144511_BlueFin
+     Total DelayedHeave records applied: 20959
+     Total DelayedHeaveRMS records applied: 20959
+
+0524_20180621_151913_BlueFin
+     Total DelayedHeave records applied: 22607
+     Total DelayedHeaveRMS records applied: 22607
+
+0522_20180621_150123_BlueFin
+     Total DelayedHeave records applied: 23855
+     Total DelayedHeaveRMS records applied: 23855
+
+0509_20180621_131343_BlueFin
+     Total DelayedHeave records applied: 2660
+     Total DelayedHeaveRMS records applied: 2660
+
+0511_20180621_133120_BlueFin
+     Total DelayedHeave records applied: 2913
+     Total DelayedHeaveRMS records applied: 2913
+
+0513_20180621_134904_BlueFin
+     Total DelayedHeave records applied: 2502
+     Total DelayedHeaveRMS records applied: 2502
+
+0516_20180621_140842_BlueFin
+     Total DelayedHeave records applied: 22696
+     Total DelayedHeaveRMS records applied: 22696
+
+0512_20180621_133316_BlueFin
+     Total DelayedHeave records applied: 23691
+     Total DelayedHeaveRMS records applied: 23691
+
+0510_20180621_131530_BlueFin
+     Total DelayedHeave records applied: 23745
+     Total DelayedHeaveRMS records applied: 23745
+
+0514_20180621_135044_BlueFin
+     Total DelayedHeave records applied: 23520
+     Total DelayedHeaveRMS records applied: 23520
+
+0518_20180621_142553_BlueFin
+     Total DelayedHeave records applied: 23512
+     Total DelayedHeaveRMS records applied: 23512
+
+0507_20180621_125550_BlueFin
+     Total DelayedHeave records applied: 3104
+     Total DelayedHeaveRMS records applied: 3104
+
+0503_20180621_122002_BlueFin
+     Total DelayedHeave records applied: 3128
+     Total DelayedHeaveRMS records applied: 3128
+
+0505_20180621_123824_BlueFin
+     Total DelayedHeave records applied: 2670
+     Total DelayedHeaveRMS records applied: 2670
+
+0501_20180621_120302_BlueFin
+     Total DelayedHeave records applied: 2245
+     Total DelayedHeaveRMS records applied: 2245
+
+0498_20180621_112703_BlueFin
+     Total DelayedHeave records applied: 3183
+     Total DelayedHeaveRMS records applied: 3183
+
+0506_20180621_124011_BlueFin
+     Total DelayedHeave records applied: 23470
+     Total DelayedHeaveRMS records applied: 23470
+
+0508_20180621_125754_BlueFin
+     Total DelayedHeave records applied: 23727
+     Total DelayedHeaveRMS records applied: 23727
+
+0502_20180621_120432_BlueFin
+     Total DelayedHeave records applied: 23262
+     Total DelayedHeaveRMS records applied: 23262
+
+0496_20180621_110822_BlueFin
+     Total DelayedHeave records applied: 3599
+     Total DelayedHeaveRMS records applied: 3599
+
+0504_20180621_122207_BlueFin
+     Total DelayedHeave records applied: 24397
+     Total DelayedHeaveRMS records applied: 24397
+
+0500_20180621_114426_BlueFin
+     Total DelayedHeave records applied: 27894
+     Total DelayedHeaveRMS records applied: 27894
+
+0499_20180621_112911_BlueFin
+     Total DelayedHeave records applied: 22874
+     Total DelayedHeaveRMS records applied: 22874
+
+0495_20180621_105318_BlueFin
+     Total DelayedHeave records applied: 22595
+     Total DelayedHeaveRMS records applied: 22595
+
+0497_20180621_111046_BlueFin
+     Total DelayedHeave records applied: 24425
+     Total DelayedHeaveRMS records applied: 24425
+
+====== Import HIPS From Applanix POS MV end: 06/07/2019 6:22:33 PM (Elapsed Time: 00:00:06) ======
+
+==CARIS COMMAND==
+C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial "C:\\GA-0364A\GA-0364_BlueFin\Raw\Positioning\BlueFin\2018-172\*.*" --input-crs EPSG:32655 --delayed-heave 0sec --delayed-heave-rms 0sec "file:///C:\\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips?Vessel=BlueFin;Line=0495_20180621_105318_BlueFin&Vessel=BlueFin;Line=0496_20180621_110822_BlueFin&Vessel=BlueFin;Line=0497_20180621_111046_BlueFin&Vessel=BlueFin;Line=0498_20180621_112703_BlueFin&Vessel=BlueFin;Line=0499_20180621_112911_BlueFin&Vessel=BlueFin;Line=0500_20180621_114426_BlueFin&Vessel=BlueFin;Line=0501_20180621_120302_BlueFin&Vessel=BlueFin;Line=0502_20180621_120432_BlueFin&Vessel=BlueFin;Line=0503_20180621_122002_BlueFin&Vessel=BlueFin;Line=0504_20180621_122207_BlueFin&Vessel=BlueFin;Line=0505_20180621_123824_BlueFin&Vessel=BlueFin;Line=0506_20180621_124011_BlueFin&Vessel=BlueFin;Line=0507_20180621_125550_BlueFin&Vessel=BlueFin;Line=0508_20180621_125754_BlueFin&Vessel=BlueFin;Line=0509_20180621_131343_BlueFin&Vessel=BlueFin;Line=0510_20180621_131530_BlueFin&Vessel=BlueFin;Line=0511_20180621_133120_BlueFin&Vessel=BlueFin;Line=0512_20180621_133316_BlueFin&Vessel=BlueFin;Line=0513_20180621_134904_BlueFin&Vessel=BlueFin;Line=0514_20180621_135044_BlueFin&Vessel=BlueFin;Line=0515_20180621_140626_BlueFin&Vessel=BlueFin;Line=0516_20180621_140842_BlueFin&Vessel=BlueFin;Line=0517_20180621_142350_BlueFin&Vessel=BlueFin;Line=0518_20180621_142553_BlueFin&Vessel=BlueFin;Line=0519_20180621_144133_BlueFin&Vessel=BlueFin;Line=0520_20180621_144511_BlueFin&Vessel=BlueFin;Line=0521_20180621_145910_BlueFin&Vessel=BlueFin;Line=0522_20180621_150123_BlueFin&Vessel=BlueFin;Line=0523_20180621_151718_BlueFin&Vessel=BlueFin;Line=0524_20180621_151913_BlueFin&Vessel=BlueFin;Line=0525_20180621_153417_BlueFin&Vessel=BlueFin;Line=0526_20180621_153608_BlueFin&Vessel=BlueFin;Line=0527_20180621_155221_BlueFin&Vessel=BlueFin;Line=0528_20180621_155426_BlueFin&Vessel=BlueFin;Line=0529_20180621_161000_BlueFin&Vessel=BlueFin;Line=0530_20180621_161135_BlueFin&Vessel=BlueFin;Line=0531_20180621_162836_BlueFin&Vessel=BlueFin;Line=0532_20180621_162947_BlueFin&Vessel=BlueFin;Line=0533_20180621_164533_BlueFin&Vessel=BlueFin;Line=0534_20180621_164728_BlueFin&Vessel=BlueFin;Line=0535_20180621_170332_BlueFin&Vessel=BlueFin;Line=0536_20180621_170457_BlueFin&Vessel=BlueFin;Line=0537_20180621_172122_BlueFin&Vessel=BlueFin;Line=0538_20180621_172219_BlueFin&Vessel=BlueFin;Line=0539_20180621_173905_BlueFin&Vessel=BlueFin;Line=0540_20180621_174025_BlueFin&Vessel=BlueFin;Line=0541_20180621_175645_BlueFin&Vessel=BlueFin;Line=0542_20180621_175801_BlueFin&Vessel=BlueFin;Line=0543_20180621_180321_BlueFin"
+=================
+
+Found .asc file: using 'Band 1' band name
+====== Georeference Bathymetry start: 06/07/2019 6:22:37 PM ======
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0495_20180621_105318_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0495_20180621_105318_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0495_20180621_105318_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0495_20180621_105318_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0520_20180621_144511_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0520_20180621_144511_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0520_20180621_144511_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0520_20180621_144511_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0502_20180621_120432_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0502_20180621_120432_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0502_20180621_120432_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0502_20180621_120432_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0508_20180621_125754_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0508_20180621_125754_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0508_20180621_125754_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0508_20180621_125754_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0526_20180621_153608_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0526_20180621_153608_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0526_20180621_153608_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0526_20180621_153608_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0532_20180621_162947_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0532_20180621_162947_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0532_20180621_162947_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0532_20180621_162947_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0514_20180621_135044_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0514_20180621_135044_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0514_20180621_135044_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0514_20180621_135044_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0538_20180621_172219_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0538_20180621_172219_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0538_20180621_172219_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0538_20180621_172219_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0521_20180621_145910_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0521_20180621_145910_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0521_20180621_145910_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0521_20180621_145910_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0496_20180621_110822_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0496_20180621_110822_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0496_20180621_110822_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0496_20180621_110822_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0503_20180621_122002_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0503_20180621_122002_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0503_20180621_122002_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0503_20180621_122002_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0515_20180621_140626_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0515_20180621_140626_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0515_20180621_140626_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0515_20180621_140626_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0527_20180621_155221_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0527_20180621_155221_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0527_20180621_155221_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0527_20180621_155221_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0509_20180621_131343_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0509_20180621_131343_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0509_20180621_131343_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0509_20180621_131343_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0533_20180621_164533_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0533_20180621_164533_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0533_20180621_164533_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0533_20180621_164533_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0539_20180621_173905_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0539_20180621_173905_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0539_20180621_173905_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0539_20180621_173905_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0522_20180621_150123_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0522_20180621_150123_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0522_20180621_150123_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0522_20180621_150123_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0497_20180621_111046_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0497_20180621_111046_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0497_20180621_111046_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0497_20180621_111046_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0504_20180621_122207_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0504_20180621_122207_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0504_20180621_122207_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0504_20180621_122207_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0516_20180621_140842_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0516_20180621_140842_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0516_20180621_140842_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0516_20180621_140842_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0510_20180621_131530_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0510_20180621_131530_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0510_20180621_131530_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0510_20180621_131530_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0528_20180621_155426_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0528_20180621_155426_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0528_20180621_155426_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0528_20180621_155426_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0534_20180621_164728_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0534_20180621_164728_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0534_20180621_164728_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0534_20180621_164728_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0540_20180621_174025_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0540_20180621_174025_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0540_20180621_174025_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0540_20180621_174025_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0523_20180621_151718_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0523_20180621_151718_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0523_20180621_151718_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0523_20180621_151718_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0498_20180621_112703_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0498_20180621_112703_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0498_20180621_112703_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0498_20180621_112703_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0505_20180621_123824_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0505_20180621_123824_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0505_20180621_123824_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0505_20180621_123824_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0517_20180621_142350_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0517_20180621_142350_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0517_20180621_142350_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0517_20180621_142350_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0529_20180621_161000_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0529_20180621_161000_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0529_20180621_161000_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0529_20180621_161000_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0511_20180621_133120_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0511_20180621_133120_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0511_20180621_133120_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0511_20180621_133120_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0524_20180621_151913_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0524_20180621_151913_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0524_20180621_151913_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0524_20180621_151913_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0535_20180621_170332_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0535_20180621_170332_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0535_20180621_170332_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0535_20180621_170332_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0541_20180621_175645_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0541_20180621_175645_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0541_20180621_175645_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0541_20180621_175645_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0506_20180621_124011_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0506_20180621_124011_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0506_20180621_124011_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0506_20180621_124011_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0499_20180621_112911_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0499_20180621_112911_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0499_20180621_112911_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0499_20180621_112911_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0530_20180621_161135_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0530_20180621_161135_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0530_20180621_161135_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0530_20180621_161135_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0512_20180621_133316_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0512_20180621_133316_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0512_20180621_133316_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0512_20180621_133316_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0518_20180621_142553_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0518_20180621_142553_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0518_20180621_142553_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0518_20180621_142553_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0536_20180621_170457_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0536_20180621_170457_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0536_20180621_170457_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0536_20180621_170457_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0542_20180621_175801_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0542_20180621_175801_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0542_20180621_175801_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0542_20180621_175801_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0543_20180621_180321_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0543_20180621_180321_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0543_20180621_180321_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0543_20180621_180321_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0525_20180621_153417_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0525_20180621_153417_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0525_20180621_153417_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0525_20180621_153417_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0500_20180621_114426_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0500_20180621_114426_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0500_20180621_114426_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0500_20180621_114426_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0507_20180621_125550_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0507_20180621_125550_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0507_20180621_125550_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0507_20180621_125550_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0519_20180621_144133_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0519_20180621_144133_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0519_20180621_144133_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0519_20180621_144133_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0513_20180621_134904_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0513_20180621_134904_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0513_20180621_134904_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0513_20180621_134904_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0531_20180621_162836_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0531_20180621_162836_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0531_20180621_162836_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0531_20180621_162836_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0537_20180621_172122_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0537_20180621_172122_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0537_20180621_172122_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0537_20180621_172122_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0501_20180621_120302_BlueFin:  Realtime gyro errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0501_20180621_120302_BlueFin:  Realtime pitch errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0501_20180621_120302_BlueFin:  Realtime roll errors not available.  Vessel settings used instead.
+
+Warning: C:\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\0501_20180621_120302_BlueFin:  Realtime position errors not available.  Vessel settings used instead.
+
+====== Georeference Bathymetry end: 06/07/2019 6:27:03 PM (Elapsed Time: 00:04:26) ======
+
+==CARIS COMMAND==
+C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe --run GeoreferenceHIPSBathymetry --compute-gps-vertical-adjustment --datum-model-file "C:\\GA-0364A\GA-0364_BlueFin\Processed\Water_Levels\VDatum\s45e135.asc" --datum-model-band "Band 1" --vertical-datum-reference GPS --heave-source DELAYED_HEAVE --compute-tpu --tide-measured 0.0m --tide-zoning 0.1m --sv-measured 1.0m/s --sv-surface 0.2m/s --source-navigation REALTIME --source-sonar REALTIME --source-gyro REALTIME --source-pitch REALTIME --source-roll REALTIME --source-heave DELAYED --source-tide STATIC --output-components "file:///C:\\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips?Vessel=BlueFin;Line=0495_20180621_105318_BlueFin&Vessel=BlueFin;Line=0496_20180621_110822_BlueFin&Vessel=BlueFin;Line=0497_20180621_111046_BlueFin&Vessel=BlueFin;Line=0498_20180621_112703_BlueFin&Vessel=BlueFin;Line=0499_20180621_112911_BlueFin&Vessel=BlueFin;Line=0500_20180621_114426_BlueFin&Vessel=BlueFin;Line=0501_20180621_120302_BlueFin&Vessel=BlueFin;Line=0502_20180621_120432_BlueFin&Vessel=BlueFin;Line=0503_20180621_122002_BlueFin&Vessel=BlueFin;Line=0504_20180621_122207_BlueFin&Vessel=BlueFin;Line=0505_20180621_123824_BlueFin&Vessel=BlueFin;Line=0506_20180621_124011_BlueFin&Vessel=BlueFin;Line=0507_20180621_125550_BlueFin&Vessel=BlueFin;Line=0508_20180621_125754_BlueFin&Vessel=BlueFin;Line=0509_20180621_131343_BlueFin&Vessel=BlueFin;Line=0510_20180621_131530_BlueFin&Vessel=BlueFin;Line=0511_20180621_133120_BlueFin&Vessel=BlueFin;Line=0512_20180621_133316_BlueFin&Vessel=BlueFin;Line=0513_20180621_134904_BlueFin&Vessel=BlueFin;Line=0514_20180621_135044_BlueFin&Vessel=BlueFin;Line=0515_20180621_140626_BlueFin&Vessel=BlueFin;Line=0516_20180621_140842_BlueFin&Vessel=BlueFin;Line=0517_20180621_142350_BlueFin&Vessel=BlueFin;Line=0518_20180621_142553_BlueFin&Vessel=BlueFin;Line=0519_20180621_144133_BlueFin&Vessel=BlueFin;Line=0520_20180621_144511_BlueFin&Vessel=BlueFin;Line=0521_20180621_145910_BlueFin&Vessel=BlueFin;Line=0522_20180621_150123_BlueFin&Vessel=BlueFin;Line=0523_20180621_151718_BlueFin&Vessel=BlueFin;Line=0524_20180621_151913_BlueFin&Vessel=BlueFin;Line=0525_20180621_153417_BlueFin&Vessel=BlueFin;Line=0526_20180621_153608_BlueFin&Vessel=BlueFin;Line=0527_20180621_155221_BlueFin&Vessel=BlueFin;Line=0528_20180621_155426_BlueFin&Vessel=BlueFin;Line=0529_20180621_161000_BlueFin&Vessel=BlueFin;Line=0530_20180621_161135_BlueFin&Vessel=BlueFin;Line=0531_20180621_162836_BlueFin&Vessel=BlueFin;Line=0532_20180621_162947_BlueFin&Vessel=BlueFin;Line=0533_20180621_164533_BlueFin&Vessel=BlueFin;Line=0534_20180621_164728_BlueFin&Vessel=BlueFin;Line=0535_20180621_170332_BlueFin&Vessel=BlueFin;Line=0536_20180621_170457_BlueFin&Vessel=BlueFin;Line=0537_20180621_172122_BlueFin&Vessel=BlueFin;Line=0538_20180621_172219_BlueFin&Vessel=BlueFin;Line=0539_20180621_173905_BlueFin&Vessel=BlueFin;Line=0540_20180621_174025_BlueFin&Vessel=BlueFin;Line=0541_20180621_175645_BlueFin&Vessel=BlueFin;Line=0542_20180621_175801_BlueFin&Vessel=BlueFin;Line=0543_20180621_180321_BlueFin"
+=================
+
+====== Create HIPS Grid using CUBE start: 06/07/2019 6:27:05 PM ======
+====== Create HIPS Grid using CUBE end: 06/07/2019 6:29:16 PM (Elapsed Time: 00:02:11) ======
+
+==CARIS COMMAND==
+C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe --run CreateHIPSGridWithCube --output-crs EPSG:32655 --extent 521226.347659 -4354453.92383 531012.665508 -4344922.12941 --keep-up-to-date --cube-config-file="C:\Program Files\CARIS\HIPS and SIPS\11.2\system\CUBEParams_NOAA_2019.xml" --cube-config-name="NOAA_1m" --resolution 1.0m --iho-order S44_1A "file:///C:\\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips?Vessel=BlueFin;Line=0495_20180621_105318_BlueFin&Vessel=BlueFin;Line=0496_20180621_110822_BlueFin&Vessel=BlueFin;Line=0497_20180621_111046_BlueFin&Vessel=BlueFin;Line=0498_20180621_112703_BlueFin&Vessel=BlueFin;Line=0499_20180621_112911_BlueFin&Vessel=BlueFin;Line=0500_20180621_114426_BlueFin&Vessel=BlueFin;Line=0501_20180621_120302_BlueFin&Vessel=BlueFin;Line=0502_20180621_120432_BlueFin&Vessel=BlueFin;Line=0503_20180621_122002_BlueFin&Vessel=BlueFin;Line=0504_20180621_122207_BlueFin&Vessel=BlueFin;Line=0505_20180621_123824_BlueFin&Vessel=BlueFin;Line=0506_20180621_124011_BlueFin&Vessel=BlueFin;Line=0507_20180621_125550_BlueFin&Vessel=BlueFin;Line=0508_20180621_125754_BlueFin&Vessel=BlueFin;Line=0509_20180621_131343_BlueFin&Vessel=BlueFin;Line=0510_20180621_131530_BlueFin&Vessel=BlueFin;Line=0511_20180621_133120_BlueFin&Vessel=BlueFin;Line=0512_20180621_133316_BlueFin&Vessel=BlueFin;Line=0513_20180621_134904_BlueFin&Vessel=BlueFin;Line=0514_20180621_135044_BlueFin&Vessel=BlueFin;Line=0515_20180621_140626_BlueFin&Vessel=BlueFin;Line=0516_20180621_140842_BlueFin&Vessel=BlueFin;Line=0517_20180621_142350_BlueFin&Vessel=BlueFin;Line=0518_20180621_142553_BlueFin&Vessel=BlueFin;Line=0519_20180621_144133_BlueFin&Vessel=BlueFin;Line=0520_20180621_144511_BlueFin&Vessel=BlueFin;Line=0521_20180621_145910_BlueFin&Vessel=BlueFin;Line=0522_20180621_150123_BlueFin&Vessel=BlueFin;Line=0523_20180621_151718_BlueFin&Vessel=BlueFin;Line=0524_20180621_151913_BlueFin&Vessel=BlueFin;Line=0525_20180621_153417_BlueFin&Vessel=BlueFin;Line=0526_20180621_153608_BlueFin&Vessel=BlueFin;Line=0527_20180621_155221_BlueFin&Vessel=BlueFin;Line=0528_20180621_155426_BlueFin&Vessel=BlueFin;Line=0529_20180621_161000_BlueFin&Vessel=BlueFin;Line=0530_20180621_161135_BlueFin&Vessel=BlueFin;Line=0531_20180621_162836_BlueFin&Vessel=BlueFin;Line=0532_20180621_162947_BlueFin&Vessel=BlueFin;Line=0533_20180621_164533_BlueFin&Vessel=BlueFin;Line=0534_20180621_164728_BlueFin&Vessel=BlueFin;Line=0535_20180621_170332_BlueFin&Vessel=BlueFin;Line=0536_20180621_170457_BlueFin&Vessel=BlueFin;Line=0537_20180621_172122_BlueFin&Vessel=BlueFin;Line=0538_20180621_172219_BlueFin&Vessel=BlueFin;Line=0539_20180621_173905_BlueFin&Vessel=BlueFin;Line=0540_20180621_174025_BlueFin&Vessel=BlueFin;Line=0541_20180621_175645_BlueFin&Vessel=BlueFin;Line=0542_20180621_175801_BlueFin&Vessel=BlueFin;Line=0543_20180621_180321_BlueFin" "C:\\GA-0364A\GA-0364_BlueFin\Working_Surfaces_Mosaics\Bathymetry\2018-172\BlueFin_2018-172_1m.csar"
+=================
+
+====== Export Raster to GeoTiff start: 06/07/2019 6:29:19 PM ======
+====== Export Raster to GeoTiff end: 06/07/2019 6:29:28 PM (Elapsed Time: 00:00:09) ======
+
+==CARIS COMMAND==
+C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe --run ExportRaster --output-format GeoTIFF --include-band Depth "C:\\GA-0364A\GA-0364_BlueFin\Working_Surfaces_Mosaics\Bathymetry\2018-172\BlueFin_2018-172_1m.csar" "C:\\GA-0364A\GA-0364_BlueFin\Working_Surfaces_Mosaics\Bathymetry\2018-172\BlueFin_2018-172_tif_1m.tif"
+=================
+
+**********Caris Multibeam Processing Complete**********
+

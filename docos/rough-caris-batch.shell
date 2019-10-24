@@ -1,0 +1,133 @@
+$CarisLocation ="C:\Program Files\CARIS\HIPS and SIPS\11.2\bin"
+$ENV:PATH="$ENV:PATH;$CarisLocation"
+
+-------------------------------relative----------------------------------------------------
+carisbatch.exe --run CreateHIPSFile --output-crs EPSG:32655 "D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
+carisbatch.exe --run ImportToHIPS --input-format KONGSBERG --input-crs EPSG:32655 --vessel-file "D:\\Bluefin\BlueFin.hvf" --convert-navigation --gps-height-device GGK  0495_20180621_105318_BlueFin.all  0505_20180621_123824_BlueFin.all  0515_20180621_140626_BlueFin.all  0525_20180621_153417_BlueFin.all  0535_20180621_170332_BlueFin.all  `
+0496_20180621_110822_BlueFin.all  0506_20180621_124011_BlueFin.all  0516_20180621_140842_BlueFin.all  0526_20180621_153608_BlueFin.all  0536_20180621_170457_BlueFin.all  `
+0497_20180621_111046_BlueFin.all  0507_20180621_125550_BlueFin.all  0517_20180621_142350_BlueFin.all  0527_20180621_155221_BlueFin.all  0537_20180621_172122_BlueFin.all  `
+0498_20180621_112703_BlueFin.all  0508_20180621_125754_BlueFin.all  0518_20180621_142553_BlueFin.all  0528_20180621_155426_BlueFin.all  0538_20180621_172219_BlueFin.all  `
+0499_20180621_112911_BlueFin.all  0509_20180621_131343_BlueFin.all  0519_20180621_144133_BlueFin.all  0529_20180621_161000_BlueFin.all  0539_20180621_173905_BlueFin.all  `
+0500_20180621_114426_BlueFin.all  0510_20180621_131530_BlueFin.all  0520_20180621_144511_BlueFin.all  0530_20180621_161135_BlueFin.all  0540_20180621_174025_BlueFin.all  `
+0501_20180621_120302_BlueFin.all  0511_20180621_133120_BlueFin.all  0521_20180621_145910_BlueFin.all  0531_20180621_162836_BlueFin.all  0541_20180621_175645_BlueFin.all  `
+0502_20180621_120432_BlueFin.all  0512_20180621_133316_BlueFin.all  0522_20180621_150123_BlueFin.all  0532_20180621_162947_BlueFin.all  0542_20180621_175801_BlueFin.all  `
+0503_20180621_122002_BlueFin.all  0513_20180621_134904_BlueFin.all  0523_20180621_151718_BlueFin.all  0533_20180621_164533_BlueFin.all  0543_20180621_180321_BlueFin.all  `
+0504_20180621_122207_BlueFin.all  0514_20180621_135044_BlueFin.all  0524_20180621_151913_BlueFin.all  0534_20180621_164728_BlueFin.all "D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips" 
+
+carisbatch.exe -v --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial  "./*.*" --input-crs EPSG:32655 --delayed-heave 0sec --delayed-heave-rms 0sec  "file:///D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
+
+
+"C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe" --run GeoreferenceHIPSBathymetry  --vertical-datum-reference GPS --compute-gps-vertical-adjustment  --vertical-offset 0m --heave-source DELAYED_HEAVE --compute-tpu --tide-measured 0.1m --tide-zoning 0.1m --sv-measured 1.0m/s --sv-surface 0.2m/s --source-navigation REALTIME --source-sonar REALTIME --source-gyro REALTIME --source-pitch REALTIME --source-roll REALTIME --source-heave DELAYED --source-tide STATIC --output-components "file:///D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
+
+
+--------------------------------relative----------------------------------------
+
+----------------------22/10/2019 with Justy------------------------------------
+"C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe" --run CreateHIPSFile --output-crs EPSG:32655 "D:\\HDCS_Data\GA-0364_BlueFin\GA-0364_BlueFin.hips"
+"C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe" --run ImportToHIPS --input-format KONGSBERG --input-crs EPSG:32655 --vessel-file "D:\\Bluefin\BlueFin.hvf" --convert-navigation --gps-height-device GGK  0495_20180621_105318_BlueFin.all  0505_20180621_123824_BlueFin.all  0515_20180621_140626_BlueFin.all  0525_20180621_153417_BlueFin.all  0535_20180621_170332_BlueFin.all  0496_20180621_110822_BlueFin.all  0506_20180621_124011_BlueFin.all  0516_20180621_140842_BlueFin.all  0526_20180621_153608_BlueFin.all  0536_20180621_170457_BlueFin.all  0497_20180621_111046_BlueFin.all  0507_20180621_125550_BlueFin.all  0517_20180621_142350_BlueFin.all  0527_20180621_155221_BlueFin.all  0537_20180621_172122_BlueFin.all  0498_20180621_112703_BlueFin.all  0508_20180621_125754_BlueFin.all  0518_20180621_142553_BlueFin.all  0528_20180621_155426_BlueFin.all  0538_20180621_172219_BlueFin.all  0499_20180621_112911_BlueFin.all  0509_20180621_131343_BlueFin.all  0519_20180621_144133_BlueFin.all  0529_20180621_161000_BlueFin.all  0539_20180621_173905_BlueFin.all  0500_20180621_114426_BlueFin.all  0510_20180621_131530_BlueFin.all  0520_20180621_144511_BlueFin.all  0530_20180621_161135_BlueFin.all  0540_20180621_174025_BlueFin.all  0501_20180621_120302_BlueFin.all  0511_20180621_133120_BlueFin.all  0521_20180621_145910_BlueFin.all  0531_20180621_162836_BlueFin.all  0541_20180621_175645_BlueFin.all  0502_20180621_120432_BlueFin.all  0512_20180621_133316_BlueFin.all  0522_20180621_150123_BlueFin.all  0532_20180621_162947_BlueFin.all  0542_20180621_175801_BlueFin.all  0503_20180621_122002_BlueFin.all  0513_20180621_134904_BlueFin.all  0523_20180621_151718_BlueFin.all  0533_20180621_164533_BlueFin.all  0543_20180621_180321_BlueFin.all  0504_20180621_122207_BlueFin.all  0514_20180621_135044_BlueFin.all  0524_20180621_151913_BlueFin.all  0534_20180621_164728_BlueFin.all "D:\HDCS_Data\GA-0364_BlueFin\GA-0364_BlueFin.hips?Vessel=BlueFin"
+
+----------------------22/10/2019 with Justy------------------------------------
+
+carisbatch.exe --run CreateHIPSFile --output-crs EPSG:32655 "C:\\caris\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
+
+carisbatch.exe --run ImportToHIPS --input-format KONGSBERG --input-crs EPSG:32655 --vessel-file "C:\\caris\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\VesselConfig\BlueFin.hvf" --convert-navigation --gps-height-device GGK  "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0496_20180621_110822_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0497_20180621_111046_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0498_20180621_112703_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0499_20180621_112911_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0500_20180621_114426_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0501_20180621_120302_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0502_20180621_120432_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0503_20180621_122002_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0504_20180621_122207_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0505_20180621_123824_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0506_20180621_124011_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0507_20180621_125550_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0508_20180621_125754_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0509_20180621_131343_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0510_20180621_131530_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0511_20180621_133120_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0512_20180621_133316_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0513_20180621_134904_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0514_20180621_135044_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0515_20180621_140626_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0516_20180621_140842_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0517_20180621_142350_BlueFin.all" "C:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0520_20180621_144511_BlueFin.all" "file:///C:\caris\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips" 
+
+carisbatch.exe -v --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial  "./*.*" --input-crs EPSG:32655 --delayed-heave 0sec --delayed-heave-rms 0sec  "file:///D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
+
+"C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe" --run ImportToHIPS --input-format KONGSBERG --input-crs EPSG:32655 
+--vessel-file "D:\\caris\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\VesselConfig\BlueFin.hvf" 
+--convert-navigation --gps-height-device GGK   
+ "D:\caris\GA-0364A\GA-0364_BlueFin\RAW\MBES\BlueFin\2018-172\0534_20180621_164728_BlueFin.all" 
+ "file:///C:\caris\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips" 
+
+
+
+"C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe" --run ImportToHIPS --input-format KONGSBERG --input-crs EPSG:32655 --vessel-file "D:\\caris\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\VesselConfig\BlueFin.hvf" --convert-navigation --gps-height-device GGK "0534_20180621_164728_BlueFin.all" "file:///D:\caris\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips" 
+
+"C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe" --run CreateHIPSFile --output-crs EPSG:32655 "D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
+"C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe" --run ImportToHIPS --input-format KONGSBERG --input-crs EPSG:32655 --vessel-file "D:\\caris\GA-0364A\GA-0364_BlueFin\Processed\Sonar_Data\HDCS_Data\VesselConfig\BlueFin.hvf" --convert-navigation --gps-height-device GGK "0534_20180621_164728_BlueFin.all" "file:///D:\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips" 
+
+
+"C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe" -v --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial  --input-crs EPSG:32655 --delayed-heave 0sec --delayed-heave-rms 0sec "*.*" "file:///D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
+
+
+carisbatch.exe --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial "*.*" --input-crs EPSG:32655 --delayed-heave 0sec --delayed-heave-rms 0sec "file:///D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips?Vessel=BlueFin;Line=0495_20180621_105318_BlueFin&Vessel=BlueFin;Line=0496_20180621_110822_BlueFin&Vessel=BlueFin;Line=0497_20180621_111046_BlueFin&Vessel=BlueFin;Line=0498_20180621_112703_BlueFin&Vessel=BlueFin;Line=0499_20180621_112911_BlueFin&Vessel=BlueFin;Line=0500_20180621_114426_BlueFin&Vessel=BlueFin;Line=0501_20180621_120302_BlueFin&Vessel=BlueFin;Line=0502_20180621_120432_BlueFin&Vessel=BlueFin;Line=0503_20180621_122002_BlueFin&Vessel=BlueFin;Line=0504_20180621_122207_BlueFin&Vessel=BlueFin;Line=0505_20180621_123824_BlueFin&Vessel=BlueFin;Line=0506_20180621_124011_BlueFin&Vessel=BlueFin;Line=0507_20180621_125550_BlueFin&Vessel=BlueFin;Line=0508_20180621_125754_BlueFin&Vessel=BlueFin;Line=0509_20180621_131343_BlueFin&Vessel=BlueFin;Line=0510_20180621_131530_BlueFin&Vessel=BlueFin;Line=0511_20180621_133120_BlueFin&Vessel=BlueFin;Line=0512_20180621_133316_BlueFin&Vessel=BlueFin;Line=0513_20180621_134904_BlueFin&Vessel=BlueFin;Line=0514_20180621_135044_BlueFin&Vessel=BlueFin;Line=0515_20180621_140626_BlueFin&Vessel=BlueFin;Line=0516_20180621_140842_BlueFin&Vessel=BlueFin;Line=0517_20180621_142350_BlueFin&Vessel=BlueFin;Line=0518_20180621_142553_BlueFin&Vessel=BlueFin;Line=0519_20180621_144133_BlueFin&Vessel=BlueFin;Line=0520_20180621_144511_BlueFin&Vessel=BlueFin;Line=0521_20180621_145910_BlueFin&Vessel=BlueFin;Line=0522_20180621_150123_BlueFin&Vessel=BlueFin;Line=0523_20180621_151718_BlueFin&Vessel=BlueFin;Line=0524_20180621_151913_BlueFin&Vessel=BlueFin;Line=0525_20180621_153417_BlueFin&Vessel=BlueFin;Line=0526_20180621_153608_BlueFin&Vessel=BlueFin;Line=0527_20180621_155221_BlueFin&Vessel=BlueFin;Line=0528_20180621_155426_BlueFin&Vessel=BlueFin;Line=0529_20180621_161000_BlueFin&Vessel=BlueFin;Line=0530_20180621_161135_BlueFin&Vessel=BlueFin;Line=0531_20180621_162836_BlueFin&Vessel=BlueFin;Line=0532_20180621_162947_BlueFin&Vessel=BlueFin;Line=0533_20180621_164533_BlueFin&Vessel=BlueFin;Line=0534_20180621_164728_BlueFin&Vessel=BlueFin;Line=0535_20180621_170332_BlueFin&Vessel=BlueFin;Line=0536_20180621_170457_BlueFin&Vessel=BlueFin;Line=0537_20180621_172122_BlueFin&Vessel=BlueFin;Line=0538_20180621_172219_BlueFin&Vessel=BlueFin;Line=0539_20180621_173905_BlueFin&Vessel=BlueFin;Line=0540_20180621_174025_BlueFin&Vessel=BlueFin;Line=0541_20180621_175645_BlueFin&Vessel=BlueFin;Line=0542_20180621_175801_BlueFin&Vessel=BlueFin;Line=0543_20180621_180321_BlueFin"
+
+carisbatch.exe --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial  --input-crs EPSG:32655 --delayed-heave 0 --delayed-heave-rms 0 "*.*" "file:///D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips" 
+
+carisbatch.exe -v --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial  "./*.*" --input-crs EPSG:32655 --delayed-heave 0sec --delayed-heave-rms 0sec  "file:///D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
+
+
+file:///D:\\Bluefin\GA-0364_BlueFin\GA-0364_BlueFin_MB.hips? 
+Vessel=BlueFin;Line=0495_20180621_105318_BlueFin& 
+Vessel=BlueFin;Line=0496_20180621_110822_BlueFin& 
+Vessel=BlueFin;Line=0497_20180621_111046_BlueFin& 
+Vessel=BlueFin;Line=0498_20180621_112703_BlueFin& 
+Vessel=BlueFin;Line=0499_20180621_112911_BlueFin& 
+Vessel=BlueFin;Line=0500_20180621_114426_BlueFin& 
+Vessel=BlueFin;Line=0501_20180621_120302_BlueFin& 
+Vessel=BlueFin;Line=0502_20180621_120432_BlueFin& 
+Vessel=BlueFin;Line=0503_20180621_122002_BlueFin& 
+Vessel=BlueFin;Line=0504_20180621_122207_BlueFin& 
+Vessel=BlueFin;Line=0505_20180621_123824_BlueFin& 
+Vessel=BlueFin;Line=0506_20180621_124011_BlueFin& 
+Vessel=BlueFin;Line=0507_20180621_125550_BlueFin& 
+Vessel=BlueFin;Line=0508_20180621_125754_BlueFin& 
+Vessel=BlueFin;Line=0509_20180621_131343_BlueFin& 
+Vessel=BlueFin;Line=0510_20180621_131530_BlueFin& 
+Vessel=BlueFin;Line=0511_20180621_133120_BlueFin& 
+Vessel=BlueFin;Line=0512_20180621_133316_BlueFin& 
+Vessel=BlueFin;Line=0513_20180621_134904_BlueFin& 
+Vessel=BlueFin;Line=0514_20180621_135044_BlueFin& 
+Vessel=BlueFin;Line=0515_20180621_140626_BlueFin& 
+Vessel=BlueFin;Line=0516_20180621_140842_BlueFin& 
+Vessel=BlueFin;Line=0517_20180621_142350_BlueFin& 
+Vessel=BlueFin;Line=0518_20180621_142553_BlueFin& 
+Vessel=BlueFin;Line=0519_20180621_144133_BlueFin& 
+Vessel=BlueFin;Line=0520_20180621_144511_BlueFin& 
+Vessel=BlueFin;Line=0521_20180621_145910_BlueFin& 
+Vessel=BlueFin;Line=0522_20180621_150123_BlueFin& 
+Vessel=BlueFin;Line=0523_20180621_151718_BlueFin& 
+Vessel=BlueFin;Line=0524_20180621_151913_BlueFin& 
+Vessel=BlueFin;Line=0525_20180621_153417_BlueFin& 
+Vessel=BlueFin;Line=0526_20180621_153608_BlueFin& 
+Vessel=BlueFin;Line=0527_20180621_155221_BlueFin& 
+Vessel=BlueFin;Line=0528_20180621_155426_BlueFin& 
+Vessel=BlueFin;Line=0529_20180621_161000_BlueFin& 
+Vessel=BlueFin;Line=0530_20180621_161135_BlueFin& 
+Vessel=BlueFin;Line=0531_20180621_162836_BlueFin& 
+Vessel=BlueFin;Line=0532_20180621_162947_BlueFin& 
+Vessel=BlueFin;Line=0533_20180621_164533_BlueFin& 
+Vessel=BlueFin;Line=0534_20180621_164728_BlueFin& 
+Vessel=BlueFin;Line=0535_20180621_170332_BlueFin& 
+Vessel=BlueFin;Line=0536_20180621_170457_BlueFin& 
+Vessel=BlueFin;Line=0537_20180621_172122_BlueFin& 
+Vessel=BlueFin;Line=0538_20180621_172219_BlueFin& 
+Vessel=BlueFin;Line=0539_20180621_173905_BlueFin& 
+Vessel=BlueFin;Line=0540_20180621_174025_BlueFin& 
+Vessel=BlueFin;Line=0541_20180621_175645_BlueFin& 
+Vessel=BlueFin;Line=0542_20180621_175801_BlueFin& 
+Vessel=BlueFin;Line=0543_20180621_180321_BlueFin
+
+
+
+
+
+"C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe" --run CreateHIPSFile --output-crs EPSG:32655 "D:\\Bluefin\GA-0364_BlueFin_MB.hips"
+"C:\Program Files\CARIS\HIPS and SIPS\11.2\bin\carisbatch.exe" --run ImportToHIPS --input-format KONGSBERG --input-crs EPSG:32655 --vessel-file "D:\\Bluefin\BlueFin.hvf" --convert-navigation --gps-height-device GGK    "0534_20180621_164728_BlueFin.all" "D:\\Bluefin\GA-0364_BlueFin_MB.hips" 
+
+
+
+
+
+ carisbatch.exe -v --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial  --input-crs EPSG:32655 --delayed-heave 0 --delayed-heave-rms 0  "file:///D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips?Vessel=" "./0495_20180621_105318_BlueFin" "./GA0364_applanix.141"
+
+
+ carisbatch.exe -v --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial  --input-crs EPSG:32655 --delayed-heave 0sec --delayed-heave-rms 0sec "./GA0364_applanix.141" "file:///D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
+ carisbatch.exe -v --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial  --input-crs EPSG:32655 --delayed-heave 0sec --delayed-heave-rms 0sec "./GA0364_applanix.142" "file:///D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
+ carisbatch.exe -v --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial  --input-crs EPSG:32655 --delayed-heave 0sec --delayed-heave-rms 0sec "./GA0364_applanix.143" "file:///D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
+
+
+carisbatch.exe -v --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial  --input-crs EPSG:32655 --delayed-heave 0sec --delayed-heave-rms 0sec "$(Get-ChildItem GA* -Name)" "file:///D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
+
+ GA0364_applanix.141

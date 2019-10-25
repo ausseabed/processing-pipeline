@@ -11,7 +11,6 @@ workflows:
           create-repo: false
           dockerfile: Dockerfile
           path: .
-          profile-name: myProfileName
           region: AWS_REGION_ENV_VAR_NAME
           repo: callcarisbatch
           tag: 'latest'

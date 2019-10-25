@@ -1,0 +1,51 @@
+{
+  "StartAt": "Get caris version",
+  "States": {
+      "Get caris version":{
+  "Type": "Task",
+  "Resource": "arn:aws:states:::ecs:runTask.sync",
+  "Parameters": {
+    "LaunchType": "FARGATE",
+    "Cluster": "${aws_ecs_cluster_arn}",
+    "TaskDefinition": "${aws_ecs_task_definition_caris-version_arn}",
+    "NetworkConfiguration": { 
+      "AwsvpcConfiguration": { 
+         "AssignPublicIp": "ENABLED",
+         "SecurityGroups": ["${aws_ecs_task_definition_caris_sg}"],
+         "Subnets":  ["${aws_ecs_task_definition_caris_subnet}"] 
+      }
+   }
+  },
+  "Next": "Fetch L0 data from s3",
+  "TimeoutSeconds": 180
+},"Fetch L0 data from s3": {
+      "Type": "Pass",
+      "Result": "Hello World!",
+      "Next": "CreateHIPSFile"
+    },"CreateHIPSFile": {
+      "Type": "Pass",
+      "Result": "Hello World!",
+      "Next": "ImportToHIPS"
+    },"ImportToHIPS": {
+      "Type": "Pass",
+      "Result": "Hello World!",
+      "Next": "ImportHIPSFromAuxiliary"
+    },"ImportHIPSFromAuxiliary": {
+      "Type": "Pass",
+      "Result": "Hello World!",
+      "Next": "GeoreferenceHIPSBathymetry"
+    },"GeoreferenceHIPSBathymetry": {
+      "Type": "Pass",
+      "Result": "Hello World!",
+      "Next": "CreateHIPSGridWithCube"
+    },"CreateHIPSGridWithCube": {
+      "Type": "Pass",
+      "Result": "Hello World!",
+      "Next": "ExportRaster"
+    },"ExportRaster": {
+      "Type": "Pass",
+      "Result": "Hello World!",
+      "End": true
+    }
+  }
+}

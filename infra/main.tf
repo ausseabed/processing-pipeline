@@ -10,10 +10,18 @@ terraform {
   }
 }
 
-#resource "aws_sfn_state_machine" "ausseabed-processing-pipeline" {
+#resource "aws_sfn_state_machine" "" {
 #  name = "ausseabed-processing-pipeline"
 #  role_arn = ""
 #}
+
+
+resource "aws_sfn_state_machine" "ausseabed-processing-pipeline_sfn_state_machine" {
+  name     = "ausseabed-processing-pipeline"
+  role_arn = "${module.ancillary.ausseabed-processing-pipeline_sfn_state_machine_role_arn}"
+  definition = templatefile("ausseabed-processing-pipeline_sfn_state_machine", merge("${module.compute}","${module.networking}"))
+
+}
 
 module "networking" {
     source       = "./networking"
@@ -27,6 +35,7 @@ module "compute" {
   fargate_cpu     = "${var.fargate_cpu}"
   fargate_memory = "${var.fargate_memory}"
   app_image     = "${var.app_image}"
+  ecs_task_execution_role_arn = "${module.ancillary.ecs_task_execution_role_arn}"
 }
 
 module "ancillary" {

@@ -12,5 +12,5 @@ accessip = "0.0.0.0/0"
 
 fargate_cpu = 512
 fargate_memory = 1024
-app_image = "alpine:latest"
+app_image = "288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/callcarisbatch:latest"
 

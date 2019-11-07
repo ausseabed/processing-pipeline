@@ -185,3 +185,163 @@ resource "aws_iam_role_policy" "ecs_task_execution_policy" {
 }
 EOF
 }
+
+
+resource "aws_cloudwatch_log_group" "caris-version" {
+  name = "/ecs/caris-version"
+
+  tags = {
+    Environment = "poc"
+    Application = "caris"
+  }
+}
+
+
+data "aws_caller_identity" "current" {}
+
+
+resource "aws_s3_bucket" "bathymetry-survey" {
+  bucket = "bathymetry-survey-${data.aws_caller_identity.current.account_id}"
+}
+
+
+resource "aws_cloudtrail" "raw-data-available-in-bathymetry-survey-trail" {
+  name                          = "raw-data-available-in-bathymetry-survey-trail"
+  s3_bucket_name                = "${aws_s3_bucket.bucket-for-cloudtrail.id}"
+  s3_key_prefix                 = "prefix"
+
+  event_selector {
+    read_write_type           = "All"
+    include_management_events = true
+
+    data_resource {
+      type = "AWS::S3::Object"
+
+      # Make sure to append a trailing '/' to your ARN if you want
+      # to monitor all objects in a bucket.
+      values = ["${aws_s3_bucket.bathymetry-survey.arn}/.done"]
+    }
+  }
+}
+
+
+resource "aws_s3_bucket" "bucket-for-cloudtrail" {
+  bucket        = "bucket-for-cloudtrail-${data.aws_caller_identity.current.account_id}"
+  force_destroy = true
+
+  policy = <<POLICY
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AWSCloudTrailAclCheck",
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "cloudtrail.amazonaws.com"
+            },
+            "Action": "s3:GetBucketAcl",
+            "Resource": "arn:aws:s3:::bucket-for-cloudtrail-${data.aws_caller_identity.current.account_id}"
+        },
+        {
+            "Sid": "AWSCloudTrailWrite",
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "cloudtrail.amazonaws.com"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::bucket-for-cloudtrail-${data.aws_caller_identity.current.account_id}/prefix/AWSLogs/*",
+            "Condition": {
+                "StringEquals": {
+                    "s3:x-amz-acl": "bucket-owner-full-control"
+                }
+            }
+        }
+    ]
+}
+POLICY
+}
+
+
+resource "aws_cloudwatch_event_rule" "trigger-processing-pipeline" {
+  name        = "trigger-processing-pipeline"
+  description = "trigger-processing-pipeline on s3 event"
+
+  event_pattern = <<PATTERN
+{
+  "source": [
+    "aws.s3"
+  ],
+  "detail-type": [
+    "AWS API Call via CloudTrail"
+  ],
+  "detail": {
+    "eventSource": [
+      "s3.amazonaws.com"
+    ],
+    "eventName": [
+      "PutObject"
+    ],
+    "requestParameters": {
+      "bucketName": [
+        "bathymetry-survey-288871573946"
+      ]
+    }
+  }
+}
+PATTERN
+}
+
+resource "aws_cloudwatch_event_target" "asf" {
+  rule      = "${aws_cloudwatch_event_rule.trigger-processing-pipeline.name}"
+  target_id = "trigger-step-function"
+  arn       = "${var.ausseabed-processing-pipeline.id}"
+  role_arn  = "${aws_iam_role.asf_events.arn}"
+}
+
+
+resource "aws_iam_role" "asf_events" {
+  name = "asf_events"
+
+  assume_role_policy = <<DOC
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "events.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+DOC
+}
+
+resource "aws_iam_role_policy" "asf_events_run_task_with_any_role" {
+  name = "asf_events_run_task_with_any_role"
+  role = "${aws_iam_role.asf_events.id}"
+
+  policy = <<DOC
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "states:StartExecution"
+            ],
+            "Resource": [
+                "arn:aws:states:ap-southeast-2:${data.aws_caller_identity.current.account_id}:stateMachine:ausseabed-processing-pipeline"
+            ]
+        }
+    ]
+}
+DOC
+}

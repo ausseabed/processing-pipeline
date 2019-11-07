@@ -16,9 +16,25 @@ resource "aws_ecs_task_definition" "caris-version" {
   container_definitions = <<DEFINITION
 [
   {
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/caris-version",
+          "awslogs-region": "ap-southeast-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
     "command": ["52.62.84.70",
-        "C:\\Program Files\\CARIS\\HIPS and SIPS\\11.2\\bin\\carisbatch\\ --version",
-        "arnab"],
+        "\"C:\\Program Files\\CARIS\\HIPS and SIPS\\11.2\\bin\\carisbatch\" --version",
+        "arnab",
+        "caris_rsa_pkey_string"],
+    "secrets": [
+        {
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-2:288871573946:secret:caris_batch_secret-OMZKQN",
+          "name": "caris_rsa_pkey_string"
+        }
+      ],
     "cpu": ${var.fargate_cpu},
     "image": "${var.app_image}",
     "memory": ${var.fargate_memory},

@@ -35,6 +35,7 @@ try:
     stdin, stdout, stderr = client.exec_command(command)
     print(stdout.read(), end=' ')
     print(stderr.read(), end=' ')
+    print("exit status"+str(stdout.channel.recv_exit_status()) )
 
 finally:
     client.close()

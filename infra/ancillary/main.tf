@@ -345,3 +345,53 @@ resource "aws_iam_role_policy" "asf_events_run_task_with_any_role" {
 }
 DOC
 }
+
+
+resource "aws_iam_role" "ec2_instance_s3" {
+  name = "ec2_instance_s3"
+
+  assume_role_policy = <<DOC
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+DOC
+}
+
+resource "aws_iam_role_policy" "s3_read_write" {
+  name = "s3_read_write"
+  role = "${aws_iam_role.ec2_instance_s3.id}"
+
+  policy = <<DOC
+{
+    "Version": "2012-10-17",
+    "Statement": [
+       {
+            "Sid": "GAS3ReadWrite",
+            "Action": [
+                "s3:Get*",
+                "s3:List*",
+                "s3:PutObj*",
+                "s3:DeleteObj"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        }
+    ]
+}
+DOC
+}
+
+resource "aws_iam_instance_profile" "ec2_instance_s3_profile" {
+  name = "ec2_instance_s3_profile"
+  role = "${aws_iam_role.ec2_instance_s3.name}"
+}

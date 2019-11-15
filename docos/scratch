@@ -1,3 +1,14 @@
+docker run -e caris_rsa_pkey_string 288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/callcarisbatch "52.62.84.70" "md d:\awss3bucket" arnab caris_rsa_pkey_string
+docker run -e caris_rsa_pkey_string 288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/callcarisbatch "52.62.84.70" "aws s3 sync s3://bathy-source d:\awss3bucket" arnab caris_rsa_pkey_string
+download python
+unzip python
+run python data integrity check
+
+
+
+
+
+
 import myCarisBatch as cb
 c = cb.CarisBatch('ImportToHIPS')
 c.setEnv()
@@ -41,3 +52,6 @@ PS C:\Bluefin\Rawdata\tmp> aws s3api get-object --bucket bathy-source --key Blue
     "ContentType": "application/x-www-form-urlencoded; charset=utf-8",
     "Metadata": {}
 }
+
+
+

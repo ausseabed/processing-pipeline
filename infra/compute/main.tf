@@ -47,8 +47,8 @@ DEFINITION
 }
 
 
-resource "aws_ecs_task_definition" "create-hips-file" {
-  family                   = "create-hips-file"
+resource "aws_ecs_task_definition" "startstopec2" {
+  family                   = "startstopec2"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "${var.fargate_cpu}"

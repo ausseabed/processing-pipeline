@@ -10,7 +10,7 @@ workflows:
           aws-secret-access-key: SECRET_ACCESS_KEY_ENV_VAR_NAME
           create-repo: false
           dockerfile: Dockerfile
-          path: carisbatch
+          path: carisbatch/
           region: AWS_REGION_ENV_VAR_NAME
           repo: callcarisbatch
           tag: 'latest'
@@ -20,7 +20,7 @@ workflows:
           aws-secret-access-key: SECRET_ACCESS_KEY_ENV_VAR_NAME
           create-repo: false
           dockerfile: Dockerfile
-          path: startstopec2
+          path: startstopec2/
           region: AWS_REGION_ENV_VAR_NAME
           repo: callcarisbatch
           tag: 'latest'

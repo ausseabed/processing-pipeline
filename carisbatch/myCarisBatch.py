@@ -38,6 +38,8 @@ try:
     exit_status = stdout.channel.recv_exit_status()
     print("exit status"+str(exit_status) )
     sys.exit(exit_status)
-finally:
+except Exception  as e:
+    print(e)
     sys.exit(1)
+finally:
     client.close()

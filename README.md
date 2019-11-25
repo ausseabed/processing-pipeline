@@ -7,5 +7,3 @@
 
 1. upload to <S3bucket>/<survey-name> is completed. i.e a .done file is found in <S3bucket>/<survey-name>
 2. The above triggers the aws step function.
-
-#DP test commit

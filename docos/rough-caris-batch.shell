@@ -39,6 +39,16 @@ cd ../000
 
 carisbatch --run FilterObservedDepths --bathymetry-type SWATH --iho-order  S44_USER  --iho-limits 25cm 0.0075  --iho-horizontal-distance-limits 20m 10 "D:\awss3bucket\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips"
 
+
+carisbatch --run RenderRaster --input-band Depth --colour-file Rainbow.cma --enable-shading --shading 45 45 10 D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.csar ; carisbatch --run ExportRaster --output-format PNG --include-band ALL D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.csar D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.png
+carisbatch --run ExportRaster --output-format BAG --include-band Depth --uncertainty Std_Dev  -N BS -D ellipsoid -a BS -L COPYRIGHT -M GA -A UNCLASSIFIED -s COMPLETED -U STDDEV_CUBE -R RESOURCE_PROVIDER D:\Bluefin\GA-0364_BlueFin_MB\BlueFin_2018-172_1m.csar D:\Bluefin\GA-0364_BlueFin_MB\BlueFin_2018-172_1m.bag
+carisbatch --run ExportRaster --output-format GEOTIFF --include-band Depth D:\\Bluefin\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar D:\\Bluefin\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_1.tiff
+
+
+carisbatch --run CreateVRSurface --estimation-method RANGE --range-file depth_range.txt --keep-partial-bins --input-band Depth --max-grid-size 160 --min-grid-size 4 --include-flag ACCEPTED "D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips" "D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB_VR.csar" 
+
+powershell "carisbatch --run PopulateVRSurface --population-method CUBE --input-band Depth --include-flag ACCEPTED --iho-order S44_1A --vertical-uncertainty "Depth TPU" --horizontal-uncertainty "Position TPU" --display-bias HIGHEST --disambiguation-method DENSITY_LOCALE --cube-config-file=D:\\Bluefin\CUBEParams_AusSeabed_2019.xml --cube-config-name=AusSeabed_VR D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB_VR.csar"
+
 --------------------------------relative----------------------------------------
 
 ----------------------22/10/2019 with Justy------------------------------------

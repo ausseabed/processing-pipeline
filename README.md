@@ -7,3 +7,11 @@
 
 1. upload to <S3bucket>/<survey-name> is completed. i.e a .done file is found in <S3bucket>/<survey-name>
 2. The above triggers the aws step function.
+
+#### [User Ineraction diagram](./docs/ausseabed_processing_pipeline_component_diagram-user_interaction.png)
+![](./docs/ausseabed_processing_pipeline_component_diagram-user_interaction.png?raw=true)
+
+
+#### [Component diagram](./docs/ausseabed_processing_pipeline_component_diagram-Components.jpg)
+![](./docs/ausseabed_processing_pipeline_component_diagram-Components.jpg?raw=true)
+

@@ -8,6 +8,11 @@
 1. upload to <S3bucket>/<survey-name> is completed. i.e a .done file is found in <S3bucket>/<survey-name>
 2. The above triggers the aws step function.
 
+### Infarstructure as code
+Terrafrom v is used as the IaaC tool.
+* terraform apply -target="module.ancillary.aws_iam_role_policy.getResumeFromStep-lambda-role-policy"
+* terraform apply
+
 #### [User Ineraction diagram](./docs/ausseabed_processing_pipeline_component_diagram-user_interaction.png)
 ![](./docs/ausseabed_processing_pipeline_component_diagram-user_interaction.png?raw=true)
 

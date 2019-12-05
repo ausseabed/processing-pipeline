@@ -13,11 +13,19 @@ variable "public_cidrs" {
 }
 
 variable "accessip" {}
+variable "jumpboxip" {}
+
+variable "private_cidrs" {
+  type = "list"
+}
 
 #-------compute variables
 
 variable "fargate_cpu"{}
 variable "fargate_memory"{}
-variable "app_image"{}
+variable "caris_caller_image"{}
+variable "startstopec2_image"{}
+
+
 
 

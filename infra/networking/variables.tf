@@ -7,3 +7,8 @@ variable "public_cidrs" {
 }
 
 variable "accessip" {}
+variable "jumpboxip" {}
+
+variable "private_cidrs" {
+  type = "list"
+}

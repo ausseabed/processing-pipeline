@@ -87,6 +87,15 @@ resource "aws_iam_role_policy" "ausseabed-processing-pipeline_sfn_state_machine_
                 "arn:aws:ecs:ap-southeast-2:288871573946:task-definition/*"
             ]
         },
+         {
+            "Effect": "Allow",
+            "Action": [
+                "lambda:InvokeFunction"
+            ],
+            "Resource": [
+                "arn:aws:lambda:ap-southeast-2:288871573946:function:getResumeFromStep:$LATEST"
+            ]
+        },
         {
             "Effect": "Allow",
             "Action": [
@@ -180,6 +189,14 @@ resource "aws_iam_role_policy" "ecs_task_execution_policy" {
             "Effect": "Allow",
             "Action": "secretsmanager:GetRandomPassword",
             "Resource": "*"
+        },{
+            "Sid": "startstopec2",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:StartInstances",
+                "ec2:StopInstances"
+            ],
+            "Resource": "arn:aws:ec2:ap-southeast-2:288871573946:instance/i-043b8fc176ee4a5e2"
         }
     ]
 }
@@ -189,6 +206,15 @@ EOF
 
 resource "aws_cloudwatch_log_group" "caris-version" {
   name = "/ecs/caris-version"
+
+  tags = {
+    Environment = "poc"
+    Application = "caris"
+  }
+}
+
+resource "aws_cloudwatch_log_group" "startstopec2" {
+  name = "/ecs/startstopec2"
 
   tags = {
     Environment = "poc"
@@ -394,4 +420,66 @@ DOC
 resource "aws_iam_instance_profile" "ec2_instance_s3_profile" {
   name = "ec2_instance_s3_profile"
   role = "${aws_iam_role.ec2_instance_s3.name}"
+}
+
+
+
+resource "aws_iam_role" "getResumeFromStep-lambda-role" {
+  name = "getResumeFromStep-lambda-role"
+
+  assume_role_policy = <<DOC
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+DOC
+}
+
+resource "aws_iam_role_policy" "getResumeFromStep-lambda-role-policy" {
+  name = "getResumeFromStep-lambda-role-policy"
+  role = "${aws_iam_role.getResumeFromStep-lambda-role.id}"
+
+  policy = <<DOC
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "forCloudtrail",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "arn:aws:logs:ap-southeast-2:288871573946:log-group:/aws/lambda/getResumeFromStep:*"
+        },
+        {
+            "Sid": "forStepFunctions",
+            "Effect": "Allow",
+            "Action": [
+                "states:ListStateMachines",
+                "states:ListActivities",
+                "states:ListExecutions",
+                "states:GetExecutionHistory",
+                "states:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "forCloudwatch",
+            "Effect": "Allow",
+            "Action": "logs:CreateLogGroup",
+            "Resource": "arn:aws:logs:ap-southeast-2:288871573946:*"
+        }
+    ]
+}
+DOC
 }

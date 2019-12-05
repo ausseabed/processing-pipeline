@@ -15,10 +15,18 @@ import sys
 import boto3
 from botocore.exceptions import ClientError
 
-instance_id = sys.argv[2]
+tag_value = sys.argv[2]
 action = sys.argv[1].upper()
 
 ec2 = boto3.client('ec2')
+
+custom_filter = [{
+    'Name':'tag:Name', 
+    'Values': [tag_value]}]
+
+response = ec2.describe_instances(Filters=custom_filter)
+
+instance_id = response['Reservations'][0]['Instances'][0]['InstanceId']
 
 if action == 'ON':
     # Do a dryrun first to verify permissions

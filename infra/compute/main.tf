@@ -12,6 +12,7 @@ resource "aws_ecs_task_definition" "caris-version" {
   cpu                      = "${var.fargate_cpu}"
   memory                   = "${var.fargate_memory}"
   execution_role_arn       = "${var.ecs_task_execution_role_arn}"
+  task_role_arn            = "${var.ecs_task_execution_role_arn}"
 
   container_definitions = <<DEFINITION
 [
@@ -36,7 +37,7 @@ resource "aws_ecs_task_definition" "caris-version" {
         }
       ],
     "cpu": ${var.fargate_cpu},
-    "image": "${var.app_image}",
+    "image": "${var.caris_caller_image}",
     "memory": ${var.fargate_memory},
     "name": "app",
     "networkMode": "awsvpc",
@@ -54,12 +55,21 @@ resource "aws_ecs_task_definition" "startstopec2" {
   cpu                      = "${var.fargate_cpu}"
   memory                   = "${var.fargate_memory}"
   execution_role_arn       = "${var.ecs_task_execution_role_arn}"
+  task_role_arn            = "${var.ecs_task_execution_role_arn}"
 
   container_definitions = <<DEFINITION
 [
-  {
+  { "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/startstopec2",
+          "awslogs-region": "ap-southeast-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
     "cpu": ${var.fargate_cpu},
-    "image": "${var.app_image}",
+    "image": "${var.startstopec2_image}",
     "memory": ${var.fargate_memory},
     "name": "app",
     "networkMode": "awsvpc",
@@ -69,3 +79,23 @@ resource "aws_ecs_task_definition" "startstopec2" {
 DEFINITION
 }
 
+
+data "aws_caller_identity" "current" {}
+
+
+
+#data "aws_ami" "caris" {
+#  most_recent = true
+#  owners = ["self"] # Canonical
+#}
+
+
+resource "aws_instance" "web" {
+  ami           = "ami-004b0c8b7453b0d1f"
+  instance_type = "t2.micro"
+  subnet_id = "${var.private_subnets[0]}"
+  vpc_security_group_ids = ["${var.private_sg}"]
+  tags = {
+    Name = "caris"
+  }
+}

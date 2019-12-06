@@ -81,6 +81,14 @@ resource "aws_security_group" "tf_public_sg" {
     protocol    = "tcp"
     cidr_blocks = ["${var.accessip}"]
   }
+
+  # Configuration port for geoserver
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["${var.accessip}"]
+  }
   egress {
     from_port   = 0
     to_port     = 0

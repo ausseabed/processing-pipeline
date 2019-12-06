@@ -27,5 +27,5 @@ variable "caris_caller_image"{}
 variable "startstopec2_image"{}
 
 
-
+variable "ausseabed-processing-pipeline-name"{}
 

@@ -196,7 +196,14 @@ resource "aws_iam_role_policy" "ecs_task_execution_policy" {
                 "ec2:StartInstances",
                 "ec2:StopInstances"
             ],
-            "Resource": "arn:aws:ec2:ap-southeast-2:288871573946:instance/i-043b8fc176ee4a5e2"
+            "Resource": "arn:aws:ec2:ap-southeast-2:288871573946:instance/*"
+        },{
+            "Sid": "startstopec2FindInstance",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeInstances"
+            ],
+            "Resource": "*"
         }
     ]
 }
@@ -345,6 +352,7 @@ resource "aws_iam_role" "asf_events" {
 DOC
 }
 
+// assigning premission to the role
 resource "aws_iam_role_policy" "asf_events_run_task_with_any_role" {
   name = "asf_events_run_task_with_any_role"
   role = "${aws_iam_role.asf_events.id}"

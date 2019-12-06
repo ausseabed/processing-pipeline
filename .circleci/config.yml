@@ -1,7 +1,88 @@
+version: 2.1
+
 orbs:
   aws-ecr: circleci/aws-ecr@6.5.0
-version: 2.1
+  terraform-pipeline-tasks: wwgrainger/terraform-pipeline-tasks@3.4.0
+
 workflows:
+  # refer https://circleci.com/orbs/registry/orb/wwgrainger/terraform-pipeline-tasks
+  terraform-pipeline:
+    jobs:
+      - terraform/lint
+      - terraform/plan:
+          account: ga-aws-ausseabed-nonprod
+          aws-region: ap-southeast-2
+          bucket-region: ap-southeast-2
+          aws-access-key-id: ACCESS_KEY_ID_ENV_VAR_NAME
+          aws-secret-access-key:  SECRET_ACCESS_KEY_ENV_VAR_NAME
+          env: nonprod
+          filters:
+            branches:
+              only: master
+            tags:
+              ignore: /.*/
+          name: dev-release-plan
+          prefix: pp
+
+      - approve-dev-release-plan:
+          requires:
+            - dev-release-plan
+          type: approval
+      - terraform/apply:
+          account: ga-aws-ausseabed-nonprod
+          aws-region: ap-southeast-2
+          bucket-region: ap-southeast-2
+          aws-access-key-id: ACCESS_KEY_ID_ENV_VAR_NAME
+          aws-secret-access-key:  SECRET_ACCESS_KEY_ENV_VAR_NAME
+          env: nonprod
+          # integration-tests:
+          #   - run:
+          #       command: rspec ../integration/default
+          #       environment:
+          #         PLATFORM_ENV: dev
+          #       name: awspec tests
+          name: apply-dev-release-plan
+          prefix: pp
+          requires:
+            - approve-dev-release-plan
+          
+      # - terraform/plan:
+      #     account: nonprod
+      #     aws-region: us-east-1
+      #     bucket-region: us-east-2
+      #     env: qa
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /.*/
+      #     name: qa-release-plan
+      #     prefix: mobile-bff
+      #     sts-vault-path: path to team sts like aws/<>/sts
+      # - approve-qa-release-plan:
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /.*/
+      #     requires:
+      #       - qa-release-plan
+      #     type: approval
+      # - terraform/apply:
+      #     account: nonprod
+      #     bucket-region: us-east-2
+      #     env: qa
+      #     integration-tests:
+      #       - run:
+      #           command: rspec ../integration/default
+      #           environment:
+      #             PLATFORM_ENV: qa
+      #           name: awspec tests
+      #     name: apply-qa-release-plan
+      #     prefix: mobile-bff
+      #     requires:
+      #       - approve-qa-release-plan
+      #     sts-vault-path: path to team sts like aws/<>/sts
   build_and_push_image:
     jobs:
       - aws-ecr/build-and-push-image:

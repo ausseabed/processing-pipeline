@@ -1,0 +1,2 @@
+1. Create an S3 bucket
+2. Upload survey data including vessel config and metadata/instruction files to S3. This is intented to be automated using: https://gajira.atlassian.net/browse/NGA-94 (https://gajira.atlassian.net/browse/NGA-94)

@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   aws-ecr: circleci/aws-ecr@6.5.0
-  terraform: wwgrainger/terraform-pipeline-tasks@3.4.0
+  terraform-pipeline-tasks: wwgrainger/terraform-pipeline-tasks@3.4.0
 
 workflows:
   # refer https://circleci.com/orbs/registry/orb/wwgrainger/terraform-pipeline-tasks

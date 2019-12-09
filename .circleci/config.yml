@@ -23,8 +23,8 @@ jobs:
           name: terraform init
           command: terraform init
       - run:
-        name: terraform plan
-        command: terraform plan
+          name: terraform plan
+          command: terraform plan
       
     
 

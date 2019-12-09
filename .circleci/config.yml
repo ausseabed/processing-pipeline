@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@6.5.0
   terraform: feedyard/terraform@0.0.5
+  common-pipeline-tasks: feedyard/common-pipeline-tasks@0.6.0
 
 
 workflows:

@@ -27,6 +27,10 @@ jobs:
           name: terraform plan
           working_directory: ./infra
           command: terraform plan -var="ausseabed-processing-pipeline-name=ausseabed-processing-pipeline-csiro"
+      - run:
+          name: terraform apply 
+          working_directory: ./infra
+          command: terraform apply -var="ausseabed-processing-pipeline-name=ausseabed-processing-pipeline-csiro" --auto-approve
       
     
 

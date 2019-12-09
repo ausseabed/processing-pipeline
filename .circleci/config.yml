@@ -21,11 +21,11 @@ jobs:
           command: wget https://releases.hashicorp.com/terraform/0.12.17/terraform_0.12.17_linux_amd64.zip && unzip terraform_0.12.17_linux_amd64.zip && chmod +x terraform && sudo mv terraform /usr/bin/
       - run:
           name: terraform init
-          working_directory: infra
+          working_directory: ~/asf/infra
           command: terraform init
       - run:
           name: terraform plan
-          working_directory: infra
+          working_directory: ~/asf/infra
           command: terraform plan
       
     

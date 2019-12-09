@@ -14,11 +14,18 @@ jobs:
           name: Install awscli
           command: sudo pip install awscli
       - run:
+          name: check s3
+          command: aws s3 ls
+      - run:
           name: Install terraform
           command: wget https://releases.hashicorp.com/terraform/0.12.17/terraform_0.12.17_linux_amd64.zip && unzip terraform_0.12.17_linux_amd64.zip && chmod +x terraform && sudo mv terraform /usr/bin/
       - run:
-          name: verify terraform instalaltion
-          command: terraform
+          name: terraform init
+          command: terraform init
+      - run:
+        name: terraform plan
+        command: terraform plan
+      
     
 
 workflows:

@@ -8,7 +8,7 @@ jobs:
   deploy:
     docker:
       - image: circleci/python:3.7-stretch
-    working_directory: ~/infra
+    working_directory: ~/asf
     steps:
       - run:
           name: Install awscli
@@ -21,9 +21,11 @@ jobs:
           command: wget https://releases.hashicorp.com/terraform/0.12.17/terraform_0.12.17_linux_amd64.zip && unzip terraform_0.12.17_linux_amd64.zip && chmod +x terraform && sudo mv terraform /usr/bin/
       - run:
           name: terraform init
+          working_directory: infra
           command: terraform init
       - run:
           name: terraform plan
+          working_directory: infra
           command: terraform plan
       
     

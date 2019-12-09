@@ -20,11 +20,11 @@ jobs:
           command: wget https://releases.hashicorp.com/terraform/0.12.17/terraform_0.12.17_linux_amd64.zip && unzip terraform_0.12.17_linux_amd64.zip && chmod +x terraform && sudo mv terraform /usr/bin/
       - run:
           name: terraform init
-          working_directory: $CIRCLE_WORKING_DIRECTORY/infra
+          working_directory: ./infra
           command: pwd && echo $CIRCLE_WORKING_DIRECTORY && terraform init
       - run:
           name: terraform plan
-          working_directory: $CIRCLE_WORKING_DIRECTORY/infra
+          working_directory: ./infra
           command: terraform plan
       
     

@@ -74,11 +74,19 @@
             "StringEquals": "Create HIPS file",
             "Next": "Create HIPS file"
         },
-        {
+        {"Or": [
+            {
             "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Import to HIPS",
+            "StringEquals": "Import to HIPS"
+            },
+            {
+            "Variable": "$.resume_from",
+            "StringEquals": "Import to HIPS"
+            }
+        ],
             "Next": "Import to HIPS"
         },
+        
         {
             "Variable": "$.data.lambdaresult.Payload.body.state",
             "StringEquals": "Upload checkpoint 1 to s3",
@@ -180,7 +188,7 @@
     "TimeoutSeconds": 60000
 }
       ,"Upload checkpoint 1 to s3":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${aws_ecs_cluster_arn}","TaskDefinition":"${aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${aws_ecs_task_definition_caris_sg}"],"Subnets":["${aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command.$":"$.s3_up_sync_command"}]}},"Next":"Import HIPS From Auxiliary","TimeoutSeconds":6000 }
-      ,"Import HIPS From Auxiliary":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${aws_ecs_cluster_arn}","TaskDefinition":"${aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${aws_ecs_task_definition_caris_sg}"],"Subnets":["${aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command":["52.62.84.70","powershell \"cd D:\\awss3bucket\\000; carisbatch  --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial  \"./*.*\" --delayed-heave 0sec --delayed-heave-rms 0sec  \"file:///D:\\awss3bucket\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" \" ","arnab","caris_rsa_pkey_string"]}]}},"Next":"Upload checkpoint 2 to s3","TimeoutSeconds":60000     }
+      ,"Import HIPS From Auxiliary":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${aws_ecs_cluster_arn}","TaskDefinition":"${aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${aws_ecs_task_definition_caris_sg}"],"Subnets":["${aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command":["52.62.84.70","powershell \"cd D:\\awss3bucket\\000; carisbatch  --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial  \"./*.*\" --delayed-heave 0sec --delayed-heave-rms 0sec  --gps-height 0sec --gps-height-rms 0sec  \"file:///D:\\awss3bucket\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" \" ","arnab","caris_rsa_pkey_string"]}]}},"Next":"Upload checkpoint 2 to s3","TimeoutSeconds":60000     }
       ,"Upload checkpoint 2 to s3":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${aws_ecs_cluster_arn}","TaskDefinition":"${aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${aws_ecs_task_definition_caris_sg}"],"Subnets":["${aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command.$":"$.s3_up_sync_command"}]}},"Next":"change vessel config file to calculated","TimeoutSeconds":6000     }
       ,"change vessel config file to calculated":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${aws_ecs_cluster_arn}","TaskDefinition":"${aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${aws_ecs_task_definition_caris_sg}"],"Subnets":["${aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command":["52.62.84.70","powershell \"cp D:\\awss3bucket\\Investigator_em710_4ers_calc.hvf D:\\awss3bucket\\Vessel.hvf\"","arnab","caris_rsa_pkey_string"]}]}},"Next":"Compute GPS Vertical Adjustment","TimeoutSeconds":180      }
       ,"Compute GPS Vertical Adjustment":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${aws_ecs_cluster_arn}","TaskDefinition":"${aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${aws_ecs_task_definition_caris_sg}"],"Subnets":["${aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command":["52.62.84.70","powershell \"carisbatch  --run GeoreferenceHIPSBathymetry  --vertical-datum-reference GPS --compute-gps-vertical-adjustment  --sounding-datum-offset -7.74m --heave-source DELAYED_HEAVE --output-components \"file:///D:\\awss3bucket\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" \" ","arnab","caris_rsa_pkey_string"]}]}},"Next":"change vessel config file to original","TimeoutSeconds":60000     }

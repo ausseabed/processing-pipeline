@@ -46,12 +46,12 @@ jobs:
           aws-secret-access-key: SECRET_ACCESS_KEY_ENV_VAR_NAME
           checkout: false
           create-repo: false
-          dockerfile: ./docker-geoserver/Dockerfile ####
-          path: ./docker-geoserver/ ####
-          extra-build-args: '--build-arg COMMUNITY_MODULES=true'
+          dockerfile: ./docker-geoserver/Dockerfile
+          path: ./docker-geoserver/
+          extra-build-args: '--build-arg COMMUNITY_MODULES=true --build-arg GS_VERSION=2.16.1'
           region: AWS_REGION_ENV_VAR_NAME
           repo: callcarisbatch
-          tag: 'geoserver-latest'        
+          tag: 'geoserver-2.16.1'        
   deploy:
     docker:
       - image: circleci/python:3.7-stretch

@@ -88,6 +88,7 @@ workflows:
     jobs:
       - build_and_push_caris_caller_image
       - build_and_push_startstopec2_image
+      - build_and_push_geoserver_with_s3_image
       - deploy:
           requires:
             - build_and_push_caris_caller_image

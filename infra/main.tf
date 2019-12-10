@@ -36,6 +36,8 @@ module "compute" {
   ecs_task_execution_role_arn = "${module.ancillary.ecs_task_execution_role_arn}"
   private_subnets  = "${module.networking.private_subnets}"
   private_sg  = "${module.networking.private_sg}"
+  public_subnets  = "${module.networking.public_subnets}"
+  public_sg  = "${module.networking.public_sg}"
 }
 
 module "ancillary" {

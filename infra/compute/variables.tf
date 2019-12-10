@@ -7,6 +7,8 @@ variable "startstopec2_image"{}
 variable "ecs_task_execution_role_arn"{}
 variable "private_subnets"{}
 variable "private_sg"{}
+variable "public_subnets"{}
+variable "public_sg"{}
 
 
 

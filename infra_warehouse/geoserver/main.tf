@@ -28,6 +28,16 @@ resource "aws_ecs_task_definition" "geoserver" {
     "image": "kartoza/geoserver",
     "name": "geoserver-task",
     "networkMode": "awsvpc",
+    "environment": [
+      {
+        "name": "INITIAL_MEMORY",
+        "value": "1G"
+      },
+      {
+        "name": "MAXIMUM_MEMORY",
+        "value": "1G"
+      }
+    ],
     "portMappings": [
       {
         "containerPort": 8080,

@@ -8,7 +8,7 @@ accessip = "0.0.0.0/0"
 
 # geoserver/mapserver vars
 server_cpu = 512
-server_memory = 4096
+server_memory = 1024
 #------- compute vars---------------
 
 #fargate_cpu = 512

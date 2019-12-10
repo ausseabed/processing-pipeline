@@ -40,6 +40,9 @@ jobs:
       - run:
           name: Download kartoza/geoserver
           command: git clone git://github.com/kartoza/docker-geoserver
+      - run:
+          name: Debug files
+          command: find .
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
           aws-access-key-id: ACCESS_KEY_ID_ENV_VAR_NAME

@@ -93,8 +93,8 @@ data "aws_caller_identity" "current" {}
 resource "aws_instance" "web" {
   ami           = "ami-004b0c8b7453b0d1f"
   instance_type = "t2.micro"
-  subnet_id = "${var.private_subnets[0]}"
-  vpc_security_group_ids = ["${var.private_sg}"]
+  subnet_id = "${var.public_subnets[0]}"
+  vpc_security_group_ids = ["${var.public_sg}"]
   tags = {
     Name = "caris"
   }

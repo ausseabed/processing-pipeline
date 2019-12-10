@@ -18,9 +18,9 @@ resource "aws_iam_user" "circleci" {
   }
 }
 
-resource "aws_iam_access_key" "circleci" {
-  user = "${aws_iam_user.circleci.name}"
-}
+# resource "aws_iam_access_key" "circleci" {
+#   user = "${aws_iam_user.circleci.name}"
+# }
 
 resource "aws_iam_user_policy" "circleci_ecr_all" {
   name = "test"

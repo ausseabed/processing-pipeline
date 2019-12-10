@@ -1,6 +1,6 @@
-output "secret" {
-  value = "${aws_iam_access_key.circleci.encrypted_secret}"
-}
+# output "secret" {
+#   value = "${aws_iam_access_key.circleci.encrypted_secret}"
+# }
 
 output "ausseabed-processing-pipeline_sfn_state_machine_role_arn" {
   value = "${aws_iam_role.ausseabed-processing-pipeline_sfn_state_machine_role.arn}"

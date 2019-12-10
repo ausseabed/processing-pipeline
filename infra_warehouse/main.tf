@@ -30,6 +30,7 @@ module "geoserver" {
   ecs_task_execution_role_svc_arn = "${module.ancillary.ecs_task_execution_role_svc_arn}"
   public_subnets  = "${module.networking.public_subnets}"
   public_sg = "${module.networking.public_sg}"
+  geoserver_image = "${var.geoserver_image}"
 }
 
 module "mapserver" {

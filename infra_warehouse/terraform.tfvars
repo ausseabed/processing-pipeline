@@ -13,5 +13,5 @@ server_memory = 1024
 
 #fargate_cpu = 512
 #fargate_memory = 1024
-#app_image = "288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/callcarisbatch:latest"
+geoserver_image = "288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/callcarisbatch:geoserver-latest"
 

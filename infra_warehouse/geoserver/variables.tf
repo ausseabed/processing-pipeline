@@ -8,7 +8,7 @@ variable "public_subnets"{}
 
 variable "ecs_task_execution_role_svc_arn"{}
 
-
+variable "geoserver_image"{}
 
 variable "public_sg" {}
 

@@ -36,6 +36,10 @@ resource "aws_ecs_task_definition" "geoserver" {
       {
         "name": "MAXIMUM_MEMORY",
         "value": "1G"
+      },
+      {
+        "name": "GEOSERVER_ADMIN_PASSWORD",
+        "value" : "c1d2-54fe-84f9-7149-f005-ffa8-cbe6-e7b4" 
       }
     ],
     "portMappings": [

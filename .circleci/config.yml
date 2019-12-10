@@ -48,7 +48,7 @@ jobs:
           create-repo: false
           dockerfile: Dockerfile ####
           path: . ####
-          extra-build-args: 'COMMUNITY_MODULES=true'
+          extra-build-args: '-e COMMUNITY_MODULES=true'
           region: AWS_REGION_ENV_VAR_NAME
           repo: callcarisbatch
           tag: 'geoserver-latest'        

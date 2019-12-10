@@ -46,7 +46,7 @@ jobs:
           aws-secret-access-key: SECRET_ACCESS_KEY_ENV_VAR_NAME
           checkout: false
           create-repo: false
-          dockerfile: Dockerfile ####
+          dockerfile: ./docker-geoserver/Dockerfile ####
           path: ./docker-geoserver/ ####
           extra-build-args: '--build-arg COMMUNITY_MODULES=true'
           region: AWS_REGION_ENV_VAR_NAME

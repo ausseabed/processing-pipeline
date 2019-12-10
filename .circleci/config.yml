@@ -6,8 +6,8 @@ orbs:
 
 jobs:
   build_and_push_caris_caller_image:
-    docker:
-      - image: ubuntu-1604:201903-01
+    machine:
+      image: ubuntu-1604:201903-01
     steps:
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
@@ -20,8 +20,8 @@ jobs:
           repo: callcarisbatch
           tag: 'caris_caller_image-latest' 
   build_and_push_startstopec2_image:
-    docker:
-      - image: ubuntu-1604:201903-01
+    machine:
+      image: ubuntu-1604:201903-01
     steps:
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME

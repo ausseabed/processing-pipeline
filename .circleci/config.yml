@@ -38,9 +38,6 @@ jobs:
       image: ubuntu-1604:201903-01
     steps:
       - run:
-          name: Install Git
-          command: sudo apt-get install git
-      - run:
           name: Download kartoza/geoserver
           command: git clone git://github.com/kartoza/docker-geoserver
       - aws-ecr/build-and-push-image:

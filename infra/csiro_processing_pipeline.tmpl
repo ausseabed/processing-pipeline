@@ -54,89 +54,21 @@
     ,"Resume from step": {
     "Type": "Choice",
     "Choices": [
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "prepare landing directory",
-            "Next": "prepare landing directory"
-        },
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Fetch L0 data from s3",
-            "Next": "Fetch L0 data from s3"
-        },
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "data integrity check",
-            "Next": "data integrity check"
-        },
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Create HIPS file",
-            "Next": "Create HIPS file"
-        },
+        %{ for resume_step in steps }
         {"Or": [
             {
             "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Import to HIPS"
+            "StringEquals": "${resume_step}"
             },
             {
             "Variable": "$.resume_from",
-            "StringEquals": "Import to HIPS"
+            "StringEquals": "${resume_step}"
             }
         ],
-            "Next": "Import to HIPS"
+            "Next": "${resume_step}"
         },
+        %{ endfor }
         
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Upload checkpoint 1 to s3",
-            "Next": "Upload checkpoint 1 to s3"
-        },
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Import HIPS From Auxiliary",
-            "Next": "Import HIPS From Auxiliary"
-        },
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Upload checkpoint 2 to s3",
-            "Next": "Upload checkpoint 2 to s3"
-        },
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Georeference HIPS Bathymetry",
-            "Next": "Georeference HIPS Bathymetry"
-        },
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Upload checkpoint 3 to s3",
-            "Next": "Upload checkpoint 3 to s3"
-        },
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Filter Processed Depths Swath",
-            "Next": "Filter Processed Depths Swath"
-        },
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Upload checkpoint 4 to s3",
-            "Next": "Upload checkpoint 4 to s3"
-        },
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Create HIPS Grid With Cube",
-            "Next": "Create HIPS Grid With Cube"
-        },
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Upload checkpoint 5 to s3",
-            "Next": "Upload checkpoint 5 to s3"
-        },
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Export raster as PNG",
-            "Next": "Export raster as PNG"
-        },
         {
             "Variable": "$.data.lambdaresult.Payload.body.state",
             "StringEquals": "Upload processed data to s3",
@@ -145,7 +77,7 @@
     ],
     "Default": "Get caris version"
 }
-      ,"Get caris version": {"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${aws_ecs_cluster_arn}","TaskDefinition":"${aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${aws_ecs_task_definition_caris_sg}"],"Subnets":["${aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command":["52.62.84.70","powershell carisbatch --version ","arnab","caris_rsa_pkey_string"]}]}},"Next":"prepare landing directory","TimeoutSeconds":180      }
+      ,"Get caris version":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${aws_ecs_cluster_arn}","TaskDefinition":"${aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${aws_ecs_task_definition_caris_sg}"],"Subnets":["${aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command":["52.62.84.70","powershell carisbatch --version ","arnab","caris_rsa_pkey_string"]}]}},"Next":"prepare landing directory","TimeoutSeconds":180      }
       ,"prepare landing directory":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${aws_ecs_cluster_arn}","TaskDefinition":"${aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${aws_ecs_task_definition_caris_sg}"],"Subnets":["${aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command":["52.62.84.70","powershell \"Remove-Item  d:\\awss3bucket -Recurse -Force; md d:\\awss3bucket\"","arnab","caris_rsa_pkey_string"]}]}},"Next":"Fetch L0 data from s3","TimeoutSeconds":180      }
       ,"Fetch L0 data from s3":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${aws_ecs_cluster_arn}","TaskDefinition":"${aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${aws_ecs_task_definition_caris_sg}"],"Subnets":["${aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command.$":"$.s3_down_sync_command"}]}},"Next":"data integrity check","TimeoutSeconds":60000      }
       ,"data integrity check":{"Type":"Pass","Result":"Hello World!","ResultPath": "$.previous_step__result","Next":"prepare change vessel config file"      }

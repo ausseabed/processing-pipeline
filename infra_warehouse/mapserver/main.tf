@@ -34,7 +34,7 @@ resource "aws_ecs_task_definition" "mapserver" {
       {
         "containerPort": 80,
         "hostPort": 80
-      },
+      }
     ]
   }
 ]

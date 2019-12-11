@@ -8,7 +8,6 @@ jobs:
   build_and_push_caris_caller_image:
     machine:
       image: ubuntu-1604:201903-01
-      docker_layer_caching: true
     steps:
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
@@ -23,7 +22,6 @@ jobs:
   build_and_push_startstopec2_image:
     machine:
       image: ubuntu-1604:201903-01
-      docker_layer_caching: true
     steps:
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
@@ -38,7 +36,6 @@ jobs:
   build_and_push_geoserver_with_s3_image:
     machine:
       image: ubuntu-1604:201903-01
-      docker_layer_caching: true
     steps:
       - run:
           name: Download kartoza/geoserver

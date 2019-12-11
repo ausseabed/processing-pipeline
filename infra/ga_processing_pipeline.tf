@@ -100,7 +100,6 @@ resource "aws_sfn_state_machine" "ausseabed-processing-pipeline_sfn_state_machin
             "StringEquals": "Export raster as PNG",
             "Next": "Export raster as PNG"
         },
-        
         {"Or": [
             {
                 "Variable": "$.data.lambdaresult.Payload.body.state",
@@ -113,6 +112,31 @@ resource "aws_sfn_state_machine" "ausseabed-processing-pipeline_sfn_state_machin
         ],
             "Next": "Export raster as TIFF"
         },
+          
+        {"Or": [
+            {
+                "Variable": "$.data.lambdaresult.Payload.body.state",
+                "StringEquals": "Export raster as BAG"
+            },
+            {
+                "Variable": "$.resume_from",
+                "StringEquals": "Export raster as BAG"
+            }
+        ],
+            "Next": "Export raster as BAG"
+        },      
+        {"Or": [
+            {
+                "Variable": "$.data.lambdaresult.Payload.body.state",
+                "StringEquals": "Export raster as LAS"
+            },
+            {
+                "Variable": "$.resume_from",
+                "StringEquals": "Export raster as LAS"
+            }
+        ],
+            "Next": "Export raster as LAS"
+        },       
 
         
         {
@@ -139,7 +163,9 @@ resource "aws_sfn_state_machine" "ausseabed-processing-pipeline_sfn_state_machin
       ,"Create HIPS Grid With Cube":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${module.compute.aws_ecs_cluster_arn}","TaskDefinition":"${module.compute.aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${module.networking.aws_ecs_task_definition_caris_sg}"],"Subnets":["${module.networking.aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command":["52.62.84.70","powershell carisbatch  --run CreateHIPSGridWithCube  --output-crs EPSG:32755 --extent 484650 5630110 541390 5658320 --keep-up-to-date --cube-config-file=\"D:\\Bluefin\\CUBEParams_AusSeabed_2019.xml\" --cube-config-name=AusSeabed_002m --resolution 1.0m --iho-order S44_1A \"file:///D:\\awss3bucket\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" \"D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar\" ","arnab","caris_rsa_pkey_string"]}]}},"Next":"Upload checkpoint 5 to s3","TimeoutSeconds":60000     }
       ,"Upload checkpoint 5 to s3":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${module.compute.aws_ecs_cluster_arn}","TaskDefinition":"${module.compute.aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${module.networking.aws_ecs_task_definition_caris_sg}"],"Subnets":["${module.networking.aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command.$":"$.s3_up_sync_command"}]}},"Next":"Export raster as PNG","TimeoutSeconds":6000     }
       ,"Export raster as PNG":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${module.compute.aws_ecs_cluster_arn}","TaskDefinition":"${module.compute.aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${module.networking.aws_ecs_task_definition_caris_sg}"],"Subnets":["${module.networking.aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command":["52.62.84.70","powershell \" carisbatch --run RenderRaster --input-band Depth --colour-file Rainbow.cma --enable-shading --shading 45 45 10 D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.csar ; carisbatch --run ExportRaster --output-format PNG --include-band ALL D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.csar D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.png \" ","arnab","caris_rsa_pkey_string"]}]}},"Next":"Export raster as TIFF","TimeoutSeconds":60000 }
-      ,"Export raster as TIFF":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${module.compute.aws_ecs_cluster_arn}","TaskDefinition":"${module.compute.aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${module.networking.aws_ecs_task_definition_caris_sg}"],"Subnets":["${module.networking.aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command":["52.62.84.70","powershell \" carisbatch --run RenderRaster --input-band Depth --colour-file Rainbow.cma --enable-shading --shading 45 45 10 D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.csar ; carisbatch --run ExportRaster --output-format GEOTIFF --include-band ALL D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.csar D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.tif \" ","arnab","caris_rsa_pkey_string"]}]}},"Next":"Upload processed data to s3","TimeoutSeconds":60000 }
+      ,"Export raster as TIFF":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${module.compute.aws_ecs_cluster_arn}","TaskDefinition":"${module.compute.aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${module.networking.aws_ecs_task_definition_caris_sg}"],"Subnets":["${module.networking.aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command":["52.62.84.70","powershell \" carisbatch --run ExportRaster --output-format GEOTIFF --include-band ALL D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.tif \" ","arnab","caris_rsa_pkey_string"]}]}},"Next":"Export raster as BAG","TimeoutSeconds":60000 }
+      ,"Export raster as BAG":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${module.compute.aws_ecs_cluster_arn}","TaskDefinition":"${module.compute.aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${module.networking.aws_ecs_task_definition_caris_sg}"],"Subnets":["${module.networking.aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command":["52.62.84.70","powershell \" carisbatch --run ExportRaster --output-format BAG --include-band ALL D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.bag \" ","arnab","caris_rsa_pkey_string"]}]}},"Next":"Export raster as LAS","TimeoutSeconds":60000 }
+      ,"Export raster as LAS":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${module.compute.aws_ecs_cluster_arn}","TaskDefinition":"${module.compute.aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${module.networking.aws_ecs_task_definition_caris_sg}"],"Subnets":["${module.networking.aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command":["52.62.84.70","powershell \" carisbatch --run ExportPoints --output-format LAS --include-band ALL D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.las \" ","arnab","caris_rsa_pkey_string"]}]}},"Next":"Upload processed data to s3","TimeoutSeconds":60000 }
       ,"Upload processed data to s3":{"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${module.compute.aws_ecs_cluster_arn}","TaskDefinition":"${module.compute.aws_ecs_task_definition_caris-version_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${module.networking.aws_ecs_task_definition_caris_sg}"],"Subnets":["${module.networking.aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command.$":"$.s3_up_sync_command"}]}},"Next":"Stop caris machine","TimeoutSeconds":60000     }
       ,"Stop caris machine": {"Type":"Task","Resource":"arn:aws:states:::ecs:runTask.sync","ResultPath": "$.previous_step__result","Parameters":{"LaunchType":"FARGATE","Cluster":"${module.compute.aws_ecs_cluster_arn}","TaskDefinition":"${module.compute.aws_ecs_task_definition_startstopec2_arn}","NetworkConfiguration":{"AwsvpcConfiguration":{"AssignPublicIp":"ENABLED","SecurityGroups":["${module.networking.aws_ecs_task_definition_caris_sg}"],"Subnets":["${module.networking.aws_ecs_task_definition_caris_subnet}"]}},"Overrides":{"ContainerOverrides":[{"Name":"app","Command":["OFF","caris"]}]}},"End":true,"TimeoutSeconds":180}
       

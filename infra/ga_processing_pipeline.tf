@@ -100,11 +100,21 @@ resource "aws_sfn_state_machine" "ausseabed-processing-pipeline_sfn_state_machin
             "StringEquals": "Export raster as PNG",
             "Next": "Export raster as PNG"
         },
-        {
-            "Variable": "$.data.lambdaresult.Payload.body.state",
-            "StringEquals": "Export raster as TIFF",
+        
+        {"Or": [
+            {
+                "Variable": "$.data.lambdaresult.Payload.body.state",
+                "StringEquals": "Export raster as TIFF"
+            },
+            {
+                "Variable": "$.resume_from",
+                "StringEquals": "Export raster as TIFF"
+            }
+        ],
             "Next": "Export raster as TIFF"
         },
+
+        
         {
             "Variable": "$.data.lambdaresult.Payload.body.state",
             "StringEquals": "Upload processed data to s3",

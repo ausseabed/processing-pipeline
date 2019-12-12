@@ -2,7 +2,7 @@ variable "aws_region" {}
 
 #------ storage variables
 
-
+variable "local_storage_folder" {}
 
 #-------networking variables
 

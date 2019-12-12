@@ -6,7 +6,7 @@ locals {
   "aws_ecs_task_definition_caris_sg" = module.networking.aws_ecs_task_definition_caris_sg 
   "aws_ecs_task_definition_caris_subnet" = module.networking.aws_ecs_task_definition_caris_subnet 
   "aws_ecs_task_definition_caris-version_arn" = module.compute.aws_ecs_task_definition_caris-version_arn
-  "local_storage_folder"= var.local_storage_folder
+  "local_storage_folder"= "D:\\\\awss3bucket"
   }
 }
 resource "aws_sfn_state_machine" "ausseabed-processing-pipeline_sfn_state_machine-csiro" {

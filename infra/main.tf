@@ -71,4 +71,4 @@ module "lambda_function" {
 
 
 
-#carisbatch  --run FilterProcessedDepths   --filter-type SURFACE --surface D:\\awss3bucket\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar --threshold-type STANDARD_DEVIATION --scalar 1.6 file:///D:\\awss3bucket\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips
+#carisbatch  --run FilterProcessedDepths   --filter-type SURFACE --surface ${var.local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar --threshold-type STANDARD_DEVIATION --scalar 1.6 file:///${var.local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips

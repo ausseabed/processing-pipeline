@@ -26,6 +26,21 @@ resource "aws_sfn_state_machine" "ausseabed-processing-pipeline_sfn_state_machin
     "Type": "Choice",
     "Choices": [
         {
+            "Variable": "$.resume_from",
+            "StringEquals": "Export raster as TIFF",
+            "Next": "Export raster as TIFF"
+        },
+        {
+            "Variable": "$.resume_from",
+            "StringEquals": "Export raster as BAG",
+            "Next": "Export raster as BAG"
+        },      
+        {
+            "Variable": "$.resume_from",
+            "StringEquals": "Export raster as LAS",
+            "Next": "Export raster as LAS"
+        },       
+        {
             "Variable": "$.data.lambdaresult.Payload.body.state",
             "StringEquals": "prepare landing directory",
             "Next": "prepare landing directory"
@@ -100,45 +115,21 @@ resource "aws_sfn_state_machine" "ausseabed-processing-pipeline_sfn_state_machin
             "StringEquals": "Export raster as PNG",
             "Next": "Export raster as PNG"
         },
-        {"Or": [
-            {
-                "Variable": "$.data.lambdaresult.Payload.body.state",
-                "StringEquals": "Export raster as TIFF"
-            },
-            {
-                "Variable": "$.resume_from",
-                "StringEquals": "Export raster as TIFF"
-            }
-        ],
+        {
+            "Variable": "$.data.lambdaresult.Payload.body.state",
+            "StringEquals": "Export raster as TIFF",
             "Next": "Export raster as TIFF"
         },
-          
-        {"Or": [
-            {
-                "Variable": "$.data.lambdaresult.Payload.body.state",
-                "StringEquals": "Export raster as BAG"
-            },
-            {
-                "Variable": "$.resume_from",
-                "StringEquals": "Export raster as BAG"
-            }
-        ],
+        {
+            "Variable": "$.data.lambdaresult.Payload.body.state",
+            "StringEquals": "Export raster as BAG",
             "Next": "Export raster as BAG"
-        },      
-        {"Or": [
-            {
-                "Variable": "$.data.lambdaresult.Payload.body.state",
-                "StringEquals": "Export raster as LAS"
-            },
-            {
-                "Variable": "$.resume_from",
-                "StringEquals": "Export raster as LAS"
-            }
-        ],
+        },
+        {
+            "Variable": "$.data.lambdaresult.Payload.body.state",
+            "StringEquals": "Export raster as LAS",
             "Next": "Export raster as LAS"
-        },       
-
-        
+        },
         {
             "Variable": "$.data.lambdaresult.Payload.body.state",
             "StringEquals": "Upload processed data to s3",

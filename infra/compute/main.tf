@@ -90,17 +90,17 @@ data "aws_caller_identity" "current" {}
 #}
 
 
-# resource "aws_instance" "caris-instance" {
-#   ami           = "ami-0d7d61afb25447cf2"
-#   instance_type = "t2.micro"
-#   subnet_id = "${var.public_subnets[0]}"
-#   vpc_security_group_ids = ["${var.public_sg}"]
-#   tags = {
-#     Name = "caris"
-#   }
-# }
+resource "aws_instance" "caris-instance" {
+  ami           = "ami-0d7d61afb25447cf2"
+  instance_type = "t2.micro"
+  subnet_id = "${var.public_subnets[0]}"
+  vpc_security_group_ids = ["${var.public_sg}"]
+  tags = {
+    Name = "caris"
+  }
+}
 
-# resource "aws_eip" "caris-instance" {
-#   instance = "${aws_instance.caris-instance.id}"
-#   vpc      = true
-# }
+resource "aws_eip" "caris-instance" {
+  instance = "${aws_instance.caris-instance.id}"
+  vpc      = true
+}

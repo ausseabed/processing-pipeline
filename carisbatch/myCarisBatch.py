@@ -1,6 +1,29 @@
 #!/usr/bin/env python
 
 import sys, paramiko, io, os
+import boto3
+
+
+def find_caris_ip():
+    client = boto3.client('ec2')
+    response = client.describe_instances(
+        Filters=[
+            {
+                'Name': 'tag:Name',
+                'Values': [
+                    'caris'
+                ]
+            },
+            {
+                'Name': 'instance-state-name',
+                'Values': [
+                    'running'
+                ]
+            },
+            
+        ]
+    )
+    return response
 
 def line_buffered(f):
     line_buf = ""
@@ -16,10 +39,14 @@ if len(sys.argv) < 1:
     print("args missing")
     sys.exit(1)
 
-hostname = sys.argv[1]
-command = sys.argv[2]
-password = sys.argv[3]
-key_env_var_name = sys.argv[4]
+res = find_caris_ip()
+hostname = res['Reservations'][0]['Instances'][0]['PublicIpAddress']
+command = sys.argv[1]
+# this is the key used to encrypt the private key. 
+# The encrypted private key is stored in AWS Secrets and assisible through IAM roles. 
+# So, storing the password in plain text isn't making it less secure.
+password = 'arnab' 
+key_env_var_name = 'caris_rsa_pkey_string'
 username = "Administrator"
 port = 22
 
@@ -32,6 +59,8 @@ not_really_a_file = io.StringIO(key_string)
 private_key = paramiko.RSAKey.from_private_key(not_really_a_file,password=password)
 
 not_really_a_file.close()
+
+
 
 
 

@@ -2,7 +2,17 @@
 
 import sys, paramiko, io, os
 
-if len(sys.argv) < 2:
+def line_buffered(f):
+    line_buf = ""
+    while not f.channel.exit_status_ready():
+        line_buf += f.readline(1)
+        if line_buf.endswith('\n'):
+            yield line_buf
+            line_buf = ''
+
+
+
+if len(sys.argv) < 1:
     print("args missing")
     sys.exit(1)
 
@@ -13,7 +23,8 @@ key_env_var_name = sys.argv[4]
 username = "Administrator"
 port = 22
 
-key_string = """q""" # I saved my key in this string
+key_string = """-----BEGIN RSA PRIVATE KEY-----
+-----END RSA PRIVATE KEY-----""" # I saved my key in this string
 key_string = os.environ[key_env_var_name]
 
 not_really_a_file = io.StringIO(key_string)
@@ -33,8 +44,10 @@ try:
     client.connect(hostname, port=port, username=username,  pkey=private_key)
 
     stdin, stdout, stderr = client.exec_command(command)
-    print(stdout.read(), end=' ')
-    print(stderr.read(), end=' ')
+    for l in line_buffered(stdout):
+        print(l, end=' ')
+    for l in line_buffered(stderr):
+        print(l, end=' ')
     exit_status = stdout.channel.recv_exit_status()
     print("exit status"+str(exit_status) )
     sys.exit(exit_status)

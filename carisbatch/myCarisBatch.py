@@ -2,6 +2,7 @@
 
 import sys, paramiko, io, os
 import boto3
+import argparse
 
 
 def find_caris_ip():
@@ -34,14 +35,25 @@ def line_buffered(f):
             line_buf = ''
 
 
+# initiate the parser
+parser = argparse.ArgumentParser()
 
-if len(sys.argv) < 1:
-    print("args missing")
-    sys.exit(1)
+# add long and short argument
+parser.add_argument("--ip", "-ip", help="set ip if using external caris instance")
+parser.add_argument("--command", "-c", help="the command to run in caris windows machine")
 
-res = find_caris_ip()
-hostname = res['Reservations'][0]['Instances'][0]['PublicIpAddress']
-command = sys.argv[1]
+# read arguments from the command line
+args = parser.parse_args()
+
+hostname = None
+if args.ip:
+    print("using external caris instance %s" % args.ip)
+    hostname = args.ip
+else:
+    res = find_caris_ip()
+    hostname = res['Reservations'][0]['Instances'][0]['PublicIpAddress']
+
+command = args.command
 # this is the key used to encrypt the private key. 
 # The encrypted private key is stored in AWS Secrets and assisible through IAM roles. 
 # So, storing the password in plain text isn't making it less secure.

@@ -44,7 +44,7 @@
     ],
     "Default": "Get caris version"
 }
-      ,"Get caris version":                     ${bloat}[{"Name":"app","Command":["powershell carisbatch --version "]}]}},"Next":"prepare landing directory","TimeoutSeconds":180      }
+      ,"Get caris version":                     ${bloat}[{"Name":"app","Command":["-ip","52.62.84.70", "-c","powershell carisbatch --version "]}]}},"Next":"prepare landing directory","TimeoutSeconds":180      }
       ,"prepare landing directory":             ${bloat}[{"Name":"app","Command":["powershell \"Remove-Item  ${local_storage_folder} -Recurse -Force; md ${local_storage_folder}\""]}]}},"Next":"Fetch L0 data from s3","TimeoutSeconds":180      }
       ,"Fetch L0 data from s3":                 ${bloat}[{"Name":"app","Command.$":"$.s3_down_sync_command"}]}},"Next":"data quality check","TimeoutSeconds":60000      }
       ,"data quality check":                  {"Type":"Pass","Result":"Hello World!","ResultPath": "$.previous_step__result","Next":"prepare change vessel config file"      }

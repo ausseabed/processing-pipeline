@@ -33,6 +33,7 @@ module "compute" {
   fargate_memory              = "${var.fargate_memory}"
   caris_caller_image                   = "${var.caris_caller_image}"
   startstopec2_image                   = "${var.startstopec2_image}"
+  gdal_image = "${var.gdal_image}"
   ecs_task_execution_role_arn = "${module.ancillary.ecs_task_execution_role_arn}"
   private_subnets  = "${module.networking.private_subnets}"
   private_sg  = "${module.networking.private_sg}"

@@ -11,3 +11,7 @@ output "aws_ecs_task_definition_startstopec2_arn" {
   value = "${aws_ecs_task_definition.startstopec2.arn}"
 }
 
+output "aws_ecs_task_definition_gdal_arn" {
+  value = "${aws_ecs_task_definition.gdal.arn}"
+}
+

@@ -26,6 +26,6 @@ variable "fargate_memory"{}
 variable "caris_caller_image"{}
 variable "startstopec2_image"{}
 
-
+variable "gdal_image"{}
 
 

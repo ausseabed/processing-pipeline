@@ -79,6 +79,37 @@ resource "aws_ecs_task_definition" "startstopec2" {
 DEFINITION
 }
 
+resource "aws_ecs_task_definition" "gdal" {
+  family                   = "gdal"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = "${var.fargate_cpu}"
+  memory                   = "${var.fargate_memory}"
+  execution_role_arn       = "${var.ecs_task_execution_role_arn}"
+  task_role_arn            = "${var.ecs_task_execution_role_arn}"
+
+  container_definitions = <<DEFINITION
+[
+  { "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/startstopec2",
+          "awslogs-region": "ap-southeast-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+    "cpu": ${var.fargate_cpu},
+    "image": "${var.gdal_image}",
+    "memory": ${var.fargate_memory},
+    "name": "app",
+    "networkMode": "awsvpc",
+    "portMappings": []
+  }
+]
+DEFINITION
+}
+
 
 data "aws_caller_identity" "current" {}
 

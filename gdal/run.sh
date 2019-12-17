@@ -1,8 +1,10 @@
 #!/bin/sh
 echo Starting script
 env
+
+# test with s3://bathymetry-survey-288871573946/TestObject.tif
 echo Starting translate of "$S3_SRC_TIF"
-VSIS3=`echo "$S3_SRC_TIF" | sed "s/^s3../vsis3/"`
+VSIS3=`echo "$S3_SRC_TIF" | sed "s/^s3../\/vsis3/"`
 LOCALNAME=`echo "$VSIS3" | sed "s/.*\///" | sed "s/\.[^\.]\+$//"`
 S3DIR=`echo "$S3_SRC_TIF" | sed "s/\/[^\/]\+$/\//"`
 

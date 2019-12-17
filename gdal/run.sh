@@ -17,4 +17,4 @@ gdal_translate -co compress=lzw -b 1 -ot byte -scale 1 1 "$VSIS3" "$LOCALNAME".t
 echo Starting Polygonise
 /usr/bin/gdal_polygonize.py "$LOCALNAME".tif "$LOCALNAME".shp
 echo AWS commit
-/usr/local/bin/aws2 s3 cp . "$S3DIR" --recursive --include "$LOCALNAME"*  --exclude "*" 
+/usr/local/bin/aws2 s3 cp . "$S3DIR" --recursive --include "$LOCALNAME*"  --exclude "*" 

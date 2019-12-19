@@ -31,15 +31,15 @@ resource "aws_ecs_task_definition" "geoserver" {
     "environment": [
       {
         "name": "INITIAL_MEMORY",
-        "value": "1G"
+        "value": "${var.geoserver_initial_memory}"
       },
       {
         "name": "MAXIMUM_MEMORY",
-        "value": "1G"
+        "value": "${var.geoserver_maximum_memory}"
       },
       {
         "name": "GEOSERVER_ADMIN_PASSWORD",
-        "value" : "c1d2-54fe-84f9-7149-f005-ffa8-cbe6-e7b4" 
+        "value" : "${var.geoserver_admin_password}" 
       }
     ],
     "portMappings": [
@@ -68,3 +68,49 @@ resource "aws_ecs_service" "geoserver_service" {
   }
 
 }
+
+
+resource "aws_ecs_task_definition" "geoserver_push" {
+  family                   = "geoserver_push"
+  cpu                      = "${var.server_cpu}"
+  memory                   = "${var.server_memory}"
+  network_mode             = "awsvpc"
+  execution_role_arn       = "${var.ecs_task_execution_role_svc_arn}"
+  requires_compatibilities = ["FARGATE"]
+  container_definitions = <<DEFINITION
+[
+  {
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "secretOptions": null,
+      "options": {
+        "awslogs-group": "/ecs/geoserver",
+        "awslogs-region": "ap-southeast-2",
+        "awslogs-stream-prefix": "ecs"
+      }
+    },
+    "image": "${var.geoserver_push_image}",
+    "name": "geoserver-task",
+    "networkMode": "awsvpc",
+    "environment": [
+      {
+        "name": "GEOSERVER_URL",
+        "value": "http://ec2-54-153-228-148.ap-southeast-2.compute.amazonaws.com/geoserver"
+      },
+      {
+        "name": "LIST_PATH",
+        "value": "https://bathymetry-survey-288871573946.s3-ap-southeast-2.amazonaws.com/registered_files.json"
+      },
+      {
+        "name": "GEOSERVER_ADMIN_PASSWORD",
+        "value" : "${var.geoserver_admin_password}" 
+      }
+    ]    
+  }
+]
+DEFINITION
+}
+
+# GEOSERVER_URL = "http://ec2-54-153-228-148.ap-southeast-2.compute.amazonaws.com/geoserver"
+# GEOSERVER_ADMIN_PASSWORD = 
+# LIST_PATH = "https://bathymetry-survey-288871573946.s3-ap-southeast-2.amazonaws.com/registered_files.json

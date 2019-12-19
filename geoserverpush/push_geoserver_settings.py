@@ -63,7 +63,7 @@ for source_tif_entry in source_tifs:
    unsavedCoverage.url= source_tif + "?useAnon=true&awsRegion=ap-southeast-2"
    response = cat.save(unsavedCoverage)
 
-   layer_name =re.sub(".tif","",re.sub(".*\/","",source_tif))
+   layer_name =re.sub(".tif","",re.sub(".*/","",source_tif))
    source_name = layer_name
    print("Coverage name (and native name) = " + layer_name)
    data = "<coverage><name>{}</name><nativeName>{}</nativeName></coverage>".format(layer_name, source_name)

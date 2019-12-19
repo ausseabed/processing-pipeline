@@ -31,6 +31,10 @@ module "geoserver" {
   public_subnets  = "${module.networking.public_subnets}"
   public_sg = "${module.networking.public_sg}"
   geoserver_image = "${var.geoserver_image}"
+  geoserver_initial_memory = "${var.geoserver_initial_memory}"
+  geoserver_maximum_memory = "${var.geoserver_maximum_memory}"
+  geoserver_admin_password = "${var.geoserver_admin_password}"
+  geoserver_push_image = "${var.geoserverpush_image}"
 }
 
 module "mapserver" {

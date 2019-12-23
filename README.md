@@ -9,9 +9,11 @@
 2. The above triggers the aws step function.
 
 ### Infarstructure as code
-Terrafrom v is used as the IaaC tool.
-* terraform apply -target="module.ancillary.aws_iam_role_policy.getResumeFromStep-lambda-role-policy"
+Terrafrom v0.12.17 is used as the IaaC tool.
+* terraform plan
 * terraform apply
+
+
 
 #### [User Ineraction diagram](./docs/ausseabed_processing_pipeline_component_diagram-user_interaction.png)
 ![](./docs/ausseabed_processing_pipeline_component_diagram-user_interaction.png?raw=true)

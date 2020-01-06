@@ -22,3 +22,8 @@ Terrafrom v0.12.17 is used as the IaaC tool.
 #### [Component diagram](./docs/ausseabed_processing_pipeline_component_diagram-Components.jpg)
 ![](./docs/ausseabed_processing_pipeline_component_diagram-Components.jpg?raw=true)
 
+
+#### [Developers guide](./docs/dev_guide.md)
+
+
+#### [Users guide](./docs/user_guide.md)

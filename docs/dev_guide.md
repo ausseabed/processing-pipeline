@@ -1,3 +1,5 @@
+##### This document is meant to be a read in conjunction with the code in this repository. It is a living document and the contents in this document can get out of sync with what "actually" happens in the code. If ever such a schism is spotted either create a PR, lodge an issue in github or [jira](https://gajira.atlassian.net/jira/software/projects/NGA/boards/520).
+
 1. Create an S3 bucket
 2. Upload survey data including vessel config, metadata/instruction and depth ranges files to S3. This is intented to be automated using: https://gajira.atlassian.net/browse/NGA-94 (https://gajira.atlassian.net/browse/NGA-94). However, it can still be done manually when required.
 1. Trigger the appropiate pipeline from the AWS console or using AWS step function api.

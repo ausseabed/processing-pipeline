@@ -37,6 +37,8 @@ A spike activity was undertaken to compare and contrast various workflow like so
 
 Step functions is used as the workflow engine which orchestrates various steps int he processing pipeline. The steps are manifested either as a docker or lambda executions
 
+The step function is stored in a code repository as a json document. There were various ways to write the step function each having their own tradeoffs. We decided to make the step function itself more readable and informative. This means raw caris commands are visible directly in the step function json document instead of them being in the docker image. The tradeoff was that this made the json dcument more verbose. However, the verbosity can be managed by using templates to reduce repetations and/or un-informative verbosity. 
+
 ...more to come
 
 ## Design philosopy:

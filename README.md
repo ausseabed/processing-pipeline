@@ -3,17 +3,24 @@
 
 
 
-### [WIP] This repo contains both the infrastructure as code for ausseabed processing pipeline.
+This repo contains both the infrastructure as code for ausseabed processing pipeline. There are two other supporting code repos
+1.https://github.com/GeoscienceAustralia/ausseabed-caris-ami (used for creating an AWS AMI with Caris installed)
+2.https://github.com/GeoscienceAustralia/ausseabed-caris-container (used for creating a socker image with Caris installed)
 
-1. upload to <S3bucket>/<survey-name> is completed. i.e a .done file is found in <S3bucket>/<survey-name>
-2. The above triggers the aws step function.
+
  
 ______________________________________________________________________________________________________________
 
 #### Infarstructure as code
 Terrafrom v0.12.17 is used as the IaaC tool.
+Generally, the commands to create an infratucture setup with terraform is the following
+* terraform init
 * terraform plan
 * terraform apply
+
+However, refer to [circleci config](https://github.com/GeoscienceAustralia/ausseabed-processing-pipeline/blob/master/.circleci/config.yml) for exact steps.
+
+
 
 ______________________________________________________________________________________________________________
 
@@ -29,6 +36,7 @@ ________________________________________________________________________________
 ______________________________________________________________________________________________________________
 
 #### [Developers guide](./docs/dev_guide.md)
-
+If you are starting as a developer in this project this document will be useful.
 ______________________________________________________________________________________________________________
 #### [Users guide](./docs/user_guide.md)
+If you are a hydorgrapher or a someone processing surveys this guide will be useful

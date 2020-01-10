@@ -32,11 +32,27 @@ The step function is stored in a code repository as a json document. There were 
 
 ## How it works at a high level:
 Terraform is used to create the infrastructure stack. Every component is treated as ephemeral except the EC2 instance hosting Caris software. [Caris hips-and-sips](https://www.teledynecaris.com/en/products/hips-and-sips/) is a licensed software. As of today ( Jan 2020) a trial license has been activate on the static EC2 server (ip:52.62.84.70) which has a version of Caris hips-and-sips installed manually. Creation of the EC2 with Caris has been codified as well using packer in a different [repo](https://github.com/GeoscienceAustralia/ausseabed-caris-ami).
+The processing pipeline is triggered either manually from the AWS console, through AWS API or automatically on file upload to S3 bucket. The processing pipeline takes care of orchestrating the various tasks involved in processing a survey data. Once complete the processed data is uploaded to S3 ( in reality sync to s3 is done after every major step to make the system more fault tolerant).
+Each step in the step function is either a lambda execution or a docker container execution in fargate.
+
+
+## TODOs:
+### Test cases:
+1. There arn't any test cases at the moment because there is very little custom code. Most of the system is built using integration of various off the shelf components. However, this calls for at least some form of integration testing. A simple but very effective test will be to run the pipeline on a known dataset and comparing the output to the known output. This test will be run using the CI pipeline while deploying a new version of the data pipleine.
+### Caris on docker:
+If this is possible then we can get rid of the static EC2 instance hosting Caris. The step function can then diretly execute carisbatch commands in caris docker instead of hopping through a python "pass-thru" container. As of today this "pass-thru" contianer existing as a bridge between Step function and Caris on EC2. The contianer establishes an ssh connection to the EC2 and executes carisbatch commands over ssh while retieveing stdout and stderr.
+
+...more to come
+
+
+
 ____________________
-1. Create an S3 bucket
+#### Some notes on how to run the step function:
+
+1. Create an S3 bucket.
 2. Upload survey data including vessel config, metadata/instruction and depth ranges files to S3. This is intented to be automated using: https://gajira.atlassian.net/browse/NGA-94 (https://gajira.atlassian.net/browse/NGA-94). However, it can still be done manually when required.
 1. Trigger the appropiate pipeline from the AWS console or using AWS step function api.
-1. The input of the step function is currently(December 2019):
+1. The input of the step function is currently(December 2019) , update parameters as required:
   ```json
   {
   "s3_up_sync_command": [
@@ -66,8 +82,4 @@ ____________________
 
 
 
-## TODOs:
-### Test cases:
-1. There arn't any test cases at the moment because there is very little custom code. Most of the system is built using integration of various off the shelf components. However, this calls for at least some form of integration testing. A simple but very effective test will be to run the pipeline on a known dataset and comparing the output to the known output. This test will be run using the CI pipeline while deploying a new version of the data pipleine.
-...more to come
    

@@ -3,7 +3,7 @@
 
 
 
-This repo contains both the infrastructure as code for ausseabed processing pipeline. There are two other supporting code repos
+This repo contains both the infrastructure and application code for ausseabed processing pipeline. There are two other supporting code repos
 1.https://github.com/GeoscienceAustralia/ausseabed-caris-ami (used for creating an AWS AMI with Caris installed)
 2.https://github.com/GeoscienceAustralia/ausseabed-caris-container (used for creating a socker image with Caris installed)
 

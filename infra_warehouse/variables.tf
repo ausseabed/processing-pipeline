@@ -19,8 +19,6 @@ variable "accessip" {}
 #variable "fargate_cpu"{}
 #variable "fargate_memory"{}
 variable "geoserver_image"{} # based on kartoza/geoserver
-variable "geoserverpush_image"{} # to push new data onto the geoserver instance
-
 variable "server_cpu"{}
 variable "server_memory"{}
 

@@ -13,8 +13,7 @@ server_memory = 1024
 
 #fargate_cpu = 512
 #fargate_memory = 1024
-geoserver_image = "288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/callcarisbatch:geoserver-2.16.1"
-geoserverpush_image = "288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/callcarisbatch:geoserverpush_image-latest"
+geoserver_image = "288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/callcarisbatch:ausseabed-geoserver-2.16.1"
 
 geoserver_initial_memory="1G"
 geoserver_maximum_memory="1G"

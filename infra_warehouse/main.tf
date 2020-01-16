@@ -36,11 +36,11 @@ module "geoserver" {
   geoserver_admin_password = "${var.geoserver_admin_password}"
 }
 
-module "mapserver" {
-  source       = "./mapserver"
-  server_cpu                 = "${var.server_cpu}"
-  server_memory              = "${var.server_memory}"
-  ecs_task_execution_role_svc_arn = "${module.ancillary.ecs_task_execution_role_svc_arn}"
-  public_subnets  = "${module.networking.public_subnets}"
-  public_sg = "${module.networking.public_sg}"
-}
+#module "mapserver" {
+#  source       = "./mapserver"
+#  server_cpu                 = "${var.server_cpu}"
+#  server_memory              = "${var.server_memory}"
+#  ecs_task_execution_role_svc_arn = "${module.ancillary.ecs_task_execution_role_svc_arn}"
+#  public_subnets  = "${module.networking.public_subnets}"
+#  public_sg = "${module.networking.public_sg}"
+#}

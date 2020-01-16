@@ -5,7 +5,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "ausseabed-processing-pipeline-tf-infra"
-    key    = "terraform/terraform-server.tfstate"
+    key    = "terraform/terraform-geoserver.tfstate"
     region = "ap-southeast-2"
   }
 }

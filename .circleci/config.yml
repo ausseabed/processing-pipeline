@@ -110,7 +110,7 @@ jobs:
           region: AWS_REGION_ENV_VAR_NAME
           repo: callcarisbatch
           tag: 'kartoza-geoserver-with-plugin-2.16.1'        
-  deploy:
+  deploy_pipeline:
     docker:
       - image: circleci/python:3.7-stretch
     steps:
@@ -136,7 +136,32 @@ jobs:
           name: terraform apply 
           working_directory: ./infra
           command: terraform apply --auto-approve
-      
+  deploy_geoserver:
+    docker:
+      - image: circleci/python:3.7-stretch
+    steps:
+      - run:
+          name: Install awscli
+          command: sudo pip install awscli
+      - run:
+          name: check s3
+          command: aws sts get-caller-identity
+      - checkout
+      - run:
+          name: Install terraform
+          command: wget https://releases.hashicorp.com/terraform/0.12.17/terraform_0.12.17_linux_amd64.zip && unzip terraform_0.12.17_linux_amd64.zip && chmod +x terraform && sudo mv terraform /usr/bin/
+      - run:
+          name: terraform init
+          working_directory: ./infra_warehouse
+          command: pwd && echo $CIRCLE_WORKING_DIRECTORY && terraform init
+      - run:
+          name: terraform plan
+          working_directory: ./infra_warehouse
+          command: terraform plan 
+      - run:
+          name: terraform apply 
+          working_directory: ./infra_warehouse
+          command: terraform apply --auto-approve      
     
 
 workflows:
@@ -148,12 +173,14 @@ workflows:
             - build_tomcat_push_jar
       - build_and_push_caris_caller_image
       - build_and_push_startstopec2_image
-      - deploy:
+      - deploy_pipeline:
           requires:
             - build_and_push_caris_caller_image
             - build_and_push_startstopec2_image
-            - build_and_push_geoserver_image
             - build_tomcat_push_jar
+      - deploy_geoserver:
+          requires:
+            - build_and_push_geoserver_image
   build_geoserver_image:            
     triggers:
       - schedule:

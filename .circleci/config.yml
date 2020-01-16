@@ -40,13 +40,13 @@ jobs:
           key: circleci-tomcat-push-{{ checksum "./geoserver/ausseabed.pipeline/pom.xml" }}
       - run: 
           working_directory: ./geoserver/ausseabed.pipeline/
-          command: mvn package # run the actual tests
-      - store_artifacts: # store the uberjar as an artifact
-      # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
+          command: mvn package 
+      - store_artifacts: 
           path: ./geoserver/ausseabed.pipeline/target/ausseabed.pipeline-1.0-SNAPSHOT.jar
       - persist_to_workspace:
-          root: ./geoserver/ausseabed.pipeline/target/
-          path: ausseabed.pipeline-1.0-SNAPSHOT.jar
+          root: .
+          paths: 
+              - geoserver/ausseabed.pipeline/target/ausseabed.pipeline-1.0-SNAPSHOT.jar
 
   build_and_push_geoserver_image:
     machine:

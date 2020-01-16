@@ -34,7 +34,6 @@ module "geoserver" {
   geoserver_initial_memory = "${var.geoserver_initial_memory}"
   geoserver_maximum_memory = "${var.geoserver_maximum_memory}"
   geoserver_admin_password = "${var.geoserver_admin_password}"
-  geoserver_push_image = "${var.geoserverpush_image}"
 }
 
 module "mapserver" {

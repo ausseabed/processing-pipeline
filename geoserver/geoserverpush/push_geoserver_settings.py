@@ -1,4 +1,4 @@
-
+#!/usr/bin/python3
 # Register a list of S3 GeoTiffs into a geoserver instance
 # Requires GEOSERVER URL
 # Path to a file listing the location of all the TIFFs
@@ -11,9 +11,11 @@ import os
 import sys
 import re
 import json
+import requests
 
 # SET GEOSERVER_URL="http://ec2-54-153-228-148.ap-southeast-2.compute.amazonaws.com/geoserver"
-geoserver_url="http://ec2-54-153-228-148.ap-southeast-2.compute.amazonaws.com/geoserver"
+#geoserver_url="http://ec2-54-153-228-148.ap-southeast-2.compute.amazonaws.com/geoserver"
+geoserver_url="http://localhost:8080/geoserver"
 
 try:  
    geoserver_url=os.environ['GEOSERVER_URL']
@@ -40,11 +42,17 @@ except KeyError:
 print("LIST_PATH = " + source_tif_path)
 
 # Step 1 - read in a list of source tifs
-f = urlopen(source_tif_path)
-myfile = f.read()
-source_tifs = json.loads(myfile)
+response = requests.get(source_tif_path)
+if (not(response.ok)):
+   print ("Error interpreting LIST_PATH")
+
+#f = urlopen(source_tif_path)
+#myfile = f.read()
+#print(str(myfile))
+source_tifs = response.json()
 
 #source_tifs= [{"filename":"s3://bathymetry-survey-288871573946-beagle-grid0/GA-0364_BlueFin_MB/BlueFin_2018-172_1m_coloured.tif"}]
+print ("Number of source_tifs: " + str(len(source_tifs)))
 
 # Step 2 - push through RESTFUL interface
 cat = Catalog(geoserver_url + "/rest", "admin", geoserver_password)

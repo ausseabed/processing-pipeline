@@ -7,7 +7,6 @@ variable "geoserver_maximum_memory"{}
 variable "geoserver_admin_password"{}
 variable "public_subnets"{}
 
-variable "geoserver_push_image"{}
 
 variable "ecs_task_execution_role_svc_arn"{}
 

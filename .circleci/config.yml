@@ -20,30 +20,30 @@ jobs:
           repo: callcarisbatch
           tag: 'caris_caller_image-latest'
   build_tomcat_push_jar:
-    working_directory: ~/ausseabed-processing-pipeline/geoserver/ausseabed.pipeline
+    working_directory: ~/ausseabed-processing-pipeline
     docker:
       - image: circleci/openjdk:8-jdk-stretch
     steps:
       - checkout
       - run:
-          name: Check Scripts
-          command: find . 
+        name: Check Scripts
+        command: find . 
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
-          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: circleci-tomcat-push-{{ checksum "pom.xml" }}
-      
-      - run: mvn dependency:go-offline # gets the project dependencies
-      
+        # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+        key: circleci-tomcat-push-{{ checksum "pom.xml" }}
+      - run: 
+        working_directory: ./geoserver/ausseabed.pipeline/
+        command: mvn dependency:go-offline # gets the project dependencies
       - save_cache: # saves the project dependencies
           paths:
             - ~/.m2
           key: circleci-tomcat-push-{{ checksum "pom.xml" }}
-      
-      - run: mvn package # run the actual tests
-      
+      - run: 
+        working_directory: ./geoserver/ausseabed.pipeline/
+        command: mvn package # run the actual tests
       - store_artifacts: # store the uberjar as an artifact
       # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-          path: target/ausseabed.pipeline-1.0-SNAPSHOT.jar
+          path: ./geoserver/ausseabed.pipeline/target/ausseabed.pipeline-1.0-SNAPSHOT.jar
 
   build_and_push_geoserver_image:
     machine:

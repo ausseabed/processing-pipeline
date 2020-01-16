@@ -20,7 +20,7 @@ jobs:
           repo: callcarisbatch
           tag: 'caris_caller_image-latest'
   build_tomcat_push_jar:
-    working_directory: ~/geoserver/ausseabed.pipeline
+    working_directory: ~/ausseabed-processing-pipeline/geoserver/ausseabed.pipeline
     docker:
       - image: circleci/openjdk:8-jdk-stretch
     steps:

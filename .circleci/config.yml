@@ -25,9 +25,6 @@ jobs:
       - image: circleci/openjdk:8-jdk-stretch
     steps:
       - checkout
-      - run:
-          name: Check Scripts
-          command: find . 
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: circleci-tomcat-push-{{ checksum "./geoserver/ausseabed.pipeline/pom.xml" }}
@@ -44,9 +41,9 @@ jobs:
       - store_artifacts: 
           path: ./geoserver/ausseabed.pipeline/target/ausseabed.pipeline-1.0-SNAPSHOT.jar
       - persist_to_workspace:
-          root: .
+          root: ./geoserver/ausseabed.pipeline/target
           paths: 
-              - geoserver/ausseabed.pipeline/target/ausseabed.pipeline-1.0-SNAPSHOT.jar
+              - ausseabed.pipeline-1.0-SNAPSHOT.jar
 
   build_and_push_geoserver_image:
     machine:
@@ -55,6 +52,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: ./geoserver/ausseabed.pipeline/target/
+      - run:
+          name: Check Scripts
+          command: find . 
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
           aws-access-key-id: ACCESS_KEY_ID_ENV_VAR_NAME

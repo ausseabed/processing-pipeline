@@ -25,6 +25,9 @@ jobs:
       - image: circleci/openjdk:8-jdk-stretch
     steps:
       - checkout
+      - run:
+          name: Check Scripts
+          command: find . 
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: circleci-tomcat-push-{{ checksum "pom.xml" }}

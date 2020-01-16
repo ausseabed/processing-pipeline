@@ -44,23 +44,17 @@ jobs:
       - store_artifacts: # store the uberjar as an artifact
       # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: ./geoserver/ausseabed.pipeline/target/ausseabed.pipeline-1.0-SNAPSHOT.jar
-      - aws-ecr/build-and-push-image:
-          account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
-          aws-access-key-id: ACCESS_KEY_ID_ENV_VAR_NAME
-          aws-secret-access-key: SECRET_ACCESS_KEY_ENV_VAR_NAME
-          create-repo: false
-          checkout: false
-          dockerfile: ./geoserver/Dockerfile
-          path: ./geoserver/
-          region: AWS_REGION_ENV_VAR_NAME
-          repo: callcarisbatch
-          extra-build-args: '--build-arg COMMUNITY_MODULES=true --build-arg GS_VERSION=2.16.1'
-          tag: 'ausseabed-geoserver-2.16.1' 
+      - persist_to_workspace:
+          root: ./geoserver/ausseabed.pipeline/target/
+          path: ausseabed.pipeline-1.0-SNAPSHOT.jar
 
   build_and_push_geoserver_image:
     machine:
       image: ubuntu-1604:201903-01
     steps:
+      - checkout
+      - attach_workspace:
+          at: ./geoserver/ausseabed.pipeline/target/
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
           aws-access-key-id: ACCESS_KEY_ID_ENV_VAR_NAME
@@ -68,6 +62,7 @@ jobs:
           create-repo: false
           dockerfile: ./geoserver/Dockerfile
           path: ./geoserver/
+          checkout: false
           region: AWS_REGION_ENV_VAR_NAME
           repo: callcarisbatch
           extra-build-args: '--build-arg COMMUNITY_MODULES=true --build-arg GS_VERSION=2.16.1'
@@ -148,7 +143,9 @@ workflows:
   update_infra_and_application:
     jobs:
       - build_tomcat_push_jar
-      - build_and_push_geoserver_image
+      - build_and_push_geoserver_image:
+          - requires:
+              - build_tomcat_push_jar
       - build_and_push_caris_caller_image
       - build_and_push_startstopec2_image
       - deploy:

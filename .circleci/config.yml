@@ -26,21 +26,21 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Check Scripts
-        command: find . 
+          name: Check Scripts
+          command: find . 
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
-        # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-        key: circleci-tomcat-push-{{ checksum "pom.xml" }}
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: circleci-tomcat-push-{{ checksum "pom.xml" }}
       - run: 
-        working_directory: ./geoserver/ausseabed.pipeline/
-        command: mvn dependency:go-offline # gets the project dependencies
+          working_directory: ./geoserver/ausseabed.pipeline/
+          command: mvn dependency:go-offline # gets the project dependencies
       - save_cache: # saves the project dependencies
           paths:
             - ~/.m2
           key: circleci-tomcat-push-{{ checksum "pom.xml" }}
       - run: 
-        working_directory: ./geoserver/ausseabed.pipeline/
-        command: mvn package # run the actual tests
+          working_directory: ./geoserver/ausseabed.pipeline/
+          command: mvn package # run the actual tests
       - store_artifacts: # store the uberjar as an artifact
       # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: ./geoserver/ausseabed.pipeline/target/ausseabed.pipeline-1.0-SNAPSHOT.jar

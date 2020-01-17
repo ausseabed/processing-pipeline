@@ -182,7 +182,7 @@ workflows:
       #      - build_and_push_caris_caller_image
       #      - build_and_push_startstopec2_image
       #      - build_tomcat_push_jar
-      deploy_geoserver
+      - deploy_geoserver
       #- deploy_geoserver:
       #    requires:
       #      - build_and_push_geoserver_image

@@ -155,9 +155,9 @@ jobs:
           working_directory: ./infra_warehouse
           command: pwd && echo $CIRCLE_WORKING_DIRECTORY && terraform init
       - run:
-          name: terraform destroy
+          name: terraform refresh
           working_directory: ./infra_warehouse
-          command: terraform destroy 
+          command: terraform refresh 
 #      - run:
 #          name: terraform plan
 #          working_directory: ./infra_warehouse
@@ -171,21 +171,20 @@ jobs:
 workflows:
   update_infra_and_application:
     jobs:
-      #- build_tomcat_push_jar
-      #- build_and_push_geoserver_image:
-      #    requires:
-      #      - build_tomcat_push_jar
-      #- build_and_push_caris_caller_image
-      #- build_and_push_startstopec2_image
-      #- deploy_pipeline:
-      #    requires:
-      #      - build_and_push_caris_caller_image
-      #      - build_and_push_startstopec2_image
-      #      - build_tomcat_push_jar
-      - deploy_geoserver
-      #- deploy_geoserver:
-      #    requires:
-      #      - build_and_push_geoserver_image
+      - build_tomcat_push_jar
+      - build_and_push_geoserver_image:
+          requires:
+            - build_tomcat_push_jar
+      - build_and_push_caris_caller_image
+      - build_and_push_startstopec2_image
+      - deploy_pipeline:
+          requires:
+            - build_and_push_caris_caller_image
+            - build_and_push_startstopec2_image
+            - build_tomcat_push_jar
+      - deploy_geoserver:
+          requires:
+            - build_and_push_geoserver_image
   build_geoserver_image:            
     triggers:
       - schedule:

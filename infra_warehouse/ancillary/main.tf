@@ -18,7 +18,7 @@ resource "aws_cloudwatch_log_group" "mapserver" {
 }
 
 resource "aws_iam_role" "ecs_task_execution_role_svc" {
-  name = "ecs_task_execution_role_svc"
+  name = "aws_ecs_task_execution_role_svc"
 
   assume_role_policy = <<EOF
 {

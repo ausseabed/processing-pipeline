@@ -5,7 +5,7 @@ ARG IMAGE_VERSION=9.0.7-jre8
 ARG GS_VERSION=2.16.1
 ARG COMMUNITY_MODULES=true
 
-FROM kartoza/geoserver
+FROM 288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/kartoza-geoserver-with-plugin:2.16.1
 
 WORKDIR /usr/src/app
 

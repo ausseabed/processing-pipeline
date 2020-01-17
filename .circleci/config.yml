@@ -108,8 +108,8 @@ jobs:
           path: ./docker-geoserver/
           extra-build-args: '--build-arg COMMUNITY_MODULES=true --build-arg GS_VERSION=2.16.1'
           region: AWS_REGION_ENV_VAR_NAME
-          repo: callcarisbatch
-          tag: 'kartoza-geoserver-with-plugin-2.16.1'        
+          repo: 'kartoza-geoserver-with-plugin'
+          tag: '2.16.1'        
   deploy_pipeline:
     docker:
       - image: circleci/python:3.7-stretch
@@ -167,6 +167,7 @@ jobs:
 workflows:
   update_infra_and_application:
     jobs:
+      - build_and_push_geoserver_with_s3_image
       - build_tomcat_push_jar
       - build_and_push_geoserver_image:
           requires:

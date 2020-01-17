@@ -64,9 +64,9 @@ jobs:
           path: ./geoserver/
           checkout: false
           region: AWS_REGION_ENV_VAR_NAME
-          repo: callcarisbatch
+          repo: ausseabed-geoserver
           extra-build-args: '--build-arg COMMUNITY_MODULES=true --build-arg GS_VERSION=2.16.1'
-          tag: 'ausseabed-geoserver-2.16.1' 
+          #tag: 'ausseabed-geoserver-2.16.1' 
   build_and_push_startstopec2_image:
     machine:
       image: ubuntu-1604:201903-01
@@ -167,7 +167,6 @@ jobs:
 workflows:
   update_infra_and_application:
     jobs:
-      - build_and_push_geoserver_with_s3_image
       - build_tomcat_push_jar
       - build_and_push_geoserver_image:
           requires:

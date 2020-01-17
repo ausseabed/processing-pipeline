@@ -155,13 +155,17 @@ jobs:
           working_directory: ./infra_warehouse
           command: pwd && echo $CIRCLE_WORKING_DIRECTORY && terraform init
       - run:
-          name: terraform plan
+          name: terraform destroy
           working_directory: ./infra_warehouse
-          command: terraform plan 
-      - run:
-          name: terraform apply 
-          working_directory: ./infra_warehouse
-          command: terraform apply --auto-approve      
+          command: terraform destroy 
+#      - run:
+#          name: terraform plan
+#          working_directory: ./infra_warehouse
+#          command: terraform plan 
+#      - run:
+#          name: terraform apply 
+#          working_directory: ./infra_warehouse
+#          command: terraform apply --auto-approve      
     
 
 workflows:

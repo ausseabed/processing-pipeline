@@ -45,7 +45,7 @@ carisbatch --run ExportRaster --output-format BAG --include-band Depth --uncerta
 carisbatch --run ExportRaster --output-format GEOTIFF --include-band Depth D:\\Bluefin\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar D:\\Bluefin\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_1.tiff
 
 
-carisbatch --run CreateVRSurface --estimation-method RANGE --range-file depth_range.txt --keep-partial-bins --input-band Depth --max-grid-size 160 --min-grid-size 4 --include-flag ACCEPTED "D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips" "D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB_VR.csar" 
+carisbatch --run CreateVRSurface --estimation-method RANGE --range-file depth_ranges.txt --keep-partial-bins --input-band Depth --max-grid-size 160 --min-grid-size 4 --include-flag ACCEPTED "D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB.hips" "D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB_VR.csar" 
 
 powershell "carisbatch --run PopulateVRSurface --population-method CUBE --input-band Depth --include-flag ACCEPTED --iho-order S44_1A --vertical-uncertainty "Depth TPU" --horizontal-uncertainty "Position TPU" --display-bias HIGHEST --disambiguation-method DENSITY_LOCALE --cube-config-file=D:\\Bluefin\CUBEParams_AusSeabed_2019.xml --cube-config-name=AusSeabed_VR D:\\Bluefin\GA-0364_BlueFin_MB\GA-0364_BlueFin_MB_VR.csar"
 

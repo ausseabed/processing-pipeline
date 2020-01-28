@@ -117,6 +117,7 @@ else:
     hostname = res['Reservations'][0]['Instances'][0]['PublicIpAddress']
 
 command = args.command
+print("Running command:\n %s" % command, flush=True)
 # this is the key used to encrypt the private key. 
 # The encrypted private key is stored in AWS Secrets and assisible through IAM roles. 
 # So, storing the password in plain text isn't making it less secure.

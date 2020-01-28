@@ -77,7 +77,3 @@ resource "aws_ecs_service" "geoserver_service" {
 
 }
 
-
-# GEOSERVER_URL = "http://ec2-54-153-228-148.ap-southeast-2.compute.amazonaws.com/geoserver"
-# GEOSERVER_ADMIN_PASSWORD = 
-# LIST_PATH = "https://bathymetry-survey-288871573946.s3-ap-southeast-2.amazonaws.com/registered_files.json

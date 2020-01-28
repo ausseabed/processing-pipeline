@@ -26,6 +26,72 @@ def find_caris_ip():
     )
     return response
 
+def exec_process_wrapper(ssh, cmd, timeout):
+    """ exec_process_wrapper runs a ssh command - dealing with chunking output between processes
+    exec_process_wrapper is based on https://stackoverflow.com/questions/23504126/do-you-have-to-check-exit-status-ready-if-you-are-going-to-check-recv-ready/32758464#32758464
+    user contributions licensed under cc by-sa 4.0 author - tinti
+    :type ssh: SSH2 channel
+    :param ssh: Channel to connect to process
+
+    :type cmd: string
+    :param cmd: Command to run on remote process
+
+    :type timeout: integer
+    :param timeout: seconds until termination of channel (to handle hung processes)
+
+    :rtype: string
+    :return: returns standard output + standard error concatenated together
+    """
+    #one channel per command
+    stdin, stdout, stderr = ssh.exec_command(cmd) 
+    # get the shared channel for stdout/stderr/stdin
+    channel = stdout.channel
+
+    # we do not need stdin.
+    stdin.close()                 
+    # indicate that we're not going to write to that channel anymore
+    channel.shutdown_write()      
+
+    # read stdout/stderr in order to prevent read block hangs
+    print(stdout.channel.recv(len(stdout.channel.in_buffer)))
+    # chunked read to prevent stalls
+    while not channel.closed or channel.recv_ready() or channel.recv_stderr_ready(): 
+        # stop if channel was closed prematurely, and there is no data in the buffers.
+        got_chunk = False
+        readq, _, _ = select.select([stdout.channel], [], [], timeout)
+        for c in readq:
+            if c.recv_ready(): 
+                print(stdout.channel.recv(len(c.in_buffer)))
+                got_chunk = True
+            if c.recv_stderr_ready(): 
+                # make sure to read stderr to prevent stall    
+                print(stderr.channel.recv_stderr(len(c.in_stderr_buffer))  
+                got_chunk = True  
+        '''
+        1) make sure that there are at least 2 cycles with no data in the input buffers in order to not exit too early (i.e. cat on a >200k file).
+        2) if no data arrived in the last loop, check if we already received the exit code
+        3) check if input buffers are empty
+        4) exit the loop
+        '''
+        if not got_chunk \
+            and stdout.channel.exit_status_ready() \
+            and not stderr.channel.recv_stderr_ready() \
+            and not stdout.channel.recv_ready(): 
+            # indicate that we're not going to read from this channel anymore
+            stdout.channel.shutdown_read()  
+            # close the channel
+            stdout.channel.close()
+            break    # exit as remote side is finished and our bufferes are empty
+
+    # close all the pseudofiles
+    stdout.close()
+    stderr.close()
+
+    # exit code is always ready at this point
+    return (stdout.channel.recv_exit_status())
+    
+
+
 def line_buffered(f):
     line_buf = ""
     while not f.channel.exit_status_ready():
@@ -81,16 +147,9 @@ try:
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.WarningPolicy)
     
-    #client.connect(hostname, port=port, username=username, password=password, key_filename=key_filename)
     client.connect(hostname, port=port, username=username,  pkey=private_key)
 
-    stdin, stdout, stderr = client.exec_command(command)
-    for l in line_buffered(stdout):
-        print(l, end=' ')
-    for l in line_buffered(stderr):
-        print(l, end=' ')
-    exit_status = stdout.channel.recv_exit_status()
-    print("exit status"+str(exit_status) )
+    exit_status=exec_process_wrapper(client,command,86400)
     sys.exit(exit_status)
 except Exception  as e:
     print(e)

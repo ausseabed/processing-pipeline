@@ -50,7 +50,7 @@ def exec_process_wrapper(ssh, cmd):
     channel.shutdown_write()      
 
     # read stdout/stderr in order to prevent read block hangs
-    print(stdout.channel.recv(len(stdout.channel.in_buffer)))
+    print(stdout.channel.recv(len(stdout.channel.in_buffer)), flush=True)
     # chunked read to prevent stalls
     while not channel.closed or channel.recv_ready() or channel.recv_stderr_ready(): 
         # stop if channel was closed prematurely, and there is no data in the buffers.
@@ -58,11 +58,11 @@ def exec_process_wrapper(ssh, cmd):
         readq, _, _ = select.select([stdout.channel], [], [])
         for c in readq:
             if c.recv_ready(): 
-                print(stdout.channel.recv(len(c.in_buffer)))
+                print(stdout.channel.recv(len(c.in_buffer)), flush=True)
                 got_chunk = True
             if c.recv_stderr_ready(): 
                 # make sure to read stderr to prevent stall    
-                print(stderr.channel.recv_stderr(len(c.in_stderr_buffer)))
+                print(stderr.channel.recv_stderr(len(c.in_stderr_buffer)), flush=True)
                 got_chunk = True
         '''
         1) make sure that there are at least 2 cycles with no data in the input buffers in order to not exit too early (i.e. cat on a >200k file).

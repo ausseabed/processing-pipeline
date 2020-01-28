@@ -3,7 +3,7 @@
 import sys, paramiko, io, os
 import boto3
 import argparse
-
+import select
 
 def find_caris_ip():
     client = boto3.client('ec2')
@@ -62,8 +62,8 @@ def exec_process_wrapper(ssh, cmd):
                 got_chunk = True
             if c.recv_stderr_ready(): 
                 # make sure to read stderr to prevent stall    
-                print(stderr.channel.recv_stderr(len(c.in_stderr_buffer))  
-                got_chunk = True  
+                print(stderr.channel.recv_stderr(len(c.in_stderr_buffer)))
+                got_chunk = True
         '''
         1) make sure that there are at least 2 cycles with no data in the input buffers in order to not exit too early (i.e. cat on a >200k file).
         2) if no data arrived in the last loop, check if we already received the exit code

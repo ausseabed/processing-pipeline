@@ -110,7 +110,7 @@ args = parser.parse_args()
 
 hostname = None
 if args.ip:
-    print("using external caris instance %s" % args.ip)
+    print("Using external caris instance %s" % args.ip, flush=True)
     hostname = args.ip
 else:
     res = find_caris_ip()
@@ -137,8 +137,6 @@ not_really_a_file.close()
 
 
 
-
-
 try:
     client = paramiko.SSHClient()
     client.load_system_host_keys()
@@ -147,9 +145,11 @@ try:
     client.connect(hostname, port=port, username=username,  pkey=private_key)
 
     exit_status=exec_process_wrapper(client,command)
+    print("Closing after completion with exit status {0}".format(exit_status), flush=True)
     sys.exit(exit_status)
 except Exception  as e:
-    print(e)
+    print(e, flush=True)
+    print("Closing after exception", flush=True)
     sys.exit(1)
 finally:
     client.close()

@@ -26,7 +26,7 @@ def find_caris_ip():
     )
     return response
 
-def exec_process_wrapper(ssh, cmd, timeout):
+def exec_process_wrapper(ssh, cmd):
     """ exec_process_wrapper runs a ssh command - dealing with chunking output between processes
     exec_process_wrapper is based on https://stackoverflow.com/questions/23504126/do-you-have-to-check-exit-status-ready-if-you-are-going-to-check-recv-ready/32758464#32758464
     user contributions licensed under cc by-sa 4.0 author - tinti
@@ -35,9 +35,6 @@ def exec_process_wrapper(ssh, cmd, timeout):
 
     :type cmd: string
     :param cmd: Command to run on remote process
-
-    :type timeout: integer
-    :param timeout: seconds until termination of channel (to handle hung processes)
 
     :rtype: string
     :return: returns standard output + standard error concatenated together
@@ -58,7 +55,7 @@ def exec_process_wrapper(ssh, cmd, timeout):
     while not channel.closed or channel.recv_ready() or channel.recv_stderr_ready(): 
         # stop if channel was closed prematurely, and there is no data in the buffers.
         got_chunk = False
-        readq, _, _ = select.select([stdout.channel], [], [], timeout)
+        readq, _, _ = select.select([stdout.channel], [], [])
         for c in readq:
             if c.recv_ready(): 
                 print(stdout.channel.recv(len(c.in_buffer)))
@@ -149,7 +146,7 @@ try:
     
     client.connect(hostname, port=port, username=username,  pkey=private_key)
 
-    exit_status=exec_process_wrapper(client,command,86400)
+    exit_status=exec_process_wrapper(client,command)
     sys.exit(exit_status)
 except Exception  as e:
     print(e)

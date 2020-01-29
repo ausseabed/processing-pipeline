@@ -122,6 +122,10 @@ resource "aws_lb_target_group" "geoserver_outside" {
   protocol = "TCP"
   vpc_id   = "${aws_vpc.tf_vpc.id}"
   target_type = "ip"
+  stickiness {
+    enabled = false
+    type = "lb_cookie"
+  }
 }
 
 

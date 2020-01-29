@@ -103,7 +103,7 @@ resource "aws_eip" "geoserver_eip" {
   vpc   = true
 }
 resource "aws_lb" "geoserver_load_balancer" {
-  name               = "geoserver_load_balancer"
+  name               = "geoserver-load-balancer"
   internal           = false
   load_balancer_type = "network"
   subnet_mapping {
@@ -117,7 +117,7 @@ resource "aws_lb" "geoserver_load_balancer" {
 }
 
 resource "aws_lb_target_group" "geoserver_outside" {
-  name     = "geoserver_outside"
+  name     = "geoserver-outside"
   port     = 8080
   protocol = "HTTP"
   vpc_id   = "${aws_vpc.tf_vpc.id}"

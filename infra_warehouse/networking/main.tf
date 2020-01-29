@@ -119,7 +119,7 @@ resource "aws_lb" "geoserver_load_balancer" {
 resource "aws_lb_target_group" "geoserver_outside" {
   name     = "geoserver-outside"
   port     = 8080
-  protocol = "HTTP"
+  protocol = "TCP"
   vpc_id   = "${aws_vpc.tf_vpc.id}"
   target_type = "ip"
 }

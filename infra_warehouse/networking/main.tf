@@ -96,3 +96,41 @@ resource "aws_security_group" "tf_public_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+
+resource "aws_eip" "geoserver_eip" {
+  count = 1
+  vpc   = true
+}
+resource "aws_lb" "geoserver_load_balancer" {
+  name               = "geoserver_load_balancer"
+  internal           = false
+  load_balancer_type = "network"
+  subnet_mapping {
+    subnet_id = "${aws_subnet.tf_public_subnet[0].id}"
+    allocation_id = "${aws_eip.geoserver_eip[0].id}"
+  }
+
+  tags = {
+    Environment = "nonproduction"
+  }
+}
+
+resource "aws_lb_target_group" "geoserver_outside" {
+  name     = "geoserver_outside"
+  port     = 8080
+  protocol = "HTTP"
+  vpc_id   = "${aws_vpc.tf_vpc.id}"
+  target_type = "ip"
+}
+
+
+resource "aws_lb_listener" "geoserver_load_balancer_listener" {
+  load_balancer_arn = "${aws_lb.geoserver_load_balancer.arn}"
+  port              = "80"
+  protocol          = "HTTP"
+  default_action {
+    type             = "forward"
+    target_group_arn = "${aws_lb_target_group.geoserver_outside.arn}"
+  }
+}

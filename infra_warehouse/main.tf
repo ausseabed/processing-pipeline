@@ -35,6 +35,7 @@ module "geoserver" {
   geoserver_initial_memory = "${var.geoserver_initial_memory}"
   geoserver_maximum_memory = "${var.geoserver_maximum_memory}"
   geoserver_admin_password = "${var.geoserver_admin_password}"
+  aws_ecs_lb_target_group_geoserver_arn = "${module.networking.aws_ecs_lb_target_group_geoserver_arn}"
 }
 
 #module "mapserver" {

@@ -14,5 +14,6 @@ variable "geoserver_image"{}
 
 variable "public_sg" {}
 
+variable "aws_ecs_lb_target_group_geoserver_arn"{}
 
 

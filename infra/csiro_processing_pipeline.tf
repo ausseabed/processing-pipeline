@@ -1,6 +1,11 @@
 locals {
   pipeline_vars = {
-  "steps" = ["Get caris version", "data quality check","prepare change vessel config file","Create HIPS file","Import to HIPS","Upload checkpoint 1 to s3","Import HIPS From Auxiliary","Upload checkpoint 2 to s3","change vessel config file to calculated","Compute GPS Vertical Adjustment","change vessel config file to original","Georeference HIPS Bathymetry","Upload checkpoint 3 to s3","Create HIPS Grid With Cube","Upload checkpoint 5 to s3","Export raster as PNG"]
+  "steps" = ["Get caris version", "data quality check","prepare change vessel config file","Create HIPS file",
+  "Import to HIPS","Upload checkpoint 1 to s3","Import HIPS From Auxiliary","Upload checkpoint 2 to s3",
+  "change vessel config file to calculated","Compute GPS Vertical Adjustment","change vessel config file to original",
+  "Georeference HIPS Bathymetry","Upload checkpoint 3 to s3","Create HIPS Grid With Cube","Upload checkpoint 5 to s3",
+  "Export raster as BAG", "Export raster as LAS","Export raster as TIFF","Raster to Polygon",
+  "Export raster as PNG"]
   "aws_ecs_cluster_arn" = module.compute.aws_ecs_cluster_arn 
   "aws_ecs_task_definition_startstopec2_arn" = module.compute.aws_ecs_task_definition_startstopec2_arn
   "aws_ecs_task_definition_caris_sg" = module.networking.aws_ecs_task_definition_caris_sg 

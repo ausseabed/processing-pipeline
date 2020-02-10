@@ -100,7 +100,7 @@ for source_tif_entry in source_tifs:
       print("From filename {}, created unsaved coverage name {}".format(native_layer_name,unsavedCoverage.name))
 
    print ("Attempting to create layer with name: {}".format(display_name))
-   data = "<coverage><name>{}</name><nativeName>{}</nativeName><srs>{}</srs></coverage>".format(display_name, native_layer_name,source_tif_entry["srs"])
+   data = "<coverage><name>{}</name><title>{}</title><nativeName>{}</nativeName><srs>{}</srs></coverage>".format(display_name, display_name, native_layer_name,source_tif_entry["srs"])
    url = "{}/workspaces/{}/coveragestores/{}/coverages.xml".format(cat.service_url, ws.name, unsavedCoverage.name)
    headers = {"Content-type": "application/xml"}
 

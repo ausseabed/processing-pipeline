@@ -30,6 +30,7 @@ from geoserver.catalog import UnsavedCoverageStore
 from geoserver.catalog import build_url
 from xml.sax.saxutils import escape
 from urllib.request import urlopen
+from geoserver.support import ResourceInfo, xml_property, key_value_pairs, write_bool, write_dict, write_string, build_url
 import os
 import sys
 import re
@@ -71,7 +72,7 @@ print ("Number of source_tifs: " + str(len(source_tifs)))
 
 # Step 2 - push through RESTFUL interface
 cat = Catalog(geoserver_url + "/rest", "admin", geoserver_password)
-ws = cat.create_workspace('ausseabedh',geoserver_url + '/ausseabedh') 
+ws = cat.create_workspace('ausseabed',geoserver_url + '/ausseabed') 
 
 for source_tif_entry in source_tifs:
    source_tif=source_tif_entry["filename"]
@@ -87,7 +88,9 @@ for source_tif_entry in source_tifs:
    unsavedCoverage.type="S3GeoTiff"
 
    # NOTE for non-public services, we will have some work to do here
-   unsavedCoverage.url= source_tif + "?useAnon=true&awsRegion=AP_Sydney" #ap-southeast-2
+   unsavedCoverage.url= source_tif + "?useAnon=true&awsRegion=AP_SOUTHEAST_2" #ap-southeast-2
+   #unsavedCoverage.dirty["srs"]=escape(source_tif_entry["srs"])
+   #unsavedCoverage.writers["srs"]=write_string("srs")
    resp = cat.save(unsavedCoverage)
    if resp.status_code != 201:
       print("Error {} processing: {}".format(resp,source_tif))
@@ -97,7 +100,7 @@ for source_tif_entry in source_tifs:
       print("From filename {}, created unsaved coverage name {}".format(native_layer_name,unsavedCoverage.name))
 
    print ("Attempting to create layer with name: {}".format(display_name))
-   data = "<coverage><name>{}</name><nativeName>{}</nativeName></coverage>".format(display_name, native_layer_name)
+   data = "<coverage><name>{}</name><nativeName>{}</nativeName><srs>{}</srs></coverage>".format(display_name, native_layer_name,source_tif_entry["srs"])
    url = "{}/workspaces/{}/coveragestores/{}/coverages.xml".format(cat.service_url, ws.name, unsavedCoverage.name)
    headers = {"Content-type": "application/xml"}
 

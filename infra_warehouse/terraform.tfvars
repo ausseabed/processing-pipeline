@@ -8,13 +8,13 @@ accessip = "0.0.0.0/0"
 
 # geoserver/mapserver vars
 server_cpu = 512
-server_memory = 1024
+server_memory = 2048
 #------- compute vars---------------
 
 #fargate_cpu = 512
 #fargate_memory = 1024
 geoserver_image = "288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/ausseabed-geoserver:latest"
 
-geoserver_initial_memory="1G"
-geoserver_maximum_memory="1G"
+geoserver_initial_memory="2G"
+geoserver_maximum_memory="2G"
 geoserver_admin_password="c1d2-54fe-84f9-7149-f005-ffa8-cbe6-e7b4"

@@ -46,6 +46,15 @@ module "ancillary" {
   ausseabed-processing-pipeline = "${aws_sfn_state_machine.ausseabed-processing-pipeline_sfn_state_machine-ga}"
 }
 
+module "pipelines" {
+  source = "./pipelines"
+  ausseabed_sm_role="${module.ancillary.ausseabed-processing-pipeline_sfn_state_machine_role_arn}"
+  aws_ecs_cluster_arn="${module.compute.aws_ecs_cluster_arn}"
+  aws_ecs_task_definition_gdal_arn="${module.compute.aws_ecs_task_definition_gdal_arn}"
+  aws_ecs_task_definition_caris_sg="${module.networking.aws_ecs_task_definition_caris_sg}"
+  aws_ecs_task_definition_caris_subnet="${module.networking.aws_ecs_task_definition_caris_subnet}"
+}
+
 module "lambda_function" {
   source = "github.com/raymondbutcher/terraform-aws-lambda-builder"
 

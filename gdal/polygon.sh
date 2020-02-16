@@ -2,6 +2,8 @@
 echo Starting script
 env
 
+# test with export AWS_NO_SIGN_REQUEST=YES
+
 # test with s3://bathymetry-survey-288871573946/TestObject.tif
 echo Starting translate of "$S3_SRC_TIF"
 VSIS3=`echo "$S3_SRC_TIF" | sed "s/^s3../\/vsis3/"`

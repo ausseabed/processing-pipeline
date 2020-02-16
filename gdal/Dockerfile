@@ -12,7 +12,7 @@ ln -s /usr/bin/python3 /usr/bin/python
 
 WORKDIR /usr/src/app
 
-COPY run.sh /usr/src/app
+COPY *.sh /usr/src/app/
 RUN chmod +x /usr/src/app/*.sh
 
-CMD ["./run.sh"] 
+CMD ["./polygon.sh"] 

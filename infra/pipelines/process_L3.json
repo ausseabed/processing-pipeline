@@ -39,7 +39,7 @@
                     ]
                 }
             },
-            "Next": "End",
+            "End":true,
             "TimeoutSeconds": 60000
         }
     }

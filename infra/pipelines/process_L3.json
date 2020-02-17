@@ -7,16 +7,16 @@
             "ResultPath": "$.previous_step__result",
             "Parameters": {
                 "LaunchType": "FARGATE",
-                "Cluster": "${var.aws_ecs_cluster_arn}",
-                "TaskDefinition": "${var.aws_ecs_task_definition_gdal_arn}",
+                "Cluster": "${aws_ecs_cluster_arn}",
+                "TaskDefinition": "${aws_ecs_task_definition_gdal_arn}",
                 "NetworkConfiguration": {
                     "AwsvpcConfiguration": {
                         "AssignPublicIp": "ENABLED",
                         "SecurityGroups": [
-                            "${var.aws_ecs_task_definition_caris_sg}"
+                            "${aws_ecs_task_definition_caris_sg}"
                         ],
                         "Subnets": [
-                            "${var.aws_ecs_task_definition_caris_subnet}"
+                            "${aws_ecs_task_definition_caris_subnet}"
                         ]
                     }
                 },

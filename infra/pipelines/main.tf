@@ -1,10 +1,10 @@
 locals {
   pipeline_vars = { 
-    "var.ausseabed_sm_role" = "var.ausseabed_sm_role"
-    "var.aws_ecs_cluster_arn" = "var.aws_ecs_cluster_arn"
-    "var.aws_ecs_task_definition_gdal_arn" = "var.aws_ecs_task_definition_gdal_arn"
-    "var.aws_ecs_task_definition_caris_sg" = "var.aws_ecs_task_definition_caris_sg"
-    "var.aws_ecs_task_definition_caris_subnet" = "var.aws_ecs_task_definition_caris_subnet"
+    "ausseabed_sm_role" = var.ausseabed_sm_role
+    "aws_ecs_cluster_arn" = var.aws_ecs_cluster_arn
+    "aws_ecs_task_definition_gdal_arn" = var.aws_ecs_task_definition_gdal_arn
+    "aws_ecs_task_definition_caris_sg" = var.aws_ecs_task_definition_caris_sg
+    "aws_ecs_task_definition_caris_subnet" = var.aws_ecs_task_definition_caris_subnet
   }
 }
 

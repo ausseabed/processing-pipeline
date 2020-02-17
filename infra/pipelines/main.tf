@@ -12,5 +12,5 @@ resource "aws_sfn_state_machine" "ausseabed-processing-pipeline-l3" {
   name     = "ausseabed-processing-pipeline-l3"
   role_arn = "${var.ausseabed_sm_role}"
   
-  definition = templatefile("process_L3.json",local.pipeline_vars)
+  definition = templatefile("${path.module}/process_L3.json",local.pipeline_vars)
 }

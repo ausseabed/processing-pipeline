@@ -167,7 +167,7 @@ resource "aws_iam_role_policy" "ecs_task_execution_policy" {
             "Action": [
                 "s3:Get*",
                 "s3:List*",
-                "s3:PutObj*",
+                "s3:PutObj*"
             ],
             "Resource": "*",
             "Effect": "Allow"

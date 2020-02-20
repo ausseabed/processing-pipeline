@@ -1,14 +1,11 @@
 #!/bin/sh
-# overlays.sh creates 'overlays' and 'tiles' for geotiffs and
-# stores them internal to the .tiff. This means that Geoserver's
-# S3GeoTiff plugin can read them.
+# create_hillshade.sh creates a hillshade for bathymetry for presentation purposes
 
 echo Starting script
 
 # test with export AWS_NO_SIGN_REQUEST=YES
 # S3_SRC_TIF="s3://ausseabed-public-bathymetry/L3/68f44afd-78d0-412f-bf9c-9c9fdbe43968/01_Bathy.tif"
 # S3_DEST_TIF="s3://ausseabed-public-bathymetry/L3/68f44afd-78d0-412f-bf9c-9c9fdbe43968/01_Bathy_Overlay.tif"
-
 
 echo Starting translate of "$S3_SRC_TIF"
 VSIS3_SRC=`echo "$S3_SRC_TIF" | sed "s/^s3../\/vsis3/"`
@@ -27,7 +24,7 @@ echo resulting variable LOCALNAME_DEST="$LOCALNAME_DEST"
 echo resulting variable S3DIR_DEST="$S3DIR_DEST"
 
 echo Copying local
-gdal_translate -co compress=lzw -co "TILED=YES" "$VSIS3_SRC" "$LOCALNAME_DEST".tif 
+gdaldem hillshade "$VSIS3_SRC" "$LOCALNAME_DEST".tif -az 30 -alt 45 -s 2
 
 echo Adding overlays
 gdaladdo -r average "$LOCALNAME_DEST".tif 2 4 8 16

@@ -147,10 +147,12 @@ try:
 
     exit_status=exec_process_wrapper(client,command)
     print("Closing after completion with exit status {0}".format(exit_status), flush=True)
+    print("", file=sys.stderr, flush=True)
     sys.exit(exit_status)
 except Exception  as e:
     print(e, flush=True)
     print("Closing after exception", flush=True)
+    print("", file=sys.stderr, flush=True)
     sys.exit(1)
 finally:
     client.close()

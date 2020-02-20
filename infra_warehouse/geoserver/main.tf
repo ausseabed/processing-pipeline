@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "geoserver" {
       },
       {
         "name": "LIST_PATH",
-        "value": "https://bathymetry-survey-288871573946.s3-ap-southeast-2.amazonaws.com/registered_files.json"
+        "value": "https://ausseabed-public-bathymetry-nonprod.s3-ap-southeast-2.amazonaws.com/registered_files.json"
       },
       {
         "name": "INITIAL_MEMORY",

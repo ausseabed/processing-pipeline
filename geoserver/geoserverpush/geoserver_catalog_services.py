@@ -13,17 +13,17 @@ class GeoserverCatalogServices:
         self.connection_parameters = connection_parameters
         self.BATH_STYLE_NAME = "Bathymetry"
         self.BATH_HILLSHADE_STYLE_NAME = "BathymetryHillshade"
-        self.WORKSPACE_NAME="ausseabedl"
+        self.WORKSPACE_NAME="ausseabedj"
         self.cat = Catalog(self.connection_parameters.geoserver_url + "/rest", "admin",
                            self.connection_parameters.geoserver_password)
         self.ws = self.cat.create_workspace(self.WORKSPACE_NAME, self.connection_parameters.geoserver_url + '/'+self.WORKSPACE_NAME)
 
     def add_styles(self):
         bathymetry_transparent_file = open("bathymetry_transparent.sld")
-        self.cat.create_style(self.BATH_STYLE_NAME, bathymetry_transparent_file, False, workspace=self.ws)
+        self.cat.create_style(self.BATH_STYLE_NAME, bathymetry_transparent_file, False, workspace=self.ws.name)
 
         bathymetry_hillshade_file = open("bathymetry_hillshade.sld")
-        self.cat.create_style(self.BATH_HILLSHADE_STYLE_NAME, bathymetry_hillshade_file, False, workspace=self.ws)
+        self.cat.create_style(self.BATH_HILLSHADE_STYLE_NAME, bathymetry_hillshade_file, False, workspace=self.ws.name)
 
     def add_style_to_raster(self, raster_name, style_name):
         print ("Connecting {0} to {1}".format(raster_name,style_name))
@@ -37,12 +37,19 @@ class GeoserverCatalogServices:
         else:
             print("Successfully assigned bathymetry style")
 
-    def group_layers(self, geoserver_bath_raster, geoserver_hs_raster):
-        unsaved_layer_group=self.cat.create_layergroup(geoserver_bath_raster.base_name,
-            title=geoserver_bath_raster.base_name,
-            layers=[geoserver_bath_raster.display_name,geoserver_hs_raster.display_name])
-        self.cat.save(unsaved_layer_group)
+    def group_layers(self, layers, styles):
+        unsaved_layer_group=self.cat.create_layergroup(layers[0].base_name,
+            title=layers[0].base_name, workspace=self.ws.name)
         
+        unsaved_layer_group.layers = [self.lookup_layer_fqn(layer) for layer in layers]
+        unsaved_layer_group.styles = [self.lookup_style_fqn(style) for style in styles]
+        self.cat.save(unsaved_layer_group)
+
+    def lookup_layer_fqn(self, layer):
+        return "{0}:{1}".format(self.ws.name, layer.display_name)
+
+    def lookup_style_fqn(self, style_name):
+        return self.cat.get_style(style_name,workspace=self.ws.name).fqn
 
     def add_raster_from_names(self, source_tif, native_layer_name, display_name, uuid, srs):
         # The normal import coverage only supports a few types (not S3GeoTiff), so

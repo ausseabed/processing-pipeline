@@ -47,8 +47,10 @@ def populate_geoserver():
             geoserver_hs_raster_ref = geoserver_catalog_services.add_raster(geoserver_hs_raster)
             geoserver_catalog_services.add_style_to_raster(geoserver_hs_raster_ref,
                                                        geoserver_catalog_services.BATH_HILLSHADE_STYLE_NAME)
-            
-            geoserver_catalog_services.group_layers(geoserver_bath_raster, geoserver_hs_raster)
+            geoserver_catalog_services.group_layers(
+                [geoserver_bath_raster,geoserver_hs_raster],
+                [geoserver_catalog_services.BATH_STYLE_NAME,geoserver_catalog_services.BATH_HILLSHADE_STYLE_NAME]
+                )
 
 
 

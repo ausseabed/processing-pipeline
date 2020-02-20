@@ -30,4 +30,4 @@ gdaldem hillshade "$VSIS3_SRC" "$LOCALNAME_DEST".tif -az 30 -alt 45 -s 2
 echo Adding overlays
 gdaladdo -r average "$LOCALNAME_DEST".tif 2 4 8 16
 echo AWS commit
-/usr/local/bin/aws s3 cp "$LOCALNAME_DEST".tif "$S3DIR_DEST/$LOCALNAME_DEST.tif"
+/usr/local/bin/aws s3 cp "$LOCALNAME_DEST".tif "$S3DIR_DEST""$LOCALNAME_DEST.tif"

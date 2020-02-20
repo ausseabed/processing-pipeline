@@ -33,4 +33,4 @@ gdal_translate -co compress=lzw -co "TILED=YES" "$VSIS3_SRC" "$LOCALNAME_DEST".t
 echo Adding overlays
 gdaladdo -r average "$LOCALNAME_DEST".tif 2 4 8 16
 echo AWS commit
-/usr/local/bin/aws s3 cp "$LOCALNAME_DEST".tif "$S3DIR_DEST/$LOCALNAME_DEST.tif"
+/usr/local/bin/aws s3 cp "$LOCALNAME_DEST".tif "$S3DIR_DEST""$LOCALNAME_DEST.tif"

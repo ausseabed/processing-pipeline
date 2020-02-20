@@ -23,10 +23,11 @@ echo resulting variable VSIS3_DEST="$VSIS3_DEST"
 echo resulting variable LOCALNAME_DEST="$LOCALNAME_DEST"
 echo resulting variable S3DIR_DEST="$S3DIR_DEST"
 
-echo Copying local
+set -x
+echo Creating hillshade
 gdaldem hillshade "$VSIS3_SRC" "$LOCALNAME_DEST".tif -az 30 -alt 45 -s 2
 
 echo Adding overlays
 gdaladdo -r average "$LOCALNAME_DEST".tif 2 4 8 16
 echo AWS commit
-/usr/local/bin/aws s3 cp . "$S3DIR_DEST" --recursive --include "$LOCALNAME_DEST*"  --exclude "*" 
+/usr/local/bin/aws s3 cp . "$S3DIR_DEST" --recursive --include "*$LOCALNAME_DEST*"  --exclude "*" 

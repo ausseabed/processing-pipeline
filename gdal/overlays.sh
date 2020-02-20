@@ -26,10 +26,11 @@ echo resulting variable VSIS3_DEST="$VSIS3_DEST"
 echo resulting variable LOCALNAME_DEST="$LOCALNAME_DEST"
 echo resulting variable S3DIR_DEST="$S3DIR_DEST"
 
+set -x
 echo Copying local
 gdal_translate -co compress=lzw -co "TILED=YES" "$VSIS3_SRC" "$LOCALNAME_DEST".tif 
 
 echo Adding overlays
 gdaladdo -r average "$LOCALNAME_DEST".tif 2 4 8 16
 echo AWS commit
-/usr/local/bin/aws s3 cp . "$S3DIR_DEST" --recursive --include "$LOCALNAME_DEST*"  --exclude "*" 
+/usr/local/bin/aws s3 cp "$LOCALNAME_DEST".tif "$S3DIR_DEST"

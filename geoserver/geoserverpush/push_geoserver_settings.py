@@ -3,16 +3,6 @@
 This script is used to register GeoTiffs into a geoserver instance
 Requires environmental variables GEOSERVER_URL, GEOSERVER_ADMIN_PASSWORD and LIST_PATH
 
-LIST_PATH is a file that lists the location of all the TIFFs
-
-The file has the form 
- [
-  {"filename": "s3://bucket-name/name-of-file.tif",
-  "gazeteer-name":"e.g. Beagle Commonwealth Marine Reserve",
-  "year":2018,
-  "resolution":"1m",
-  "UUID":"68f44afd-78d0-412f-bf9c-9c9fdbe43968"}, ...
-
 Example:
 export GEOSERVER_URL="http://localhost:8080/geoserver"
 export GEOSERVER_ADMIN_PASSWORD="###"
@@ -23,8 +13,8 @@ Todo:
     * move from json file into PostGres Database
     * provide path for non-public users
     * shift environmental variables to command line strings (requires work in step functions)
+    * write some unit tests and add documentation
 """
-
 
 import os
 import sys
@@ -57,7 +47,8 @@ def populate_geoserver():
             geoserver_hs_raster_ref = geoserver_catalog_services.add_raster(geoserver_hs_raster)
             geoserver_catalog_services.add_style_to_raster(geoserver_hs_raster_ref,
                                                        geoserver_catalog_services.BATH_HILLSHADE_STYLE_NAME)
-
+            
+            geoserver_catalog_services.group_layers(geoserver_bath_raster, geoserver_hs_raster)
 
 
 

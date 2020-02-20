@@ -2,6 +2,16 @@ import sys,os
 import requests
 
 class ProductDatabase():
+    """ 
+    Product Database data structure (at the moment a json formatted file that has the form:
+ [
+  {"filename": "s3://bucket-name/name-of-file.tif",
+  "hillshade": "s3://bucket-name/name-of-file.tif",
+  "gazeteer-name":"e.g. Beagle Commonwealth Marine Reserve",
+  "year":2018,
+  "resolution":"1m",
+  "UUID":"68f44afd-78d0-412f-bf9c-9c9fdbe43968"}, ...
+    """
     def load_from_commandline(self):
         try:
             self.source_tif_path = os.environ['LIST_PATH']

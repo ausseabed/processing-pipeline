@@ -1,6 +1,10 @@
 import sys, os
 
 class ConnectionParameters():
+    """ 
+    Class that houses connection parameters and reads from a datasource 
+    such as environmental variables
+    """
     def __init__(self ):
         self.geoserver_url = ""
         self.geoserver_password = ""

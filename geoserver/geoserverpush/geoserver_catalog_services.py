@@ -5,11 +5,15 @@ from xml.sax.saxutils import escape
 
 
 class GeoserverCatalogServices:
+    """ 
+    Geoserver Catalog Services provides a wrapper around the geoserver.catalogue 
+    library. The functions allow for adding of rasters and styles
+    """
     def __init__(self,connection_parameters):
         self.connection_parameters = connection_parameters
         self.BATH_STYLE_NAME = "Bathymetry"
         self.BATH_HILLSHADE_STYLE_NAME = "BathymetryHillshade"
-        self.WORKSPACE_NAME="ausseabed"
+        self.WORKSPACE_NAME="ausseabedl"
         self.cat = Catalog(self.connection_parameters.geoserver_url + "/rest", "admin",
                            self.connection_parameters.geoserver_password)
         self.ws = self.cat.create_workspace(self.WORKSPACE_NAME, self.connection_parameters.geoserver_url + '/'+self.WORKSPACE_NAME)
@@ -32,6 +36,13 @@ class GeoserverCatalogServices:
             print(resp.reason)
         else:
             print("Successfully assigned bathymetry style")
+
+    def group_layers(self, geoserver_bath_raster, geoserver_hs_raster):
+        unsaved_layer_group=self.cat.create_layergroup(geoserver_bath_raster.base_name,
+            title=geoserver_bath_raster.base_name,
+            layers=[geoserver_bath_raster.display_name,geoserver_hs_raster.display_name])
+        self.cat.save(unsaved_layer_group)
+        
 
     def add_raster_from_names(self, source_tif, native_layer_name, display_name, uuid, srs):
         # The normal import coverage only supports a few types (not S3GeoTiff), so

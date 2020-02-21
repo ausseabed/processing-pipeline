@@ -18,7 +18,8 @@ RUN apt-get update \
 COPY geoserverpush/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY geoserverpush/push_geoserver_settings.py /usr/local/pulldata/push_geoserver_settings.py
+COPY geoserverpush/*.py /usr/local/pulldata/
+RUN chmod +r /usr/local/pulldata/*.py
 RUN chmod +x /usr/local/pulldata/push_geoserver_settings.py
 COPY ausseabed.pipeline/target/*.jar /usr/local/tomcat/lib
 COPY tomcat/conf/server.xml /usr/local/tomcat/conf 

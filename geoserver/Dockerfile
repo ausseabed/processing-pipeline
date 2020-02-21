@@ -20,7 +20,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 RUN mkdir /usr/local/pulldata
 RUN chmod +rx /usr/local/pulldata
+COPY geoserverpush/*.sld /usr/local/pulldata/
 COPY geoserverpush/*.py /usr/local/pulldata/
+RUN chmod +r /usr/local/pulldata/*.sld
 RUN chmod +rx /usr/local/pulldata/*.py
 COPY ausseabed.pipeline/target/*.jar /usr/local/tomcat/lib
 COPY tomcat/conf/server.xml /usr/local/tomcat/conf 

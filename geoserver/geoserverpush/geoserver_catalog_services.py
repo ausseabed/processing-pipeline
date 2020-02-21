@@ -14,16 +14,18 @@ class GeoserverCatalogServices:
         self.connection_parameters = connection_parameters
         self.BATH_STYLE_NAME = "Bathymetry"
         self.BATH_HILLSHADE_STYLE_NAME = "BathymetryHillshade"
+        self.LOCAL_STYLE_FILENAME = "/usr/local/pulldata/bathymetry_transparent.sld"
+        self.BATH_HILLSHADE_STYLE_FILENAME = "/usr/local/pulldata/bathymetry_hillshade.sld"
         self.WORKSPACE_NAME="ausseabed"
         self.cat = Catalog(self.connection_parameters.geoserver_url + "/rest", "admin",
                            self.connection_parameters.geoserver_password)
         self.ws = self.cat.create_workspace(self.WORKSPACE_NAME, self.connection_parameters.geoserver_url + '/'+self.WORKSPACE_NAME)
 
     def add_styles(self):
-        bathymetry_transparent_file = open("bathymetry_transparent.sld")
+        bathymetry_transparent_file = open(self.LOCAL_STYLE_FILENAME)
         self.cat.create_style(self.BATH_STYLE_NAME, bathymetry_transparent_file, False, workspace=self.ws.name)
 
-        bathymetry_hillshade_file = open("bathymetry_hillshade.sld")
+        bathymetry_hillshade_file = open(self.BATH_HILLSHADE_STYLE_FILENAME)
         self.cat.create_style(self.BATH_HILLSHADE_STYLE_NAME, bathymetry_hillshade_file, False, workspace=self.ws.name)
 
     def add_style_to_raster(self, raster_name, style_name):

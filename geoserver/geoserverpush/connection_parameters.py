@@ -1,4 +1,5 @@
 import sys, os
+from requests.auth import HTTPBasicAuth
 
 class ConnectionParameters():
     """ 
@@ -8,6 +9,9 @@ class ConnectionParameters():
     def __init__(self ):
         self.geoserver_url = ""
         self.geoserver_password = ""
+
+    def get_auth(self):
+        return HTTPBasicAuth('admin', self.geoserver_password)
 
     def load_from_commandline(self):
         try:

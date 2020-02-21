@@ -2,7 +2,8 @@
 from geoserver.catalog import Catalog
 from geoserver.catalog import UnsavedCoverageStore
 from xml.sax.saxutils import escape
-
+import requests
+from requests.auth import HTTPBasicAuth
 
 class GeoserverCatalogServices:
     """ 
@@ -13,7 +14,7 @@ class GeoserverCatalogServices:
         self.connection_parameters = connection_parameters
         self.BATH_STYLE_NAME = "Bathymetry"
         self.BATH_HILLSHADE_STYLE_NAME = "BathymetryHillshade"
-        self.WORKSPACE_NAME="ausseabedj"
+        self.WORKSPACE_NAME="ausseabed"
         self.cat = Catalog(self.connection_parameters.geoserver_url + "/rest", "admin",
                            self.connection_parameters.geoserver_password)
         self.ws = self.cat.create_workspace(self.WORKSPACE_NAME, self.connection_parameters.geoserver_url + '/'+self.WORKSPACE_NAME)
@@ -37,13 +38,20 @@ class GeoserverCatalogServices:
         else:
             print("Successfully assigned bathymetry style")
 
-    def group_layers(self, layers, styles):
+    def group_layers(self, layers, styles,bbox):
+        #my_bounds=("433248.5", "5662267.5", "455227.5", "5677920.5", "EPSG:28355")
+        print (bbox)
         unsaved_layer_group=self.cat.create_layergroup(layers[0].base_name,
-            title=layers[0].base_name, workspace=self.ws.name)
+            title=layers[0].base_name, workspace=self.ws.name, bounds=bbox)
         
         unsaved_layer_group.layers = [self.lookup_layer_fqn(layer) for layer in layers]
-        unsaved_layer_group.styles = [self.lookup_style_fqn(style) for style in styles]
+        #unsaved_layer_group.styles = [self.lookup_style_fqn(style) for style in styles]
+        
         self.cat.save(unsaved_layer_group)
+
+    #def get_layer_bounds(self, layer_name):
+    #    layer = self.cat.get_layer(layer_name)
+    #    return layer.
 
     def lookup_layer_fqn(self, layer):
         return "{0}:{1}".format(self.ws.name, layer.display_name)
@@ -81,10 +89,32 @@ class GeoserverCatalogServices:
             print("Error {} processing: {}".format(resp, source_tif))
             print(resp.text)
             print(resp.reason)
-        else:
-            print("Successfully created")
+            return ""
 
-        return display_name
+        print("Successfully created")
+
+        # Get information about the newly created coverage
+        url = "{}/workspaces/{}/coverages/{}".format(self.cat.service_url, self.ws.name,
+                                                                        display_name)
+        response = requests.get(url, 
+            auth=self.connection_parameters.get_auth(),
+            headers={"Accept": "application/json"}
+            )
+        if not response.ok:
+            print("Could not find coverage {}".format(display_name))
+            print(response.content)
+            return ""
+
+        resp = response.json()
+        bbox=resp["coverage"]["nativeBoundingBox"]
+        srs=resp["coverage"]["srs"]
+
+        # want form ("433248.5", "5662267.5", "455227.5", "5677920.5", "EPSG:28355")
+        # have form {u'minx': 146.82151735057383, u'miny': -39.47860797949455, u'maxx': 147.48124691203017, u'maxy': -39.223417842248914, u'crs': u'EPSG:4326'}
+        bbox_output=(bbox[u'minx'],bbox[u'maxx'],bbox[u'miny'],bbox[u'maxy'],srs)
+        print (bbox_output)
+
+        return {"name":display_name, "bbox":bbox_output}
 
     def add_raster(self, raster):
         return self.add_raster_from_names(raster.source_tif, raster.native_layer_name, raster.display_name,

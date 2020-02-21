@@ -38,18 +38,19 @@ def populate_geoserver():
         geoserver_bath_raster = GeoserverRaster()
         geoserver_bath_raster.load_bath_from_database_entry(source_tif_entry)
         geoserver_bath_raster_ref = geoserver_catalog_services.add_raster(geoserver_bath_raster)
-        geoserver_catalog_services.add_style_to_raster(geoserver_bath_raster_ref,
+        geoserver_catalog_services.add_style_to_raster(geoserver_bath_raster_ref["name"],
                                                        geoserver_catalog_services.BATH_STYLE_NAME)
 
         geoserver_hs_raster = GeoserverRaster()
         geoserver_hs_raster.load_hillshade_from_database_entry(source_tif_entry)
         if geoserver_hs_raster.source_tif!="":
             geoserver_hs_raster_ref = geoserver_catalog_services.add_raster(geoserver_hs_raster)
-            geoserver_catalog_services.add_style_to_raster(geoserver_hs_raster_ref,
+            geoserver_catalog_services.add_style_to_raster(geoserver_hs_raster_ref["name"],
                                                        geoserver_catalog_services.BATH_HILLSHADE_STYLE_NAME)
             geoserver_catalog_services.group_layers(
-                [geoserver_bath_raster,geoserver_hs_raster],
-                [geoserver_catalog_services.BATH_STYLE_NAME,geoserver_catalog_services.BATH_HILLSHADE_STYLE_NAME]
+                [geoserver_hs_raster,geoserver_bath_raster],
+                [geoserver_catalog_services.BATH_HILLSHADE_STYLE_NAME,geoserver_catalog_services.BATH_STYLE_NAME],
+                geoserver_hs_raster_ref["bbox"]
                 )
 
 

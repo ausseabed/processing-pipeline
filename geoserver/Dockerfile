@@ -15,6 +15,9 @@ RUN apt-get update \
   && ln -s /usr/bin/python3 python \
   && pip3 install --upgrade pip
 
+COPY geoserverpush/logging.xml /opt/geoserver/data_dir/logging.xml
+RUN chmod +r /opt/geoserver/data_dir/logging.xml
+
 COPY geoserverpush/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 

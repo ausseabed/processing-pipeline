@@ -14,6 +14,8 @@ class ConnectionParameters():
         return HTTPBasicAuth('admin', self.geoserver_password)
 
     def load_from_commandline(self):
+        """ Load parameters from environment variables GEOSERVER_URL / GEOSERVER_ADMIN_PASSWORD 
+        """
         try:
             self.geoserver_url = os.environ['GEOSERVER_URL']
         except KeyError:

@@ -22,6 +22,8 @@ class GeoserverCatalogServices:
         self.ws = self.cat.create_workspace(self.WORKSPACE_NAME, self.connection_parameters.geoserver_url + '/'+self.WORKSPACE_NAME)
 
     def add_styles(self):
+        """ Add the bathymetry styles used in the marine portal
+        """
         bathymetry_transparent_file = open(self.LOCAL_STYLE_FILENAME)
         self.cat.create_style(self.BATH_STYLE_NAME, bathymetry_transparent_file, False, workspace=self.ws.name)
 

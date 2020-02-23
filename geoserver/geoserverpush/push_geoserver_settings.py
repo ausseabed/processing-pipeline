@@ -14,6 +14,7 @@ Todo:
     * provide path for non-public users
     * shift environmental variables to command line strings (requires work in step functions)
     * write some unit tests and add documentation
+    * inputs come from a trusted source - nevertheless ensure that they are all properly escaped
 """
 
 import os
@@ -26,6 +27,8 @@ from geoserver_raster import GeoserverRaster
 # SET GEOSERVER_URL
 
 def populate_geoserver():
+    """ From environment variables, register layers with geoserver instance
+    """
     settings = ConnectionParameters()
     settings.load_from_commandline()
     product_database = ProductDatabase()

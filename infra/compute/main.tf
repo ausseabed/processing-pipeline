@@ -83,10 +83,10 @@ resource "aws_ecs_task_definition" "gdal" {
   family                   = "gdal"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = "${var.fargate_cpu}"
-  memory                   = "${var.fargate_memory}"
-  execution_role_arn       = "${var.ecs_task_execution_role_arn}"
-  task_role_arn            = "${var.ecs_task_execution_role_arn}"
+  cpu                      = var.fargate_cpu
+  memory                   = var.fargate_memory
+  execution_role_arn       = var.ecs_task_execution_role_arn
+  task_role_arn            = var.ecs_task_execution_role_arn
 
   container_definitions = <<DEFINITION
 [
@@ -101,6 +101,68 @@ resource "aws_ecs_task_definition" "gdal" {
       },
     "cpu": ${var.fargate_cpu},
     "image": "${var.gdal_image}",
+    "memory": ${var.fargate_memory},
+    "name": "app",
+    "networkMode": "awsvpc",
+    "portMappings": []
+  }
+]
+DEFINITION
+}
+
+resource "aws_ecs_task_definition" "mbsystem" {
+  family                   = "mbsystem"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = var.fargate_cpu
+  memory                   = var.fargate_memory
+  execution_role_arn       = var.ecs_task_execution_role_arn
+  task_role_arn            = var.ecs_task_execution_role_arn
+
+  container_definitions = <<DEFINITION
+[
+  { "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/startstopec2",
+          "awslogs-region": "ap-southeast-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+    "cpu": ${var.fargate_cpu},
+    "image": "${var.mbsystem_image}",
+    "memory": ${var.fargate_memory},
+    "name": "app",
+    "networkMode": "awsvpc",
+    "portMappings": []
+  }
+]
+DEFINITION
+}
+
+resource "aws_ecs_task_definition" "pdal" {
+  family                   = "pdal"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = var.fargate_cpu
+  memory                   = var.fargate_memory
+  execution_role_arn       = var.ecs_task_execution_role_arn
+  task_role_arn            = var.ecs_task_execution_role_arn
+
+  container_definitions = <<DEFINITION
+[
+  { "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/startstopec2",
+          "awslogs-region": "ap-southeast-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+    "cpu": ${var.fargate_cpu},
+    "image": "${var.pdal_image}",
     "memory": ${var.fargate_memory},
     "name": "app",
     "networkMode": "awsvpc",

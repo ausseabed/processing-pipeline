@@ -1,0 +1,105 @@
+{
+    "StartAt": "BuildCoverage",
+    "States": {
+        "BuildCoverage": {
+            "Type": "Map",
+            "InputPath": "$.instrument-files",
+            "ItemsPath": "$.instrument-file",
+            "MaxConcurrency": 0,
+            "Iterator": {
+                "StartAt": "Instrument To LAS",
+                "States": 
+                {
+                    "Instrument To LAS": {
+                        "Type": "Task",
+                        "Resource": "arn:aws:states:::ecs:runTask.sync",
+                        "ResultPath": "$.previous_step__result",
+                        "Parameters": {
+                            "LaunchType": "FARGATE",
+                            "Cluster": "${aws_ecs_cluster_arn}",
+                            "TaskDefinition": "${aws_ecs_task_definition_mbsystem_arn}", 
+                            "NetworkConfiguration": {
+                                "AwsvpcConfiguration": {
+                                    "AssignPublicIp": "ENABLED",
+                                    "SecurityGroups": [
+                                        "${aws_ecs_task_definition_caris_sg}"
+                                    ],
+                                    "Subnets": [
+                                        "${aws_ecs_task_definition_caris_subnet}"
+                                    ]
+                                }
+                            },
+                            "Overrides": {
+                                "ContainerOverrides": [
+                                    {
+                                        "Name": "app",
+                                        "Command": [
+                                            "./convert-to-las.sh"
+                                        ],
+                                        "Environment": [
+                                            {
+                                                "Name": "INPUT_FILE",
+                                                "Value.$": "$.s3_src_instrument"
+                                            },
+                                            {
+                                                "Name": "DESTINATION_FILE",
+                                                "Value.$": "$.s3_dest_las"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "Next": "LAS To Polygon",
+                        "TimeoutSeconds": 60000
+                    },
+                    "LAS To Polygon": {
+                        "Type": "Task",
+                        "Resource": "arn:aws:states:::ecs:runTask.sync",
+                        "ResultPath": "$.previous_step__result",
+                        "Parameters": {
+                            "LaunchType": "FARGATE",
+                            "Cluster": "${aws_ecs_cluster_arn}",
+                            "TaskDefinition": "${aws_ecs_task_definition_pdal_arn}", 
+                            "NetworkConfiguration": {
+                                "AwsvpcConfiguration": {
+                                    "AssignPublicIp": "ENABLED",
+                                    "SecurityGroups": [
+                                        "${aws_ecs_task_definition_caris_sg}"
+                                    ],
+                                    "Subnets": [
+                                        "${aws_ecs_task_definition_caris_subnet}"
+                                    ]
+                                }
+                            },
+                            "Overrides": {
+                                "ContainerOverrides": [
+                                    {
+                                        "Name": "app",
+                                        "Command": [
+                                            "./create-extent-coverage.sh"
+                                        ],
+                                        "Environment": [
+                                            {
+                                                "Name": "INPUT_FILE",
+                                                "Value.$": "$.s3_dest_las"
+                                            },
+                                            {
+                                                "Name": "DESTINATION_FILE",
+                                                "Value.$": "$.s3_dest_shp"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "End": true,
+                        "TimeoutSeconds": 60000
+                    }
+                }
+            },
+            "ResultPath": "$.previous_step__result",
+            "End": true
+        }
+    }
+}

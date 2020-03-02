@@ -27,5 +27,7 @@ variable "caris_caller_image"{}
 variable "startstopec2_image"{}
 
 variable "gdal_image"{}
+variable "mbsystem_image"{}
+variable "pdal_image"{}
 
 

@@ -34,6 +34,8 @@ module "compute" {
   caris_caller_image                   = "${var.caris_caller_image}"
   startstopec2_image                   = "${var.startstopec2_image}"
   gdal_image = "${var.gdal_image}"
+  mbsystem_image = "${var.mbsystem_image}"
+  pdal_image = "${var.pdal_image}"
   ecs_task_execution_role_arn = "${module.ancillary.ecs_task_execution_role_arn}"
   private_subnets  = "${module.networking.private_subnets}"
   private_sg  = "${module.networking.private_sg}"
@@ -51,6 +53,8 @@ module "pipelines" {
   ausseabed_sm_role="${module.ancillary.ausseabed-processing-pipeline_sfn_state_machine_role_arn}"
   aws_ecs_cluster_arn="${module.compute.aws_ecs_cluster_arn}"
   aws_ecs_task_definition_gdal_arn="${module.compute.aws_ecs_task_definition_gdal_arn}"
+  aws_ecs_task_definition_mbsystem_arn="${module.compute.aws_ecs_task_definition_mbsystem_arn}"
+  aws_ecs_task_definition_pdal_arn="${module.compute.aws_ecs_task_definition_pdal_arn}"
   aws_ecs_task_definition_caris_sg="${module.networking.aws_ecs_task_definition_caris_sg}"
   aws_ecs_task_definition_caris_subnet="${module.networking.aws_ecs_task_definition_caris_subnet}"
 }

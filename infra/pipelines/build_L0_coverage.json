@@ -75,7 +75,7 @@
                             "Overrides": {
                                 "ContainerOverrides": [
                                     {
-                                        "Name": "app",
+                                        "Name": "CreateExtent",
                                         "Command": [
                                             "./create-extent-coverage.sh"
                                         ],

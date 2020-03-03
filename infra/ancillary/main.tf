@@ -239,6 +239,14 @@ resource "aws_cloudwatch_log_group" "startstopec2" {
   }
 }
 
+resource "aws_cloudwatch_log_group" "step-functions" {
+  name = "/ecs/steps"
+
+  tags = {
+    Environment = "poc"
+    Application = "caris"
+  }
+}
 
 data "aws_caller_identity" "current" {}
 

@@ -94,9 +94,9 @@ resource "aws_ecs_task_definition" "gdal" {
         "logDriver": "awslogs",
         "secretOptions": null,
         "options": {
-          "awslogs-group": "/ecs/startstopec2",
+          "awslogs-group": "/ecs/steps",
           "awslogs-region": "ap-southeast-2",
-          "awslogs-stream-prefix": "ecs"
+          "awslogs-stream-prefix": "gdal"
         }
       },
     "cpu": ${var.fargate_cpu},
@@ -125,9 +125,9 @@ resource "aws_ecs_task_definition" "mbsystem" {
         "logDriver": "awslogs",
         "secretOptions": null,
         "options": {
-          "awslogs-group": "/ecs/startstopec2",
+          "awslogs-group": "/ecs/steps",
           "awslogs-region": "ap-southeast-2",
-          "awslogs-stream-prefix": "ecs"
+          "awslogs-stream-prefix": "mbsystem"
         }
       },
     "cpu": ${var.fargate_cpu},
@@ -156,15 +156,15 @@ resource "aws_ecs_task_definition" "pdal" {
         "logDriver": "awslogs",
         "secretOptions": null,
         "options": {
-          "awslogs-group": "/ecs/startstopec2",
+          "awslogs-group": "/ecs/steps",
           "awslogs-region": "ap-southeast-2",
-          "awslogs-stream-prefix": "ecs"
+          "awslogs-stream-prefix": "pdal"
         }
       },
     "cpu": ${var.fargate_cpu},
     "image": "${var.pdal_image}",
     "memory": ${var.fargate_memory},
-    "name": "app",
+    "name": "pdal",
     "networkMode": "awsvpc",
     "portMappings": []
   }

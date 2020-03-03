@@ -6,11 +6,11 @@ resource "aws_ecs_cluster" "mapserver_cluster" {
 
 resource "aws_ecs_task_definition" "mapserver" {
   family                   = "mapserver"
-  cpu                      = "${var.server_cpu}"
-  memory                   = "${var.server_memory}"
+  cpu                      = var.server_cpu
+  memory                   = var.server_memory
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  execution_role_arn       = "${var.ecs_task_execution_role_svc_arn}"
+  execution_role_arn       = var.ecs_task_execution_role_svc_arn
   container_definitions = <<DEFINITION
 [
   {
@@ -44,8 +44,8 @@ DEFINITION
 
 resource "aws_ecs_service" "mapserver_service" {
   name            = "mapserver_service"
-  cluster         = "${aws_ecs_cluster.mapserver_cluster.id}"
-  task_definition = "${aws_ecs_task_definition.mapserver.arn}"
+  cluster         = aws_ecs_cluster.mapserver_cluster.id
+  task_definition = aws_ecs_task_definition.mapserver.arn
   desired_count   = 1
   launch_type = "FARGATE"
   #iam_role        = "${aws_iam_role.foo.arn}"
@@ -56,7 +56,7 @@ resource "aws_ecs_service" "mapserver_service" {
   #   field = "cpu"
   # }
   network_configuration {
-    subnets="${var.public_subnets}"
+    subnets=var.public_subnets
     security_groups= ["${var.public_sg}"]
     assign_public_ip=true
   }

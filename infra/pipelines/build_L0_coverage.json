@@ -75,7 +75,7 @@
                             "Overrides": {
                                 "ContainerOverrides": [
                                     {
-                                        "Name": "CreateExtent",
+                                        "Name": "pdal",
                                         "Command": [
                                             "./create-extent-coverage.sh"
                                         ],

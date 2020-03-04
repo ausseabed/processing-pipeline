@@ -5,7 +5,7 @@
             "Type": "Map",
             "InputPath": "$.instrument-files",
             "ItemsPath": "$.instrument-file",
-            "MaxConcurrency": 0,
+            "MaxConcurrency": 4,
             "Iterator": {
                 "StartAt": "Instrument To LAS",
                 "States": 
@@ -99,6 +99,45 @@
                 }
             },
             "ResultPath": "$.previous_step__result",
+            "Next": "Merge Polygons"
+        },
+        "Merge Polygons" :
+        {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::ecs:runTask.sync",
+            "ResultPath": "$.previous_step__result",
+            "Parameters": {
+                "LaunchType": "FARGATE",
+                "Cluster": "${aws_ecs_cluster_arn}",
+                "TaskDefinition": "${aws_ecs_task_definition_gdal_arn}", 
+                "NetworkConfiguration": {
+                    "AwsvpcConfiguration": {
+                        "AssignPublicIp": "ENABLED",
+                        "SecurityGroups": [
+                            "${aws_ecs_task_definition_caris_sg}"
+                        ],
+                        "Subnets": [
+                            "${aws_ecs_task_definition_caris_subnet}"
+                        ]
+                    }
+                },
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "./merge_polygon.py"
+                            ],
+                            "Environment": [
+                                {
+                                    "Name": "INPUT_FILES",
+                                    "Value.$": "$.instrument-files"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
             "End": true
         }
     }

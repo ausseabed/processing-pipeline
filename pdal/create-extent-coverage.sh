@@ -15,6 +15,6 @@ echo Intermediate name "$SHP_ENDING_FILE_NAME".shp
 
 /usr/local/bin/aws s3 cp "$INPUT_FILE" "$LOCALNAME_SRC"
 
-pdal tindex create --tindex "$SHP_ENDING_FILE_NAME".shp --filters.hexbin.threshold=1 --filters.hexbin.edge_size=0.000005 --lyr_name bathymetrycoverage --verbose=Debug "$LOCALNAME_SRC" 2> errors.txt
+pdal tindex create --tindex "$SHP_ENDING_FILE_NAME".shp --filters.hexbin.threshold=1 --filters.hexbin.edge_size=0.00001 --lyr_name bathymetrycoverage --verbose=Debug "$LOCALNAME_SRC" 2> errors.txt
 
 /usr/local/bin/aws s3 cp . "$S3DIR" --recursive --exclude "*" --include "$SHP_ENDING_FILE_NAME*"  

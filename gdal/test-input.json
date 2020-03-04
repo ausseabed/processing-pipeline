@@ -1,0 +1,15 @@
+{
+    "instrument-file" : [
+    {
+    "s3_src_instrument": "s3://bathymetry-survey-288871573946/Rawdata/0495_20180621_105318_BlueFin.all",
+    "s3_dest_las" : "s3://bathymetry-survey-288871573946/L0Coverage/0495_20180621_105318_BlueFin.las",
+    "s3_dest_shp" : "s3://bathymetry-survey-288871573946/L0Coverage/0495_20180621_105318_BlueFin.shp"
+    },
+    {
+    "s3_src_instrument": "s3://bathymetry-survey-288871573946-1/Rawdata/0494_20180621_104350_BlueFin.all",
+    "s3_dest_las" : "s3://bathymetry-survey-288871573946/L0Coverage/0494_20180621_104350_BlueFin.las",
+    "s3_dest_shp" : "s3://bathymetry-survey-288871573946/L0Coverage/0494_20180621_104350_BlueFin.shp"
+    }
+  ],
+  "coverage-file" : "s3://bathymetry-survey-288871573946/L0Coverage/coverage.shp"
+}

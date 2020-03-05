@@ -10,6 +10,9 @@ unzip awscliv2.zip && \
 ./aws/install && \
 ln -s /usr/bin/python3 /usr/bin/python
 
+RUN apt-get update && apt-get install -y python3-pip && \
+pip3 install boto3
+
 WORKDIR /usr/src/app
 
 COPY *.sh /usr/src/app/

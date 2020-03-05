@@ -1,6 +1,6 @@
 resource "aws_sfn_state_machine" "ausseabed-processing-pipeline_sfn_state_machine-ga" {
   name     = "ausseabed-processing-pipeline-ga"
-  role_arn = "${module.ancillary.ausseabed-processing-pipeline_sfn_state_machine_role_arn}"
+  role_arn = module.ancillary.ausseabed-processing-pipeline_sfn_state_machine_role_arn
   
   definition = <<EOF
   {

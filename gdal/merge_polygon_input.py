@@ -32,10 +32,10 @@ class MergePolygonInput():
         except KeyError:
             print("Please set the environment variable STATE_MACHINE_ARN")
             sys.exit(1)
-        response = client.get_activity_task(self.state_machine_arn)
-        print ("Task token {}".format(response.taskToken))
-        print ("Task input {}".format(response.input))
-        self.json_objs = json.loads(response.input)
+        response = client.get_activity_task(activityArn=self.state_machine_arn)
+        print ("Task token {}".format(response['taskToken']))
+        print ("Task input {}".format(response['input']))
+        self.json_objs = json.loads(response['input'])
 
     def load_from_environment(self):
         try:

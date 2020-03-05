@@ -65,11 +65,12 @@ def merge_polygons():
     load the inputs from environment (see MergeInputs), merge them together
     """
     input_objs = MergePolygonInput()
-    input_objs.load_from_aws_step_function_input()
-    # input_objs.load_from_environment() # used for input from command line
+    #input_objs.load_from_aws_step_function_input()
+    input_objs.load_from_environment() # used for input from command line
     destination_name=input_objs.get_destination()
     # TODO only for debugging
-    destination_file_name = '/home/ubuntu/src/ausseabed-processing-pipeline/gdal' + re.sub(".*/", "/",destination_name)
+    #destination_file_name = '/home/ubuntu/src/ausseabed-processing-pipeline/gdal' + re.sub(".*/", "/",destination_name)
+    destination_file_name = re.sub(".*/", "/",destination_name)
 
     files = input_objs.get_source_files()
     vs_file_names = [name.replace("s3://","/vsis3/") for name in files]

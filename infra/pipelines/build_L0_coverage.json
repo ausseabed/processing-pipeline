@@ -86,7 +86,7 @@
                                             },
                                             {
                                                 "Name": "DESTINATION_FILE",
-                                                "Value.$": "$.s3_dest_shp"
+                                                "Value.$": "$.s3_dest_shp.Value"
                                             }
                                         ]
                                     }
@@ -128,12 +128,7 @@
                             "Command": [
                                 "./merge_polygon.py"
                             ],
-                            "Environment": [
-                                {
-                                    "Name": "STATE_MACHINE_ARN",
-                                    "Value": "arn:aws:states:ap-southeast-2:288871573946:stateMachine:ausseabed-build-l0-sfn"
-                                }
-                            ]
+                            "Environment.$": "$..['s3_dest_shp','coverage-file']"
                         }
                     ]
                 }

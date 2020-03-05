@@ -1,6 +1,8 @@
 import sys,os
 import json
 
+import boto3
+
 class MergePolygonInput():
     """ 
     Product Database data structure (at the moment a json formatted file that has the form:
@@ -21,6 +23,19 @@ class MergePolygonInput():
 
     def __init__(self):
         self.json_objs = None
+
+    def load_from_aws_step_function_input(self):
+        client = boto3.client('stepfunctions')
+
+        try:
+            self.state_machine_arn= os.environ['STATE_MACHINE_ARN']
+        except KeyError:
+            print("Please set the environment variable STATE_MACHINE_ARN")
+            sys.exit(1)
+        response = client.get_activity_task(self.state_machine_arn)
+        print ("Task token {}".format(response.taskToken))
+        print ("Task input {}".format(response.input))
+        self.json_objs = json.loads(response.input)
 
     def load_from_environment(self):
         try:

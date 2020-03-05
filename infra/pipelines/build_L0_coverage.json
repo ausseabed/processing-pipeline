@@ -130,8 +130,8 @@
                             ],
                             "Environment": [
                                 {
-                                    "Name": "INPUT_FILES",
-                                    "Value.$": "$.instrument-files"
+                                    "Name": "STATE_MACHINE_ARN",
+                                    "Value": "arn:aws:states:ap-southeast-2:288871573946:stateMachine:ausseabed-build-l0-sfn"
                                 }
                             ]
                         }

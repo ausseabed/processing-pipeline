@@ -26,7 +26,7 @@ def merge_two_polygons(polygon_a, polygon_b):
     try:
         subprocess.check_output(cmd)
     except subprocess.CalledProcessError as exc:
-        print("Status : FAIL", exc.returncode, exc.output)
+        print("Status : FAIL", exc.returncode, exc.output, flush=True)
         exit(exc.returncode)
         
     return polygon_a
@@ -43,7 +43,7 @@ def move_polygon_from_s3(polygon_dest, polygon_src):
     try:
         subprocess.check_output(cmd)
     except subprocess.CalledProcessError as exc:
-        print("Status : FAIL", exc.returncode, exc.output)
+        print("Status : FAIL", exc.returncode, exc.output, flush=True)
         exit(exc.returncode)
 
 def upload_to_s3(result_file_name_without_ext, destination_folder):
@@ -53,11 +53,12 @@ def upload_to_s3(result_file_name_without_ext, destination_folder):
     :type destination_folder: string
     :param destination_folder: the location in s3 to place the file
     """ 
-    cmd = ["/usr/local/bin/aws", "s3","cp",".",destination_folder,"--recursive","--exclude","\"*\"","--include","{}*".format(quote(result_file_name_without_ext))]
+    cmd = ["/usr/local/bin/aws", "s3","cp",".",destination_folder,"--recursive","--exclude","*","--include","{}*".format(quote(result_file_name_without_ext))]
+    print(" ".join(cmd))
     try:
         subprocess.check_output(cmd)
     except subprocess.CalledProcessError as exc:
-        print("Status : FAIL", exc.returncode, exc.output)
+        print("Status : FAIL", exc.returncode, exc.output, flush=True)
         exit(exc.returncode)
 
 def merge_polygons():
@@ -70,7 +71,7 @@ def merge_polygons():
     destination_name=input_objs.get_destination()
     # TODO only for debugging
     #destination_file_name = '/home/ubuntu/src/ausseabed-processing-pipeline/gdal' + re.sub(".*/", "/",destination_name)
-    destination_file_name = re.sub(".*/", "/",destination_name)
+    destination_file_name = re.sub(".*/", "",destination_name)
 
     files = input_objs.get_source_files()
     vs_file_names = [name.replace("s3://","/vsis3/") for name in files]

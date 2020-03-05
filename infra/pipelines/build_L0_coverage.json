@@ -1,15 +1,28 @@
 {
-    "StartAt": "BuildCoverage",
+    "StartAt": "Identify Input Files",
     "States": {
-        "BuildCoverage": {
+        "Identify Input Files": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "ResultPath": "$.data.lambdaresult",
+            "Parameters": {
+                "FunctionName": "arn:aws:lambda:ap-southeast-2:288871573946:function:identify_instrument_files:$LATEST",
+                "Payload": {
+                    "bucket-name.$": "$.bucket-name",
+                    "instrument-input-folder.$": "$.instrument-input-folder",
+                    "pattern.$": "$.pattern"
+                }
+            },
+            "Next": "Build Coverage"
+        },
+        "Build Coverage": {
             "Type": "Map",
             "InputPath": "$.instrument-files",
             "ItemsPath": "$.instrument-file",
             "MaxConcurrency": 4,
             "Iterator": {
                 "StartAt": "Instrument To LAS",
-                "States": 
-                {
+                "States": {
                     "Instrument To LAS": {
                         "Type": "Task",
                         "Resource": "arn:aws:states:::ecs:runTask.sync",
@@ -17,7 +30,7 @@
                         "Parameters": {
                             "LaunchType": "FARGATE",
                             "Cluster": "${aws_ecs_cluster_arn}",
-                            "TaskDefinition": "${aws_ecs_task_definition_mbsystem_arn}", 
+                            "TaskDefinition": "${aws_ecs_task_definition_mbsystem_arn}",
                             "NetworkConfiguration": {
                                 "AwsvpcConfiguration": {
                                     "AssignPublicIp": "ENABLED",
@@ -60,7 +73,7 @@
                         "Parameters": {
                             "LaunchType": "FARGATE",
                             "Cluster": "${aws_ecs_cluster_arn}",
-                            "TaskDefinition": "${aws_ecs_task_definition_pdal_arn}", 
+                            "TaskDefinition": "${aws_ecs_task_definition_pdal_arn}",
                             "NetworkConfiguration": {
                                 "AwsvpcConfiguration": {
                                     "AssignPublicIp": "ENABLED",
@@ -101,15 +114,14 @@
             "ResultPath": "$.previous_step__result",
             "Next": "Merge Polygons"
         },
-        "Merge Polygons" :
-        {
+        "Merge Polygons": {
             "Type": "Task",
             "Resource": "arn:aws:states:::ecs:runTask.sync",
             "ResultPath": "$.previous_step__result",
             "Parameters": {
                 "LaunchType": "FARGATE",
                 "Cluster": "${aws_ecs_cluster_arn}",
-                "TaskDefinition": "${aws_ecs_task_definition_gdal_arn}", 
+                "TaskDefinition": "${aws_ecs_task_definition_gdal_arn}",
                 "NetworkConfiguration": {
                     "AwsvpcConfiguration": {
                         "AssignPublicIp": "ENABLED",
@@ -128,7 +140,7 @@
                             "Command": [
                                 "./merge_polygon.py"
                             ],
-                            "Environment.$": "$..['s3_dest_shp','coverage-file']"
+                            "Environment.$": "$..[?(@.Name)]"
                         }
                     ]
                 }

@@ -14,5 +14,7 @@ WORKDIR /usr/src/app
 
 COPY *.sh /usr/src/app/
 RUN chmod +x /usr/src/app/*.sh
+COPY *.py /usr/src/app/
+RUN chmod +x /usr/src/app/*.py
 
 CMD ["./polygon.sh"] 

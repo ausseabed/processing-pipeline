@@ -99,6 +99,15 @@ resource "aws_iam_role_policy" "ausseabed-processing-pipeline_sfn_state_machine_
         {
             "Effect": "Allow",
             "Action": [
+                "lambda:InvokeFunction"
+            ],
+            "Resource": [
+                "arn:aws:lambda:ap-southeast-2:288871573946:function:identify_instrument_files:$LATEST"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
                 "ecs:StopTask",
                 "ecs:DescribeTasks"
             ],
@@ -486,6 +495,15 @@ resource "aws_iam_role_policy" "getResumeFromStep-lambda-role-policy" {
                 "logs:PutLogEvents"
             ],
             "Resource": "arn:aws:logs:ap-southeast-2:288871573946:log-group:/aws/lambda/getResumeFromStep:*"
+        },
+        {
+            "Sid": "forCloudtrail",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "arn:aws:logs:ap-southeast-2:288871573946:log-group:/aws/lambda/identify_instrument_files:*"
         },
         {
             "Sid": "forStepFunctions",

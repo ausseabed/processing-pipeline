@@ -59,46 +59,46 @@ module "pipelines" {
   aws_ecs_task_definition_caris_subnet=module.networking.aws_ecs_task_definition_caris_subnet
 }
 
-# module "get_resume_lambda_function" {
-#   source = "github.com/raymondbutcher/terraform-aws-lambda-builder"
+module "get_resume_lambda_function" {
+  source = "github.com/raymondbutcher/terraform-aws-lambda-builder"
 
-#   # Standard aws_lambda_function attributes.
-#   function_name = "getResumeFromStep"
-#   handler       = "getResumeFromStep.lambda_handler"
-#   runtime       = "python3.6"
-#   timeout       = 30
-#   role          = module.ancillary.getResumeFromStep_role
-#   enabled       = true
+  # Standard aws_lambda_function attributes.
+  function_name = "getResumeFromStep"
+  handler       = "getResumeFromStep.lambda_handler"
+  runtime       = "python3.6"
+  timeout       = 30
+  role          = module.ancillary.getResumeFromStep_role
+  enabled       = true
 
-#   # Enable build functionality.
-#   build_mode = "FILENAME"
-#   source_dir = "${path.module}/src/lambda/resume_from_step"
-#   filename   = "getResumeFromStep.py"
+  # Enable build functionality.
+  build_mode = "FILENAME"
+  source_dir = "${path.module}/src/lambda/resume_from_step"
+  filename   = "getResumeFromStep.py"
 
-#   # Create and use a role with CloudWatch Logs permissions.
-#   role_cloudwatch_logs = true
-# }
+  # Create and use a role with CloudWatch Logs permissions.
+  role_cloudwatch_logs = true
+}
 
 
-# module "identify_instrument_lambda_function" {
-#   source = "github.com/raymondbutcher/terraform-aws-lambda-builder"
+module "identify_instrument_lambda_function" {
+  source = "github.com/raymondbutcher/terraform-aws-lambda-builder"
 
-#   # Standard aws_lambda_function attributes.
-#   function_name = "identify_instrument_files"
-#   handler       = "identify_instrument_files.lambda_handler"
-#   runtime       = "python3.6"
-#   timeout       = 300
-#   role          = module.ancillary.identify_instrument_files_role
-#   enabled       = true
+  # Standard aws_lambda_function attributes.
+  function_name = "identify_instrument_files"
+  handler       = "identify_instrument_files.lambda_handler"
+  runtime       = "python3.6"
+  timeout       = 300
+  role          = module.ancillary.identify_instrument_files_role
+  enabled       = true
 
-#   # Enable build functionality.
-#   build_mode = "FILENAME"
-#   source_dir = "${path.module}/src/lambda/identify_instrument_files"
-#   filename   = "identify_instrument_files.py"
+  # Enable build functionality.
+  build_mode = "FILENAME"
+  source_dir = "${path.module}/src/lambda/identify_instrument_files"
+  filename   = "identify_instrument_files.py"
 
-#   # Create and use a role with CloudWatch Logs permissions.
-#   role_cloudwatch_logs = true
-# }
+  # Create and use a role with CloudWatch Logs permissions.
+  role_cloudwatch_logs = true
+}
 
 
 

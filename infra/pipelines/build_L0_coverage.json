@@ -5,12 +5,15 @@
             "Type": "Task",
             "Resource": "arn:aws:states:::lambda:invoke",
             "ResultPath": "$.data.lambdaresult",
+            "OutputPath": "$.data.lambdaresult.Payload.body",
             "Parameters": {
                 "FunctionName": "arn:aws:lambda:ap-southeast-2:288871573946:function:identify_instrument_files:$LATEST",
                 "Payload": {
-                    "bucket-name.$": "$.bucket-name",
-                    "instrument-input-folder.$": "$.instrument-input-folder",
-                    "pattern.$": "$.pattern"
+                    "src-instrument-location.$": "$.src-instrument-location",
+                    "src-las-location.$": "$.src-las-location",
+                    "src-shp-location.$": "$.src-shp-location",
+                    "pattern.$": "$.pattern",
+                    "coverage-file.$" : "$.coverage-file"
                 }
             },
             "Next": "Build Coverage"

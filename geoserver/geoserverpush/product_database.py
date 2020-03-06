@@ -7,6 +7,7 @@ class ProductDatabase():
  [
   {"filename": "s3://bucket-name/name-of-file.tif",
   "hillshade": "s3://bucket-name/name-of-file.tif",
+  "l0-coverage": "s3://bucket-name/name-of-file.shp"
   "gazeteer-name":"e.g. Beagle Commonwealth Marine Reserve",
   "year":2018,
   "resolution":"1m",

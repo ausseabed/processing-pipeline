@@ -4,6 +4,7 @@ from geoserver.catalog import UnsavedCoverageStore
 from xml.sax.saxutils import escape
 import requests
 from requests.auth import HTTPBasicAuth
+import geoserver.util
 
 class GeoserverCatalogServices:
     """ 
@@ -16,10 +17,33 @@ class GeoserverCatalogServices:
         self.BATH_HILLSHADE_STYLE_NAME = "BathymetryHillshade"
         self.LOCAL_STYLE_FILENAME = "/usr/local/pulldata/bathymetry_transparent.sld"
         self.BATH_HILLSHADE_STYLE_FILENAME = "/usr/local/pulldata/bathymetry_hillshade.sld"
-        self.WORKSPACE_NAME="ausseabed"
+        self.WORKSPACE_NAME="ausseabed"        
+
+    def buildWorkspace(self):
         self.cat = Catalog(self.connection_parameters.geoserver_url + "/rest", "admin",
                            self.connection_parameters.geoserver_password)
         self.ws = self.cat.create_workspace(self.WORKSPACE_NAME, self.connection_parameters.geoserver_url + '/'+self.WORKSPACE_NAME)
+
+    def addShapefile(self):
+        # 1. create a temp directory
+        # 2. use boto to copy local
+        # 3. register in geoserver as below
+
+        #https://pypi.org/project/geoserver-restconfig/
+        shapefile_plus_sidecars = geoserver.util.shapefile_and_friends("C:/work/geoserver-restconfig/test/data/states")
+        # shapefile_and_friends should look on the filesystem to find a shapefile
+        # and related files based on the base path passed in
+        #
+        # shapefile_plus_sidecars == {
+        #    'shp': 'states.shp',
+        #    'shx': 'states.shx',
+        #    'prj': 'states.prj',
+        #    'dbf': 'states.dbf'
+        # }
+        # 'data' is required (there may be a 'schema' alternative later, for creating empty featuretypes)
+        # 'workspace' is optional (GeoServer's default workspace is used by... default)
+        # 'name' is required
+        self.cat.create_featurestore("test", shapefile_plus_sidecars, self.ws)
 
     def add_styles(self):
         """ Add the bathymetry styles used in the marine portal

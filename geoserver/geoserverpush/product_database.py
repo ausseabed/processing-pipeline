@@ -1,5 +1,6 @@
 import sys,os
 import requests
+from product_record import ProductRecord
 
 class ProductDatabase():
     """ 
@@ -31,4 +32,7 @@ class ProductDatabase():
         self.source_tifs = response.json()
 
         print("Number of source_tifs: " + str(len(self.source_tifs)))
-        return self.source_tifs
+
+        results = [ProductRecord(x) for x in self.source_tifs]
+
+        return results

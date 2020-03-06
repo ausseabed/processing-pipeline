@@ -14,3 +14,7 @@ output "ecs_task_execution_role_arn" {
 output "getResumeFromStep_role"{
   value = "${aws_iam_role.getResumeFromStep-lambda-role.arn}"
 }
+
+output "identify_instrument_files_role"{
+  value = "${aws_iam_role.identify_instrument_files-lambda-role.arn}"
+}

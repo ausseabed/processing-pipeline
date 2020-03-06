@@ -88,7 +88,7 @@ module "identify_instrument_lambda_function" {
   handler       = "identify_instrument_files.lambda_handler"
   runtime       = "python3.6"
   timeout       = 300
-  role          = "${module.ancillary.getResumeFromStep_role}"
+  role          = "${module.ancillary.identify_instrument_files_role}"
   enabled       = true
 
   # Enable build functionality.

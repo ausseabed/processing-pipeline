@@ -24,7 +24,7 @@ resource "aws_iam_user" "circleci" {
 
 resource "aws_iam_user_policy" "circleci_ecr_all" {
   name = "test"
-  user = "${aws_iam_user.circleci.name}"
+  user = aws_iam_user.circleci.name
 
   policy = <<EOF
 {
@@ -72,7 +72,7 @@ EOF
 
 resource "aws_iam_role_policy" "ausseabed-processing-pipeline_sfn_state_machine_policy" {
   name = "ausseabed-processing-pipeline_sfn_state_machine_policy"
-  role = "${aws_iam_role.ausseabed-processing-pipeline_sfn_state_machine_role.id}"
+  role = aws_iam_role.ausseabed-processing-pipeline_sfn_state_machine_role.id
 
   policy = <<EOF
 {
@@ -165,7 +165,7 @@ EOF
 
 resource "aws_iam_role_policy" "ecs_task_execution_policy" {
   name = "ecs_task_execution_policy"
-  role = "${aws_iam_role.ecs_task_execution_role.id}"
+  role = aws_iam_role.ecs_task_execution_role.id
 
   policy = <<EOF
 {
@@ -267,7 +267,7 @@ resource "aws_s3_bucket" "bathymetry-survey" {
 
 resource "aws_cloudtrail" "raw-data-available-in-bathymetry-survey-trail" {
   name                          = "raw-data-available-in-bathymetry-survey-trail"
-  s3_bucket_name                = "${aws_s3_bucket.bucket-for-cloudtrail.id}"
+  s3_bucket_name                = aws_s3_bucket.bucket-for-cloudtrail.id
   s3_key_prefix                 = "prefix"
 
   event_selector {
@@ -352,10 +352,10 @@ PATTERN
 }
 
 resource "aws_cloudwatch_event_target" "asf" {
-  rule      = "${aws_cloudwatch_event_rule.trigger-processing-pipeline.name}"
+  rule      = aws_cloudwatch_event_rule.trigger-processing-pipeline.name
   target_id = "trigger-step-function"
-  arn       = "${var.ausseabed-processing-pipeline.id}"
-  role_arn  = "${aws_iam_role.asf_events.arn}"
+  arn       = var.ausseabed-processing-pipeline.id
+  role_arn  = aws_iam_role.asf_events.arn
 }
 
 
@@ -382,7 +382,7 @@ DOC
 // assigning premission to the role
 resource "aws_iam_role_policy" "asf_events_run_task_with_any_role" {
   name = "asf_events_run_task_with_any_role"
-  role = "${aws_iam_role.asf_events.id}"
+  role = aws_iam_role.asf_events.id
 
   policy = <<DOC
 {
@@ -430,7 +430,7 @@ DOC
 
 resource "aws_iam_role_policy" "s3_read_write" {
   name = "s3_read_write"
-  role = "${aws_iam_role.ec2_instance_s3.id}"
+  role = aws_iam_role.ec2_instance_s3.id
 
   policy = <<DOC
 {
@@ -454,10 +454,71 @@ DOC
 
 resource "aws_iam_instance_profile" "ec2_instance_s3_profile" {
   name = "ec2_instance_s3_profile"
-  role = "${aws_iam_role.ec2_instance_s3.name}"
+  role = aws_iam_role.ec2_instance_s3.name
 }
 
 
+
+resource "aws_iam_role" "identify_instrument_files-lambda-role" {
+  name = "identify_instrument_files-lambda-role"
+
+  assume_role_policy = <<DOC
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+DOC
+}
+
+
+resource "aws_iam_role_policy" "identify_instrument_files-lambda-role-policy" {
+  name = "identify_instrument_files-lambda-role-policy"
+  role = aws_iam_role.identify_instrument_files-lambda-role.id
+
+  policy = <<DOC
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "forCloudtrail",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "arn:aws:logs:ap-southeast-2:288871573946:log-group:/aws/lambda/identify_instrument_files:*"
+        },
+        {
+            "Sid": "forStepFunctions",
+            "Effect": "Allow",
+            "Action": [
+                "states:ListStateMachines",
+                "states:ListActivities",
+                "states:ListExecutions",
+                "states:GetExecutionHistory",
+                "states:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "forCloudwatch",
+            "Effect": "Allow",
+            "Action": "logs:CreateLogGroup",
+            "Resource": "arn:aws:logs:ap-southeast-2:288871573946:*"
+        }
+    ]
+}
+DOC
+}
 
 resource "aws_iam_role" "getResumeFromStep-lambda-role" {
   name = "getResumeFromStep-lambda-role"
@@ -481,7 +542,7 @@ DOC
 
 resource "aws_iam_role_policy" "getResumeFromStep-lambda-role-policy" {
   name = "getResumeFromStep-lambda-role-policy"
-  role = "${aws_iam_role.getResumeFromStep-lambda-role.id}"
+  role = aws_iam_role.getResumeFromStep-lambda-role.id
 
   policy = <<DOC
 {
@@ -495,15 +556,6 @@ resource "aws_iam_role_policy" "getResumeFromStep-lambda-role-policy" {
                 "logs:PutLogEvents"
             ],
             "Resource": "arn:aws:logs:ap-southeast-2:288871573946:log-group:/aws/lambda/getResumeFromStep:*"
-        },
-        {
-            "Sid": "forCloudtrail",
-            "Effect": "Allow",
-            "Action": [
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-            ],
-            "Resource": "arn:aws:logs:ap-southeast-2:288871573946:log-group:/aws/lambda/identify_instrument_files:*"
         },
         {
             "Sid": "forStepFunctions",

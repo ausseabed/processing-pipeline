@@ -17,6 +17,6 @@ locals {
 }
 resource "aws_sfn_state_machine" "ausseabed-processing-pipeline_sfn_state_machine-csiro" {
   name     = "ausseabed-processing-pipeline-csiro"
-  role_arn = "${module.ancillary.ausseabed-processing-pipeline_sfn_state_machine_role_arn}"
+  role_arn = module.ancillary.ausseabed-processing-pipeline_sfn_state_machine_role_arn
   definition = templatefile("csiro_processing_pipeline.tmpl", local.pipeline_vars) 
 }

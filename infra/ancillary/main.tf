@@ -510,6 +510,15 @@ resource "aws_iam_role_policy" "identify_instrument_files-lambda-role-policy" {
             "Resource": "*"
         },
         {
+            "Sid": "GAS3Read",
+            "Action": [
+                "s3:Get*",
+                "s3:List*"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
             "Sid": "forCloudwatch",
             "Effect": "Allow",
             "Action": "logs:CreateLogGroup",

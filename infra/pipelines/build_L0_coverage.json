@@ -13,7 +13,9 @@
                     "src-las-location.$": "$.src-las-location",
                     "src-shp-location.$": "$.src-shp-location",
                     "pattern.$": "$.pattern",
-                    "coverage-file.$" : "$.coverage-file"
+                    "coverage-file.$" : "$.coverage-file",
+                    "start.$" : "$.start",
+                    "end.$" : "$.end"
                 }
             },
             "Next": "Build Coverage"
@@ -21,15 +23,18 @@
         "Build Coverage": {
             "Type": "Map",
             "InputPath": "$.instrument-files",
-            "ItemsPath": "$.instrument-file",
-            "MaxConcurrency": 4,
+            "ItemsPath": "$.instrument-file",       
+            "ResultPath":"$.previous",
+            "OutputPath" :"$.instrument-files",     
+            "MaxConcurrency": 10,
             "Iterator": {
                 "StartAt": "Instrument To LAS",
                 "States": {
                     "Instrument To LAS": {
                         "Type": "Task",
+                        "ResultPath":"$.previous",
+                        "OutputPath" :"$.['s3_dest_las','s3_dest_shp']",
                         "Resource": "arn:aws:states:::ecs:runTask.sync",
-                        "ResultPath": "$.previous_step__result",
                         "Parameters": {
                             "LaunchType": "FARGATE",
                             "Cluster": "${aws_ecs_cluster_arn}",
@@ -72,7 +77,6 @@
                     "LAS To Polygon": {
                         "Type": "Task",
                         "Resource": "arn:aws:states:::ecs:runTask.sync",
-                        "ResultPath": "$.previous_step__result",
                         "Parameters": {
                             "LaunchType": "FARGATE",
                             "Cluster": "${aws_ecs_cluster_arn}",
@@ -114,13 +118,11 @@
                     }
                 }
             },
-            "ResultPath": "$.previous_step__result",
             "Next": "Merge Polygons"
         },
         "Merge Polygons": {
             "Type": "Task",
             "Resource": "arn:aws:states:::ecs:runTask.sync",
-            "ResultPath": "$.previous_step__result",
             "Parameters": {
                 "LaunchType": "FARGATE",
                 "Cluster": "${aws_ecs_cluster_arn}",

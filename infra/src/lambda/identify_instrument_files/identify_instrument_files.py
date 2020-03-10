@@ -20,7 +20,15 @@ def lambda_handler(event, context):
          for long_file in \
         s3_L0.list_keys(prefix=instrument_input_folder,pattern="*{}".format(event["pattern"]))]
 
-    file_list=file_list[0:10] ## TODO Currently limited to ten to avoid input over capacity
+    start = 0
+    end = 1
+    if ("start" in event):
+        start=int(event["start"])
+        
+    if ("end" in event):
+        end=int(event["end"])
+
+    file_list = file_list[start:end] ## TODO Currently limited to ten to avoid input over capacity
 
     print (" ".join(file_list), flush=True)
     input_instructions = {"instrument-files":{ \
@@ -55,5 +63,7 @@ if __name__ == "__main__":
     event["src-shp-location"]="s3://bathymetry-survey-288871573946/L0Coverage/"
     event["pattern"]=".all"
     event["coverage-file"]="..."
+    event["start"]=111
+    event["end"]=111
     lambda_handler(event, context)
 

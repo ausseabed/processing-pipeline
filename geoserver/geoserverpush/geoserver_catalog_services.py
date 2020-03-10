@@ -5,6 +5,11 @@ from xml.sax.saxutils import escape
 import requests
 from requests.auth import HTTPBasicAuth
 import geoserver.util
+import uuid
+import os
+import re
+from shlex import quote
+import subprocess
 
 class GeoserverCatalogServices:
     """ 
@@ -19,18 +24,55 @@ class GeoserverCatalogServices:
         self.BATH_HILLSHADE_STYLE_FILENAME = "/usr/local/pulldata/bathymetry_hillshade.sld"
         self.WORKSPACE_NAME="ausseabed"        
 
-    def buildWorkspace(self):
+    def build_workspace(self):
         self.cat = Catalog(self.connection_parameters.geoserver_url + "/rest", "admin",
                            self.connection_parameters.geoserver_password)
         self.ws = self.cat.create_workspace(self.WORKSPACE_NAME, self.connection_parameters.geoserver_url + '/'+self.WORKSPACE_NAME)
 
-    def addShapefile(self):
+    def create_temp_dir(self):
+        cwd = os.getcwd()
+        print("Using current dictory as base: {}".format(cwd))
+        new_dir = cwd +"/"+ str(uuid.uuid4())
+        try:
+            os.mkdir(new_dir)
+        except OSError:
+            print ("Creation of the directory %s failed" % new_dir)
+        else:
+            print ("Successfully created the directory %s " % new_dir)
+        return(new_dir)
+
+
+    def copy_shapefile_local(self, polygon_dest, shapefile_name):
+        
+        polygon_src = shapefile_name.replace("s3://","/vsis3/") 
+
+        cmd = ["/usr/bin/ogr2ogr","-f","ESRI Shapefile", quote(polygon_dest),quote(polygon_src)]
+        print(" ".join(cmd))
+        try:
+            subprocess.check_output(cmd)
+        except subprocess.CalledProcessError as exc:
+            print("Status : FAIL", exc.returncode, exc.output, flush=True)
+            exit(exc.returncode)
+
+    def copy_s3_file_local(self, remote_file_name, local_file_name):
+        print("copy")
+        cmd = ["aws", "s3","cp",remote_file_name,local_file_name]
+        print(" ".join(cmd))
+        try:
+            subprocess.check_output(cmd)
+        except subprocess.CalledProcessError as exc:
+            print("Status : FAIL", exc.returncode, exc.output, flush=True)
+            exit(exc.returncode)
+
+    def add_shapefile(self, shapefile_url):
         # 1. create a temp directory
-        # 2. use boto to copy local
-        # 3. register in geoserver as below
+        base_dir = self.create_temp_dir()        
+        shapefile_name = re.sub(".*/", "",shapefile_url)
+        polygon_dest = base_dir + "/" + shapefile_name 
 
         #https://pypi.org/project/geoserver-restconfig/
-        shapefile_plus_sidecars = geoserver.util.shapefile_and_friends("C:/work/geoserver-restconfig/test/data/states")
+        source_shapefile_plus_sidecars = geoserver.util.shapefile_and_friends(shapefile_url.replace(".shp",""))
+        shapefile_plus_sidecars = geoserver.util.shapefile_and_friends(polygon_dest.replace(".shp",""))
         # shapefile_and_friends should look on the filesystem to find a shapefile
         # and related files based on the base path passed in
         #
@@ -40,10 +82,15 @@ class GeoserverCatalogServices:
         #    'prj': 'states.prj',
         #    'dbf': 'states.dbf'
         # }
-        # 'data' is required (there may be a 'schema' alternative later, for creating empty featuretypes)
-        # 'workspace' is optional (GeoServer's default workspace is used by... default)
-        # 'name' is required
-        self.cat.create_featurestore("test", shapefile_plus_sidecars, self.ws)
+        
+        # 2. use boto/gdal to copy local
+        for (source,destination) in zip(source_shapefile_plus_sidecars.values(), shapefile_plus_sidecars.values()):
+            self.copy_s3_file_local(source,destination)
+        #self.copy_shapefile_local(polygon_dest, shapefile_url)
+
+        # 3. register in geoserver as below
+        print(shapefile_plus_sidecars)
+        self.cat.create_featurestore(shapefile_name, shapefile_plus_sidecars, self.ws)
 
     def add_styles(self):
         """ Add the bathymetry styles used in the marine portal

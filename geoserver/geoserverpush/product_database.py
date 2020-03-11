@@ -1,5 +1,6 @@
 import sys,os
 import requests
+from product_record import ProductRecord
 
 class ProductDatabase():
     """ 
@@ -7,6 +8,7 @@ class ProductDatabase():
  [
   {"filename": "s3://bucket-name/name-of-file.tif",
   "hillshade": "s3://bucket-name/name-of-file.tif",
+  "l0-coverage": "s3://bucket-name/name-of-file.shp"
   "gazeteer-name":"e.g. Beagle Commonwealth Marine Reserve",
   "year":2018,
   "resolution":"1m",
@@ -30,4 +32,7 @@ class ProductDatabase():
         self.source_tifs = response.json()
 
         print("Number of source_tifs: " + str(len(self.source_tifs)))
-        return self.source_tifs
+
+        results = [ProductRecord(x) for x in self.source_tifs]
+
+        return results

@@ -3,7 +3,7 @@
 variable "vpc_cidr" {}
 
 variable "public_cidrs" {
-  type = "list"
+  type = list(string)
 }
 
 variable "accessip" {}

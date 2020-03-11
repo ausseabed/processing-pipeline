@@ -65,8 +65,8 @@ jobs:
           checkout: false
           region: AWS_REGION_ENV_VAR_NAME
           repo: ausseabed-geoserver
-          extra-build-args: '--build-arg COMMUNITY_MODULES=true --build-arg GS_VERSION=2.16.1'
-          #tag: 'ausseabed-geoserver-2.16.1' 
+          extra-build-args: '--build-arg COMMUNITY_EXTENSIONS=gwc-s3-plugin --build-arg GS_VERSION=2.16.2'
+          #tag: 'ausseabed-geoserver-2.16.2' 
   build_and_push_startstopec2_image:
     machine:
       image: ubuntu-1604:201903-01
@@ -89,27 +89,28 @@ jobs:
           dockerfile: ./gdal/Dockerfile
           path: ./gdal/
           region: AWS_REGION_ENV_VAR_NAME
-          repo: callcarisbatch
-          tag: 'gdal_image-latest'
-  build_and_push_geoserver_with_s3_image:
-    machine:
-      image: ubuntu-1604:201903-01
-    steps:
-      - run:
-          name: Download kartoza/geoserver
-          command: git clone git://github.com/kartoza/docker-geoserver
+          repo: 'ausseabed-gdal'
+          tag: 'latest'
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
           aws-access-key-id: ACCESS_KEY_ID_ENV_VAR_NAME
           aws-secret-access-key: SECRET_ACCESS_KEY_ENV_VAR_NAME
-          checkout: false
           create-repo: false
-          dockerfile: ./docker-geoserver/Dockerfile
-          path: ./docker-geoserver/
-          extra-build-args: '--build-arg COMMUNITY_MODULES=true --build-arg GS_VERSION=2.16.1'
+          dockerfile: ./mbsystem/Dockerfile
+          path: ./mbsystem/
           region: AWS_REGION_ENV_VAR_NAME
-          repo: 'kartoza-geoserver-with-plugin'
-          tag: '2.16.1'        
+          repo: 'ausseabed-mbsystem'
+          tag: 'latest'
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
+          aws-access-key-id: ACCESS_KEY_ID_ENV_VAR_NAME
+          aws-secret-access-key: SECRET_ACCESS_KEY_ENV_VAR_NAME
+          create-repo: false
+          dockerfile: ./pdal/Dockerfile
+          path: ./pdal/
+          region: AWS_REGION_ENV_VAR_NAME
+          repo: 'ausseabed-pdal'
+          tag: 'latest'                    
   deploy_pipeline:
     docker:
       - image: circleci/python:3.7-stretch
@@ -167,26 +168,18 @@ jobs:
 workflows:
   update_infra_and_application:
     jobs:
+      - deploy_pipeline      
       - build_tomcat_push_jar
       - build_and_push_caris_caller_image
       - build_and_push_startstopec2_image
       - build_and_push_geoserver_image:
-          requires:
-            - build_tomcat_push_jar
+         requires:
+           - build_tomcat_push_jar
       - deploy_pipeline:
-          requires:
-            - build_and_push_caris_caller_image
-            - build_and_push_startstopec2_image
+         requires:
+           - build_and_push_caris_caller_image
+           - build_and_push_startstopec2_image
       - deploy_geoserver:
-          requires:
-            - build_and_push_geoserver_image
-  build_geoserver_image:            
-    triggers:
-      - schedule:
-          cron: "0 0 28 * *"
-          filters:
-            branches:
-              only: master
-    jobs:
-      - build_and_push_geoserver_with_s3_image
+         requires:
+           - build_and_push_geoserver_image
   

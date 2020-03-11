@@ -24,6 +24,7 @@ from connection_parameters import ConnectionParameters
 from product_database import ProductDatabase
 from geoserver_catalog_services import GeoserverCatalogServices
 from geoserver_raster import GeoserverRaster
+from product_record import ProductRecord
 # SET GEOSERVER_URL
 
 def populate_geoserver():
@@ -34,18 +35,21 @@ def populate_geoserver():
     product_database = ProductDatabase()
     product_database.load_from_commandline()
     geoserver_catalog_services = GeoserverCatalogServices(settings)
+    geoserver_catalog_services.build_workspace()
     geoserver_catalog_services.add_styles()
 
     # Import rasters into geoserver for each entry in database
     for source_tif_entry in product_database.get_records():
-        geoserver_bath_raster = GeoserverRaster()
-        geoserver_bath_raster.load_bath_from_database_entry(source_tif_entry)
+        shapefile = source_tif_entry.get_l0_coverage()
+        if shapefile!="":
+            geoserver_catalog_services.add_shapefile(shapefile,source_tif_entry.get_l0_coverage_name())
+            
+        geoserver_bath_raster = source_tif_entry.get_bathymetric_raster()
         geoserver_bath_raster_ref = geoserver_catalog_services.add_raster(geoserver_bath_raster)
         geoserver_catalog_services.add_style_to_raster(geoserver_bath_raster_ref["name"],
                                                        geoserver_catalog_services.BATH_STYLE_NAME)
 
-        geoserver_hs_raster = GeoserverRaster()
-        geoserver_hs_raster.load_hillshade_from_database_entry(source_tif_entry)
+        geoserver_hs_raster = source_tif_entry.get_hillshade_raster()
         if geoserver_hs_raster.source_tif!="":
             geoserver_hs_raster_ref = geoserver_catalog_services.add_raster(geoserver_hs_raster)
             geoserver_catalog_services.add_style_to_raster(geoserver_hs_raster_ref["name"],
@@ -57,7 +61,23 @@ def populate_geoserver():
                 )
 
 
+def getData():
+    settings = ConnectionParameters()
+    settings.load_from_commandline()
+    product_database = ProductDatabase()
+    product_database.load_from_commandline()
+    geoserver_catalog_services = GeoserverCatalogServices(settings)
+    geoserver_catalog_services.WORKSPACE_NAME='ausseabedDebugB'
+    geoserver_catalog_services.build_workspace()
+    for source_tif_entry in product_database.get_records():
+        geoserver_bath_raster = source_tif_entry.get_bathymetric_raster() 
+        shapefile = source_tif_entry.get_l0_coverage()
+        if shapefile!="":
+            geoserver_catalog_services.add_shapefile(shapefile,source_tif_entry.get_l0_coverage_name())
+        print(shapefile)
+        print(geoserver_bath_raster)
 
 if __name__ == '__main__':
+    #getData()
     populate_geoserver()
 

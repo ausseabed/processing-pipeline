@@ -37,7 +37,7 @@ class ProductRecord():
         return geoserver_bath_raster 
 
     def get_l0_coverage_name(self):
-        return("{0} {1} {2} Coverage".format(
+        return("{0} {1} {2} L0 Coverage".format(
             self.gazeteer_name, self.year, self.resolution))
 
     def get_l0_coverage(self):

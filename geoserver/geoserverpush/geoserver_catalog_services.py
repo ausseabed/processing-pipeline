@@ -90,7 +90,7 @@ class GeoserverCatalogServices:
 
         # 3. register in geoserver as below
         print(shapefile_plus_sidecars)
-        self.cat.create_featurestore(shapefile_name, shapefile_plus_sidecars, self.ws)
+        self.cat.create_featurestore(shapefile_display_name, shapefile_plus_sidecars, self.ws)
 
     def add_styles(self):
         """ Add the bathymetry styles used in the marine portal

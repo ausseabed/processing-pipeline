@@ -4,7 +4,7 @@ ARG IMAGE_VERSION=9.0.7-jre8
 ## The Geoserver version
 ARG GS_VERSION=2.16.2
 
-FROM 288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/kartoza-geoserver-with-plugin:2.16.2
+FROM kartoza/geoserver:2.16.2
 USER root
 
 WORKDIR /usr/src/app

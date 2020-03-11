@@ -12,6 +12,7 @@ resource "aws_ecs_task_definition" "geoserver" {
   memory                   = var.server_memory
   network_mode             = "awsvpc"
   execution_role_arn       = var.ecs_task_execution_role_svc_arn
+  task_role_arn       = var.ecs_task_execution_role_svc_arn
   requires_compatibilities = ["FARGATE"]
   container_definitions = <<DEFINITION
 [
@@ -48,6 +49,10 @@ resource "aws_ecs_task_definition" "geoserver" {
       {
         "name": "GEOSERVER_ADMIN_PASSWORD",
         "value" : "${var.geoserver_admin_password}" 
+      },
+      {
+        "name": "COMMUNITY_EXTENSIONS",
+        "value" : "gwc-s3-plugin" 
       }
     ],
     "portMappings": [

@@ -1,6 +1,7 @@
 import sys,os
 import requests
 from geoserver_raster import GeoserverRaster
+from xml.sax.saxutils import escape
 
 class ProductRecord():
     """ 
@@ -32,8 +33,12 @@ class ProductRecord():
 
     def get_hillshade_raster(self):
         geoserver_bath_raster = GeoserverRaster()
-        geoserver_bath_raster.load_bath_from_database_entry(self)
+        geoserver_bath_raster.load_hillshade_from_database_entry(self)
         return geoserver_bath_raster 
+
+    def get_l0_coverage_name(self):
+        return("{0} {1} {2} Coverage".format(
+            self.gazeteer_name, self.year, self.resolution))
 
     def get_l0_coverage(self):
         return self.l0_coverage

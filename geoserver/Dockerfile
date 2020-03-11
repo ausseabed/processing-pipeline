@@ -2,10 +2,10 @@
 ARG IMAGE_VERSION=9.0.7-jre8
 
 ## The Geoserver version
-ARG GS_VERSION=2.16.1
-ARG COMMUNITY_MODULES=true
+ARG GS_VERSION=2.16.2
 
-FROM 288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/kartoza-geoserver-with-plugin:2.16.1
+FROM 288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/kartoza-geoserver-with-plugin:2.16.2
+USER root
 
 WORKDIR /usr/src/app
 
@@ -14,6 +14,12 @@ RUN apt-get update \
   && cd /usr/local/bin \
   && ln -s /usr/bin/python3 python \
   && pip3 install --upgrade pip
+
+RUN apt-get update -y && \ 
+apt-get install -y unzip curl && \
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+unzip awscliv2.zip && \
+./aws/install 
 
 COPY geoserverpush/logging.xml /opt/geoserver/data_dir/logging.xml
 RUN chmod +r /opt/geoserver/data_dir/logging.xml

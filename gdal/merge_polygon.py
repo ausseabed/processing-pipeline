@@ -18,33 +18,35 @@ def merge_two_polygons(polygon_a, polygon_b):
     merge the two using ogrmerge   
     """
 
-    cmd = ["ogrmerge.py","-single","-append","-o",quote(polygon_a), quote(polygon_b)]
-    # TODO only for debugging
+    cmd = ["ogrmerge.py","-single","-append","-o",polygon_a, polygon_b]
+    # TODO only for debugging - also need to specify the destination directory specifically
     #prepend = ["sudo","docker","run","--rm","-v","/home:/home","-e", "AWS_NO_SIGN_REQUEST=YES","osgeo/gdal:ubuntu-small-latest"]
-    # cmd=prepend+cmd
+    #cmd=prepend+cmd
     print(" ".join(cmd))
     try:
-        subprocess.check_output(cmd)
+        print(subprocess.check_output(cmd, stderr=subprocess.STDOUT), flush=True)
     except subprocess.CalledProcessError as exc:
         print("Status : FAIL", exc.returncode, exc.output, flush=True)
         exit(exc.returncode)
-        
+       
+    print(subprocess.check_output(['ls']), flush=True) 
     return polygon_a
 
 def move_polygon_from_s3(polygon_dest, polygon_src):
     """
     Download the first polygon
     """
-    cmd = ["ogr2ogr","-f","ESRI Shapefile", quote(polygon_dest),quote(polygon_src)]
-    # TODO only for debugging
+    cmd = ["ogr2ogr","-f","ESRI Shapefile", polygon_dest,polygon_src]
+    # TODO only for debugging - also need to specify the destination directory specifically
     #prepend = ["sudo","docker","run","--rm","-v","/home:/home","-e", "AWS_NO_SIGN_REQUEST=YES","osgeo/gdal:ubuntu-small-latest"]
-    # cmd=prepend+cmd
+    #cmd=prepend+cmd
     print(" ".join(cmd))
     try:
-        subprocess.check_output(cmd)
+        print(subprocess.check_output(cmd, stderr=subprocess.STDOUT), flush=True)
     except subprocess.CalledProcessError as exc:
         print("Status : FAIL", exc.returncode, exc.output, flush=True)
         exit(exc.returncode)
+    print(subprocess.check_output(['ls']), flush=True)
 
 def upload_to_s3(result_file_name_without_ext, destination_folder):
     """ upload a shapefile to s3
@@ -53,10 +55,11 @@ def upload_to_s3(result_file_name_without_ext, destination_folder):
     :type destination_folder: string
     :param destination_folder: the location in s3 to place the file
     """ 
-    cmd = ["/usr/local/bin/aws", "s3","cp",".",destination_folder,"--recursive","--exclude","*","--include","{}*".format(quote(result_file_name_without_ext))]
+    print(subprocess.check_output(['ls']), flush=True)
+    cmd = ["/usr/local/bin/aws", "s3","cp",".",destination_folder,"--recursive","--exclude","*","--include","{}*".format(result_file_name_without_ext)]
     print(" ".join(cmd))
     try:
-        subprocess.check_output(cmd)
+        print(subprocess.check_output(cmd, stderr=subprocess.STDOUT), flush=True)
     except subprocess.CalledProcessError as exc:
         print("Status : FAIL", exc.returncode, exc.output, flush=True)
         exit(exc.returncode)

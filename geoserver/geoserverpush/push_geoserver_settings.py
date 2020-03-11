@@ -48,7 +48,7 @@ def populate_geoserver():
         geoserver_hs_raster = source_tif_entry.get_hillshade_raster()
         shapefile = source_tif_entry.get_l0_coverage()
         if shapefile!="":
-            geoserver_catalog_services.add_shapefile(shapefile)
+            geoserver_catalog_services.add_shapefile(shapefile,source_tif_entry.get_l0_coverage_name())
         if geoserver_hs_raster.source_tif!="":
             geoserver_hs_raster_ref = geoserver_catalog_services.add_raster(geoserver_hs_raster)
             geoserver_catalog_services.add_style_to_raster(geoserver_hs_raster_ref["name"],
@@ -72,11 +72,11 @@ def getData():
         geoserver_bath_raster = source_tif_entry.get_bathymetric_raster() 
         shapefile = source_tif_entry.get_l0_coverage()
         if shapefile!="":
-            geoserver_catalog_services.add_shapefile(shapefile)
+            geoserver_catalog_services.add_shapefile(shapefile,source_tif_entry.get_l0_coverage_name())
         print(shapefile)
         print(geoserver_bath_raster)
 
 if __name__ == '__main__':
-    getData()
-    #populate_geoserver()
+    #getData()
+    populate_geoserver()
 

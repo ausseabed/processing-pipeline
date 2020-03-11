@@ -46,10 +46,10 @@ class GeoserverCatalogServices:
         
         polygon_src = shapefile_name.replace("s3://","/vsis3/") 
 
-        cmd = ["/usr/bin/ogr2ogr","-f","ESRI Shapefile", quote(polygon_dest),quote(polygon_src)]
+        cmd = ["/usr/bin/ogr2ogr","-f","ESRI Shapefile", polygon_dest,polygon_src]
         print(" ".join(cmd))
         try:
-            subprocess.check_output(cmd)
+            subprocess.check_output(cmd, stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError as exc:
             print("Status : FAIL", exc.returncode, exc.output, flush=True)
             exit(exc.returncode)
@@ -59,12 +59,12 @@ class GeoserverCatalogServices:
         cmd = ["aws", "s3","cp",remote_file_name,local_file_name]
         print(" ".join(cmd))
         try:
-            subprocess.check_output(cmd)
+            subprocess.check_output(cmd, stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError as exc:
             print("Status : FAIL", exc.returncode, exc.output, flush=True)
             exit(exc.returncode)
 
-    def add_shapefile(self, shapefile_url):
+    def add_shapefile(self, shapefile_url, shapefile_display_name):
         # 1. create a temp directory
         base_dir = self.create_temp_dir()        
         shapefile_name = re.sub(".*/", "",shapefile_url)

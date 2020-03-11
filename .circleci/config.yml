@@ -65,8 +65,8 @@ jobs:
           checkout: false
           region: AWS_REGION_ENV_VAR_NAME
           repo: ausseabed-geoserver
-          extra-build-args: '--build-arg COMMUNITY_MODULES=true --build-arg GS_VERSION=2.16.1'
-          #tag: 'ausseabed-geoserver-2.16.1' 
+          extra-build-args: '--build-arg COMMUNITY_EXTENSIONS=gwc-s3-plugin --build-arg GS_VERSION=2.16.2'
+          #tag: 'ausseabed-geoserver-2.16.2' 
   build_and_push_startstopec2_image:
     machine:
       image: ubuntu-1604:201903-01
@@ -126,10 +126,10 @@ jobs:
           create-repo: false
           dockerfile: ./docker-geoserver/Dockerfile
           path: ./docker-geoserver/
-          extra-build-args: '--build-arg COMMUNITY_MODULES=true --build-arg GS_VERSION=2.16.1'
+          extra-build-args: '--build-arg GS_VERSION=2.16.2'
           region: AWS_REGION_ENV_VAR_NAME
           repo: 'kartoza-geoserver-with-plugin'
-          tag: '2.16.1'        
+          tag: '2.16.2'        
   deploy_pipeline:
     docker:
       - image: circleci/python:3.7-stretch

@@ -24,4 +24,4 @@ mbsystem_image = "288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/ausseabed-mb
 pdal_image = "288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/ausseabed-pdal:latest"
 
 
-local_storage_folder="D:\\\\awss3bucket2"
+local_storage_folder="D:\\\\awss3bucket"

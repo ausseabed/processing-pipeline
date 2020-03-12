@@ -14,9 +14,8 @@ locals {
     "steps" = ["Get caris version", "data quality check","prepare change vessel config file","Create HIPS file",
   "Import to HIPS","Upload checkpoint 1 to s3","Import HIPS From Auxiliary","Upload checkpoint 2 to s3",
   "change vessel config file to calculated","Compute GPS Vertical Adjustment","change vessel config file to original",
-  "Georeference HIPS Bathymetry","Upload checkpoint 3 to s3","Create HIPS Grid With Cube","Upload checkpoint 5 to s3",
-  "Export raster as BAG", "Export raster as LAS","Export raster as TIFF",
-  "Export raster as PNG"]
+  "Georeference HIPS Bathymetry","Upload checkpoint 3 to s3","Create Variable Resolution HIPS Grid With Cube","Upload checkpoint 5 to s3",
+  "DebugIP", "Export raster as BAG", "Export raster as LAS","Export raster as TIFF"]
   "runtask" = "\"Type\":\"Task\",\"Resource\":\"arn:aws:states:::ecs:runTask.sync\",\"ResultPath\": \"$.previous_step__result\""
   "parameters" = "\"LaunchType\":\"FARGATE\",\"Cluster\":\"${var.aws_ecs_cluster_arn}\",\"TaskDefinition\":\"${var.aws_ecs_task_definition_caris_version_arn}\",\"NetworkConfiguration\":{\"AwsvpcConfiguration\":{\"AssignPublicIp\":\"ENABLED\",\"SecurityGroups\":[\"${var.aws_ecs_task_definition_caris_sg}\"],\"Subnets\":[\"${var.aws_ecs_task_definition_caris_subnet}\"]}}"
   }

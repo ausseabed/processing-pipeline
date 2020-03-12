@@ -4,6 +4,9 @@ import sys, paramiko, io, os
 import boto3
 import argparse
 import select
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 def find_caris_ip():
     client = boto3.client('ec2')
@@ -110,14 +113,14 @@ args = parser.parse_args()
 
 hostname = None
 if args.ip:
-    print("Using external caris instance %s" % args.ip, flush=True)
+    logging.info("Using external caris instance %s" % args.ip)
     hostname = args.ip
 else:
     res = find_caris_ip()
     hostname = res['Reservations'][0]['Instances'][0]['PublicIpAddress']
 
 command = args.command
-print("Running command:\n %s" % command, flush=True)
+logging.info("Running command:\n %s" % command)
 # this is the key used to encrypt the private key. 
 # The encrypted private key is stored in AWS Secrets and assisible through IAM roles. 
 # So, storing the password in plain text isn't making it less secure.
@@ -146,12 +149,13 @@ try:
     client.connect(hostname, port=port, username=username,  pkey=private_key)
 
     exit_status=exec_process_wrapper(client,command)
-    print("Closing after completion with exit status {0}".format(exit_status), flush=True)
+    logging.info("Closing after completion with exit status {0}".format(exit_status))
+    print("", flush=True)
     print("", file=sys.stderr, flush=True)
     sys.exit(exit_status)
 except Exception  as e:
-    print(e, flush=True)
-    print("Closing after exception", flush=True)
+    logging.exception("Closing after exception")
+    print("", flush=True)
     print("", file=sys.stderr, flush=True)
     sys.exit(1)
 finally:

@@ -650,44 +650,8 @@
                     ]
                 }
             },
-            "Next": "Export raster as PNG",
-            "TimeoutSeconds": 6000
-        },
-        "Export raster as PNG": {
-            "Type": "Task",
-            "Resource": "arn:aws:states:::ecs:runTask.sync",
-            "ResultPath": "$.previous_step__result",
-            "Parameters": {
-                "LaunchType": "FARGATE",
-                "Cluster": "${aws_ecs_cluster_arn}",
-                "TaskDefinition": "${aws_ecs_task_definition_caris_version_arn}",
-                "NetworkConfiguration": {
-                    "AwsvpcConfiguration": {
-                        "AssignPublicIp": "ENABLED",
-                        "SecurityGroups": [
-                            "${aws_ecs_task_definition_caris_sg}"
-                        ],
-                        "Subnets": [
-                            "${aws_ecs_task_definition_caris_subnet}"
-                        ]
-                    }
-                },
-                "Overrides": {
-                    "ContainerOverrides": [
-                        {
-                            "Name": "app",
-                            "Command": [
-                                "-ip",
-                                "52.62.84.70",
-                                "-c",
-                                "powershell \" carisbatch --run RenderRaster --input-band Depth --colour-file Rainbow.cma --enable-shading --shading 45 45 10 ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.csar ; carisbatch --run ExportRaster --output-format PNG --include-band ALL ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.png \" "
-                            ]
-                        }
-                    ]
-                }
-            },
             "Next": "Export raster as TIFF",
-            "TimeoutSeconds": 60000
+            "TimeoutSeconds": 6000
         },
         "Export raster as TIFF": {
             "Type": "Task",
@@ -825,6 +789,42 @@
                                     "Name": "S3_SRC_TIF",
                                     "Value.$": "$.s3_src_tif"
                                 }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Export raster as PNG",
+            "TimeoutSeconds": 60000
+        },        
+        "Export raster as PNG": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::ecs:runTask.sync",
+            "ResultPath": "$.previous_step__result",
+            "Parameters": {
+                "LaunchType": "FARGATE",
+                "Cluster": "${aws_ecs_cluster_arn}",
+                "TaskDefinition": "${aws_ecs_task_definition_caris_version_arn}",
+                "NetworkConfiguration": {
+                    "AwsvpcConfiguration": {
+                        "AssignPublicIp": "ENABLED",
+                        "SecurityGroups": [
+                            "${aws_ecs_task_definition_caris_sg}"
+                        ],
+                        "Subnets": [
+                            "${aws_ecs_task_definition_caris_subnet}"
+                        ]
+                    }
+                },
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "52.62.84.70",
+                                "-c",
+                                "powershell \" carisbatch --run RenderRaster --input-band Depth --colour-file Rainbow.cma --enable-shading --shading 45 45 10 ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.csar ; carisbatch --run ExportRaster --output-format PNG --include-band ALL ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.png \" "
                             ]
                         }
                     ]

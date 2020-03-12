@@ -83,7 +83,7 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "54.252.239.194",
+                                "172.31.11.235",
                                 "-c",
                                 "powershell carisbatch --version "
                             ]
@@ -104,7 +104,7 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "54.252.239.194",
+                                "172.31.11.235",
                                 "-c",
                                 "powershell \"Remove-Item  ${local_storage_folder} -Recurse -Force; md ${local_storage_folder}\""
                             ]
@@ -147,7 +147,7 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "54.252.239.194",
+                                "172.31.11.235",
                                 "-c",
                                 "powershell \"cp ${local_storage_folder}\\Investigator_em710.hvf ${local_storage_folder}\\Vessel.hvf\""
                             ]
@@ -168,7 +168,7 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "54.252.239.194",
+                                "172.31.11.235",
                                 "-c",
                                 "powershell \"md \"${local_storage_folder}\\GA-0364_BlueFin_MB\" ;carisbatch --run CreateHIPSFile  --output-crs EPSG:32755 \"${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\"\""
                             ]
@@ -189,7 +189,7 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "54.252.239.194",
+                                "172.31.11.235",
                                 "-c",
                                 "powershell \"cd ${local_storage_folder}\\Rawdata; Get-ChildItem -File -Path  ./* -Include *.all | foreach {carisbatch --run ImportToHIPS --input-format KONGSBERG --input-crs EPSG:32755 --vessel-file ${local_storage_folder}\\Vessel.hvf --convert-navigation --gps-height-device GGK  $_.fullname ${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips }\" "
                             ]
@@ -226,7 +226,7 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "54.252.239.194",
+                                "172.31.11.235",
                                 "-c",
                                 "powershell \"cd ${local_storage_folder}\\000; carisbatch  --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial --maximum-gap 1000sec \"./*.*\" --delayed-heave 0sec --delayed-heave-rms 0sec --navigation --navigation-rms 0sec --gyro 0sec --gyro-rms 0sec --pitch 0sec --pitch-rms 0sec --roll 0sec --roll-rms 0sec --gps-height 0sec --gps-height-rms 0sec  \"file:///${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" ; Remove-Item  ${local_storage_folder}\\GA-0364_BlueFin_MB\\TrackLines_GA-0364_BlueFin_MB\\*.rawdataindex -Recurse -Force \" "
                             ]
@@ -263,7 +263,7 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "54.252.239.194",
+                                "172.31.11.235",
                                 "-c",
                                 "powershell \"cp ${local_storage_folder}\\Investigator_em710_4ers_calc.hvf ${local_storage_folder}\\Vessel.hvf\""
                             ]
@@ -284,7 +284,7 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "54.252.239.194",
+                                "172.31.11.235",
                                 "-c",
                                 "powershell \"carisbatch  --run GeoreferenceHIPSBathymetry  --vertical-datum-reference GPS --compute-gps-vertical-adjustment  --sounding-datum-offset -7.74m --heave-source DELAYED_HEAVE --output-components \"file:///${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" \" "
                             ]
@@ -305,7 +305,7 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "54.252.239.194",
+                                "172.31.11.235",
                                 "-c",
                                 "powershell \"cp ${local_storage_folder}\\Investigator_em710.hvf ${local_storage_folder}\\Vessel.hvf\""
                             ]
@@ -326,7 +326,7 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "54.252.239.194",
+                                "172.31.11.235",
                                 "-c",
                                 "powershell \"carisbatch  --run GeoreferenceHIPSBathymetry  --vertical-datum-reference GPS --sounding-datum-offset 0m --heave-source DELAYED_HEAVE --compute-tpu --tide-measured 0.0m --tide-zoning 0.1m --sv-measured 1.0m/s --sv-surface 0.2m/s --source-navigation REALTIME --source-sonar REALTIME --source-gyro REALTIME --source-pitch REALTIME --source-roll REALTIME --source-heave DELAYED --source-tide STATIC --output-components \"file:///${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" \" "
                             ]
@@ -350,10 +350,10 @@
                     ]
                 }
             },
-            "Next": "Create HIPS Grid With Cube",
+            "Next": "Create Variable Resolution HIPS Grid With Cube",
             "TimeoutSeconds": 6000
         },
-        "Create HIPS Grid With Cube": {
+        "Create Variable Resolution HIPS Grid With Cube": {
             ${runtask},
             "Parameters": {
                 ${parameters},
@@ -363,7 +363,7 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "54.252.239.194",
+                                "172.31.11.235",
                                 "-c",
                                 "powershell \"carisbatch --run CreateVRSurface --estimation-method RANGE --range-file ${local_storage_folder}\\depth_ranges.txt --range-method PERCENTILE --range-percentile 50 --input-band DEPTH --max-grid-size 64 --min-grid-size 4 --include-flag ACCEPTED ${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.csar; carisbatch --run PopulateVRSurface --population-method CUBE --input-band Depth --include-flag ACCEPTED --vertical-uncertainty \\\"Depth TPU\\\" --horizontal-uncertainty \\\"Position TPU\\\" --display-bias HIGHEST --disambiguation-method DENSITY_LOCALE --cube-config-file=D:\\Bluefin\\CUBEParams_AusSeabed_2019.xml --cube-config-name=AusSeabed_VR  ${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.csar\""
                             ]
@@ -387,8 +387,24 @@
                     ]
                 }
             },
-            "Next": "Export raster as BAG",
+            "Next": "DebugIP",
             "TimeoutSeconds": 6000
+        },
+        "DebugIP": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [ "-c", "ipconfig" ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Export raster as BAG",
+            "TimeoutSeconds": 60000
         },
         "Export raster as BAG": {
             ${runtask},
@@ -400,9 +416,9 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "54.252.239.194",
+                                "172.31.11.235",
                                 "-c",
-                                "powershell \" carisbatch --run ExportRaster --output-format BAG --include-band Depth --uncertainty Uncertainty --uncertainty-type PRODUCT_UNCERT --abstract undefined --status UNDER_DEV --vertical-datum MLLW --party-name undefined --party-position undefined --party-organization undefined --party-role POINT_OF_CONTACT --legal-constraints OTHER_RESTRICTIONS --other-constraints NA --security-constraints UNCLASSIFIED --notes NA --compression-level 1 ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.bag \" "
+                                "powershell \" carisbatch --run ExportVRSurfaceToBAG --include-band Depth --uncertainty Uncertainty --uncertainty-type PRODUCT_UNCERT --abstract undefined --status UNDER_DEV --vertical-datum MLLW --party-name undefined --party-position undefined --party-organization undefined --party-role POINT_OF_CONTACT --legal-constraints OTHER_RESTRICTIONS --other-constraints NA --security-constraints UNCLASSIFIED --notes NA --compression-level 1 ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.bag \" "
                             ]
                         }
                     ]
@@ -421,7 +437,7 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "54.252.239.194",
+                                "172.31.11.235",
                                 "-c",
                                 "powershell \" carisbatch --run ExportPoints --output-format LAS --las-version 1.4 --include-band Depth ELEVATION ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.las \""
                             ]
@@ -442,30 +458,9 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "54.252.239.194",
+                                "172.31.11.235",
                                 "-c",
                                 "powershell \" carisbatch --run ExportRaster --output-format GEOTIFF --include-band ALL ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.tif \""
-                            ]
-                        }
-                    ]
-                }
-            },
-            "Next": "Export raster as PNG",
-            "TimeoutSeconds": 60000
-        },
-        "Export raster as PNG": {
-            ${runtask},
-            "Parameters": {
-                ${parameters},
-                "Overrides": {
-                    "ContainerOverrides": [
-                        {
-                            "Name": "app",
-                            "Command": [
-                                "-ip",
-                                "54.252.239.194",
-                                "-c",
-                                "powershell \" carisbatch --run RenderRaster --input-band Depth --colour-file Rainbow.cma --enable-shading --shading 45 45 10 ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR_coloured.csar ; carisbatch --run ExportRaster --output-format PNG --include-band ALL ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR_coloured.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR_coloured.png \" "
                             ]
                         }
                     ]

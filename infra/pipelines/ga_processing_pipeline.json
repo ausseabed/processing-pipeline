@@ -198,7 +198,7 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "52.62.84.70",
+                                "${caris_ip}",
                                 "-c",
                                 "powershell carisbatch --version "
                             ]
@@ -234,9 +234,9 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "52.62.84.70",
+                                "${caris_ip}",
                                 "-c",
-                                "powershell \"Remove-Item  ${local_storage_folder} -Recurse -Force; md ${local_storage_folder}\""
+                                "powershell \"Remove-Item  ${local_storage_folder}2 -Recurse -Force; md ${local_storage_folder}2\""
                             ]
                         }
                     ]
@@ -307,9 +307,9 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "52.62.84.70",
+                                "${caris_ip}",
                                 "-c",
-                                "powershell \"md \"${local_storage_folder}\\GA-0364_BlueFin_MB\" ;carisbatch --run CreateHIPSFile  \"${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\"\""
+                                "powershell \"md \"${local_storage_folder}2\\GA-0364_BlueFin_MB\" ;carisbatch --run CreateHIPSFile  \"${local_storage_folder}2\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\"\""
                             ]
                         }
                     ]
@@ -343,9 +343,9 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "52.62.84.70",
+                                "${caris_ip}",
                                 "-c",
-                                "powershell \"cd ${local_storage_folder}\\Rawdata; Get-ChildItem -File -Path  ./* -Include *.all | foreach {carisbatch --run ImportToHIPS --input-format KONGSBERG --vessel-file ${local_storage_folder}\\BlueFin.hvf --convert-navigation --gps-height-device GGK  $_.fullname ${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips }\" "
+                                "powershell \"cd ${local_storage_folder}2\\Rawdata; Get-ChildItem -File -Path  ./* -Include *.all | foreach {carisbatch --run ImportToHIPS --input-format KONGSBERG --vessel-file ${local_storage_folder}2\\BlueFin.hvf --convert-navigation --gps-height-device GGK  $_.fullname ${local_storage_folder}2\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips }\" "
                             ]
                         }
                     ]
@@ -410,9 +410,9 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "52.62.84.70",
+                                "${caris_ip}",
                                 "-c",
-                                "powershell \"cd ${local_storage_folder}\\000; carisbatch  --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial  \"./*.*\" --delayed-heave 0sec --delayed-heave-rms 0sec  \"file:///${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" \" "
+                                "powershell \"cd ${local_storage_folder}2\\000; carisbatch  --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial  \"./*.*\" --delayed-heave 0sec --delayed-heave-rms 0sec  \"file:///${local_storage_folder}2\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" \" "
                             ]
                         }
                     ]
@@ -477,9 +477,9 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "52.62.84.70",
+                                "${caris_ip}",
                                 "-c",
-                                "powershell \"carisbatch  --run GeoreferenceHIPSBathymetry  --vertical-datum-reference GPS --compute-gps-vertical-adjustment  --vertical-offset 0m --heave-source DELAYED_HEAVE --compute-tpu --tide-measured 0.1m --tide-zoning 0.1m --sv-measured 1.0m/s --sv-surface 0.2m/s --source-navigation REALTIME --source-sonar REALTIME --source-gyro REALTIME --source-pitch REALTIME --source-roll REALTIME --source-heave DELAYED --source-tide STATIC --output-components \"file:///${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" \" "
+                                "powershell \"carisbatch  --run GeoreferenceHIPSBathymetry  --vertical-datum-reference GPS --compute-gps-vertical-adjustment  --vertical-offset 0m --heave-source DELAYED_HEAVE --compute-tpu --tide-measured 0.1m --tide-zoning 0.1m --sv-measured 1.0m/s --sv-surface 0.2m/s --source-navigation REALTIME --source-sonar REALTIME --source-gyro REALTIME --source-pitch REALTIME --source-roll REALTIME --source-heave DELAYED --source-tide STATIC --output-components \"file:///${local_storage_folder}2\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" \" "
                             ]
                         }
                     ]
@@ -544,9 +544,9 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "52.62.84.70",
+                                "${caris_ip}",
                                 "-c",
-                                "powershell carisbatch  --run FilterProcessedDepths   --filter-type SURFACE --surface \"${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar\" --threshold-type STANDARD_DEVIATION --scalar 1.6 \"file:///${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" "
+                                "powershell carisbatch  --run FilterProcessedDepths   --filter-type SURFACE --surface \"${local_storage_folder}2\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar\" --threshold-type STANDARD_DEVIATION --scalar 1.6 \"file:///${local_storage_folder}2\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" "
                             ]
                         }
                     ]
@@ -611,9 +611,9 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "52.62.84.70",
+                                "${caris_ip}",
                                 "-c",
-                                "powershell carisbatch  --run CreateHIPSGridWithCube  --output-crs EPSG:32755 --extent 484650 5630110 541390 5658320 --keep-up-to-date --cube-config-file=\"D:\\Bluefin\\CUBEParams_AusSeabed_2019.xml\" --cube-config-name=AusSeabed_002m --resolution 1.0m --iho-order S44_1A \"file:///${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" \"${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar\" "
+                                "powershell carisbatch  --run CreateHIPSGridWithCube  --output-crs EPSG:32755 --extent 484650 5630110 541390 5658320 --keep-up-to-date --cube-config-file=\"D:\\Bluefin\\CUBEParams_AusSeabed_2019.xml\" --cube-config-name=AusSeabed_002m --resolution 1.0m --iho-order S44_1A \"file:///${local_storage_folder}2\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" \"${local_storage_folder}2\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar\" "
                             ]
                         }
                     ]
@@ -678,9 +678,9 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "52.62.84.70",
+                                "${caris_ip}",
                                 "-c",
-                                "powershell \" carisbatch --run ExportRaster --output-format GEOTIFF --include-band ALL ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.tif \" "
+                                "powershell \" carisbatch --run ExportRaster --output-format GEOTIFF --include-band Depth ${local_storage_folder}2\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar ${local_storage_folder}2\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.tif \" "
                             ]
                         }
                     ]
@@ -714,9 +714,9 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "52.62.84.70",
+                                "${caris_ip}",
                                 "-c",
-                                "powershell \" carisbatch --run ExportRaster --output-format BAG --include-band Depth --uncertainty Uncertainty --uncertainty-type PRODUCT_UNCERT --abstract undefined --status UNDER_DEV --vertical-datum MLLW --party-name undefined --party-position undefined --party-organization undefined --party-role POINT_OF_CONTACT --legal-constraints OTHER_RESTRICTIONS --other-constraints NA --security-constraints UNCLASSIFIED --notes NA --compression-level 1 ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.bag \" "
+                                "powershell \" carisbatch --run ExportRaster --output-format BAG --include-band Depth --uncertainty Uncertainty --uncertainty-type PRODUCT_UNCERT --abstract undefined --status UNDER_DEV --vertical-datum \\\"Mean Sea Level\\\" --party-name undefined --party-position undefined --party-organization undefined --party-role POINT_OF_CONTACT --legal-constraints OTHER_RESTRICTIONS --other-constraints NA --security-constraints UNCLASSIFIED --notes NA --compression-level 1 ${local_storage_folder}2\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar ${local_storage_folder}2\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.bag \" "
                             ]
                         }
                     ]
@@ -750,10 +750,77 @@
                             "Name": "app",
                             "Command": [
                                 "-ip",
-                                "52.62.84.70",
+                                "${caris_ip}",
                                 "-c",
-                                "powershell \" carisbatch --run ExportPoints --output-format LAS --las-version 1.4 --include-band Depth ELEVATION ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.las \" "
+                                "powershell \" carisbatch --run ExportPoints --output-format LAS --las-version 1.4 --include-band Depth ELEVATION ${local_storage_folder}2\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar ${local_storage_folder}2\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.las \" "
                             ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Export raster as PNG",
+            "TimeoutSeconds": 60000
+        },                
+        "Export raster as PNG": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::ecs:runTask.sync",
+            "ResultPath": "$.previous_step__result",
+            "Parameters": {
+                "LaunchType": "FARGATE",
+                "Cluster": "${aws_ecs_cluster_arn}",
+                "TaskDefinition": "${aws_ecs_task_definition_caris_version_arn}",
+                "NetworkConfiguration": {
+                    "AwsvpcConfiguration": {
+                        "AssignPublicIp": "ENABLED",
+                        "SecurityGroups": [
+                            "${aws_ecs_task_definition_caris_sg}"
+                        ],
+                        "Subnets": [
+                            "${aws_ecs_task_definition_caris_subnet}"
+                        ]
+                    }
+                },
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "${caris_ip}",
+                                "-c",
+                                "powershell \" carisbatch --run RenderRaster --input-band Depth --colour-file Rainbow.cma --enable-shading --shading 45 45 10 ${local_storage_folder}2\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar ${local_storage_folder}2\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.csar ; carisbatch --run ExportRaster --output-format PNG --include-band ALL ${local_storage_folder}2\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.csar ${local_storage_folder}2\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.png \" "
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Upload processed data to s3",
+            "TimeoutSeconds": 60000
+        },
+        "Upload processed data to s3": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::ecs:runTask.sync",
+            "ResultPath": "$.previous_step__result",
+            "Parameters": {
+                "LaunchType": "FARGATE",
+                "Cluster": "${aws_ecs_cluster_arn}",
+                "TaskDefinition": "${aws_ecs_task_definition_caris_version_arn}",
+                "NetworkConfiguration": {
+                    "AwsvpcConfiguration": {
+                        "AssignPublicIp": "ENABLED",
+                        "SecurityGroups": [
+                            "${aws_ecs_task_definition_caris_sg}"
+                        ],
+                        "Subnets": [
+                            "${aws_ecs_task_definition_caris_subnet}"
+                        ]
+                    }
+                },
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command.$": "$.s3_up_sync_command"
                         }
                     ]
                 }
@@ -790,73 +857,6 @@
                                     "Value.$": "$.s3_src_tif"
                                 }
                             ]
-                        }
-                    ]
-                }
-            },
-            "Next": "Export raster as PNG",
-            "TimeoutSeconds": 60000
-        },        
-        "Export raster as PNG": {
-            "Type": "Task",
-            "Resource": "arn:aws:states:::ecs:runTask.sync",
-            "ResultPath": "$.previous_step__result",
-            "Parameters": {
-                "LaunchType": "FARGATE",
-                "Cluster": "${aws_ecs_cluster_arn}",
-                "TaskDefinition": "${aws_ecs_task_definition_caris_version_arn}",
-                "NetworkConfiguration": {
-                    "AwsvpcConfiguration": {
-                        "AssignPublicIp": "ENABLED",
-                        "SecurityGroups": [
-                            "${aws_ecs_task_definition_caris_sg}"
-                        ],
-                        "Subnets": [
-                            "${aws_ecs_task_definition_caris_subnet}"
-                        ]
-                    }
-                },
-                "Overrides": {
-                    "ContainerOverrides": [
-                        {
-                            "Name": "app",
-                            "Command": [
-                                "-ip",
-                                "52.62.84.70",
-                                "-c",
-                                "powershell \" carisbatch --run RenderRaster --input-band Depth --colour-file Rainbow.cma --enable-shading --shading 45 45 10 ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.csar ; carisbatch --run ExportRaster --output-format PNG --include-band ALL ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_1m_coloured.png \" "
-                            ]
-                        }
-                    ]
-                }
-            },
-            "Next": "Upload processed data to s3",
-            "TimeoutSeconds": 60000
-        },
-        "Upload processed data to s3": {
-            "Type": "Task",
-            "Resource": "arn:aws:states:::ecs:runTask.sync",
-            "ResultPath": "$.previous_step__result",
-            "Parameters": {
-                "LaunchType": "FARGATE",
-                "Cluster": "${aws_ecs_cluster_arn}",
-                "TaskDefinition": "${aws_ecs_task_definition_caris_version_arn}",
-                "NetworkConfiguration": {
-                    "AwsvpcConfiguration": {
-                        "AssignPublicIp": "ENABLED",
-                        "SecurityGroups": [
-                            "${aws_ecs_task_definition_caris_sg}"
-                        ],
-                        "Subnets": [
-                            "${aws_ecs_task_definition_caris_subnet}"
-                        ]
-                    }
-                },
-                "Overrides": {
-                    "ContainerOverrides": [
-                        {
-                            "Name": "app",
-                            "Command.$": "$.s3_up_sync_command"
                         }
                     ]
                 }

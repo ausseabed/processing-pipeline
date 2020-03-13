@@ -29,6 +29,12 @@ resource "aws_route_table" "tf_public_rt" {
     gateway_id = aws_internet_gateway.tf_internet_gateway.id
   }
 
+  // Hard coded link to the peering connection (using persistent CARIS)
+  route {
+    cidr_block = "172.31.0.0/16"
+    vpc_peering_connection_id = "pcx-027ddda3215a1d707"
+  }
+
   tags = {
     Name = "tf_public"
   }

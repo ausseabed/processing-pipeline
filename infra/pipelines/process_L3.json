@@ -53,6 +53,47 @@
                     }
                 },
                 {
+                    "StartAt": "Raster To Polygon",
+                    "States": {
+                        "Raster To Polygon": {
+                            "Type": "Task",
+                            "Resource": "arn:aws:states:::ecs:runTask.sync",
+                            "ResultPath": "$.previous_step__result",
+                            "Parameters": {
+                                "LaunchType": "FARGATE",
+                                "Cluster": "${aws_ecs_cluster_arn}",
+                                "TaskDefinition": "${aws_ecs_task_definition_gdal_arn}",
+                                "NetworkConfiguration": {
+                                    "AwsvpcConfiguration": {
+                                        "AssignPublicIp": "ENABLED",
+                                        "SecurityGroups": [
+                                            "${aws_ecs_task_definition_caris_sg}"
+                                        ],
+                                        "Subnets": [
+                                            "${aws_ecs_task_definition_caris_subnet}"
+                                        ]
+                                    }
+                                },
+                                "Overrides": {
+                                    "ContainerOverrides": [
+                                        {
+                                            "Name": "app",
+                                            "Environment": [
+                                                {
+                                                    "Name": "S3_SRC_TIF",
+                                                    "Value.$": "$.s3_src_tif"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            },
+                            "End": true,
+                            "TimeoutSeconds": 60000
+                        }
+                    }
+                },
+                {
                     "StartAt": "Add Hillshade",
                     "States": {
                         "Add Hillshade": {

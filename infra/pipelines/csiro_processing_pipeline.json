@@ -429,27 +429,6 @@
                     ]
                 }
             },
-            "Next": "Export raster as TIFF",
-            "TimeoutSeconds": 60000
-        },
-        "Export raster as TIFF": {
-            ${runtask},
-            "Parameters": {
-                ${parameters},
-                "Overrides": {
-                    "ContainerOverrides": [
-                        {
-                            "Name": "app",
-                            "Command": [
-                                "-ip",
-                                "${caris_ip}",
-                                "-c",
-                                "powershell \" carisbatch --run ExportRaster --output-format GEOTIFF --include-band Depth ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.tif \""
-                            ]
-                        }
-                    ]
-                }
-            },
             "Next": "Upload processed data to s3",
             "TimeoutSeconds": 60000
         },

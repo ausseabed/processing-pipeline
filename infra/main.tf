@@ -10,13 +10,6 @@ terraform {
   }
 }
 
-#resource "aws_sfn_state_machine" "" {
-#  name = "ausseabed-processing-pipeline"
-#  role_arn = ""
-#}
-
-
-
 
 module "networking" {
   source       = "./networking"
@@ -45,7 +38,7 @@ module "compute" {
 
 module "ancillary" {
   source = "./ancillary"
-  ausseabed-processing-pipeline = aws_sfn_state_machine.ausseabed-processing-pipeline_sfn_state_machine-ga
+  ausseabed-processing-pipeline = module.pipelines.ausseabed-processing-pipeline-ga
 }
 
 module "pipelines" {
@@ -57,6 +50,10 @@ module "pipelines" {
   aws_ecs_task_definition_pdal_arn=module.compute.aws_ecs_task_definition_pdal_arn
   aws_ecs_task_definition_caris_sg=module.networking.aws_ecs_task_definition_caris_sg
   aws_ecs_task_definition_caris_subnet=module.networking.aws_ecs_task_definition_caris_subnet
+
+  aws_ecs_task_definition_caris_version_arn=module.compute.aws_ecs_task_definition_caris-version_arn
+  aws_ecs_task_definition_startstopec2_arn=module.compute.aws_ecs_task_definition_startstopec2_arn
+  local_storage_folder=var.local_storage_folder
 }
 
 module "get_resume_lambda_function" {

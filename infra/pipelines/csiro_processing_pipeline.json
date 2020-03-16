@@ -1,0 +1,486 @@
+{
+    "StartAt": "Start caris machine",
+    "States": {
+        "Start caris machine": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::ecs:runTask.sync",
+            "ResultPath": "$.previous_step__result",
+            "Parameters": {
+                "LaunchType": "FARGATE",
+                "Cluster": "${aws_ecs_cluster_arn}",
+                "TaskDefinition": "${aws_ecs_task_definition_startstopec2_arn}",
+                "NetworkConfiguration": {
+                    "AwsvpcConfiguration": {
+                        "AssignPublicIp": "ENABLED",
+                        "SecurityGroups": [
+                            "${aws_ecs_task_definition_caris_sg}"
+                        ],
+                        "Subnets": [
+                            "${aws_ecs_task_definition_caris_subnet}"
+                        ]
+                    }
+                },
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "ON",
+                                "caris"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Identify failed step",
+            "TimeoutSeconds": 180
+        },
+        "Identify failed step": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "ResultPath": "$.data.lambdaresult",
+            "Parameters": {
+                "FunctionName": "arn:aws:lambda:ap-southeast-2:288871573946:function:getResumeFromStep:$LATEST",
+                "Payload": {
+                    "stateMachineArn": "arn:aws:states:ap-southeast-2:288871573946:stateMachine:ausseabed-processing-pipeline-csiro"
+                }
+            },
+            "Next": "Resume from step"
+        },
+        "Resume from step": {
+            "Type": "Choice",
+            "Choices": [
+        %{ for resume_step in steps }
+        {
+                    "Or": [
+                        {
+                            "Variable": "$.data.lambdaresult.Payload.body.state",
+                            "StringEquals": "${resume_step}"
+                        },
+                        {
+                            "Variable": "$.resume_from",
+                            "StringEquals": "${resume_step}"
+                        }
+                    ],
+                    "Next": "${resume_step}"
+                },
+        %{ endfor }
+        {
+                    "Variable": "$.data.lambdaresult.Payload.body.state",
+                    "StringEquals": "Upload processed data to s3",
+                    "Next": "Upload processed data to s3"
+                }
+            ],
+            "Default": "Get caris version"
+        },
+        "Get caris version": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "${caris_ip}",
+                                "-c",
+                                "powershell carisbatch --version "
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "prepare landing directory",
+            "TimeoutSeconds": 180
+        },
+        "prepare landing directory": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "${caris_ip}",
+                                "-c",
+                                "powershell \"Remove-Item  ${local_storage_folder} -Recurse -Force; md ${local_storage_folder}\""
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Fetch L0 data from s3",
+            "TimeoutSeconds": 180
+        },
+        "Fetch L0 data from s3": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command.$": "$.s3_down_sync_command"
+                        }
+                    ]
+                }
+            },
+            "Next": "data quality check",
+            "TimeoutSeconds": 60000
+        },
+        "data quality check": {
+            "Type": "Pass",
+            "Result": "Hello World!",
+            "ResultPath": "$.previous_step__result",
+            "Next": "prepare change vessel config file"
+        },
+        "prepare change vessel config file": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "${caris_ip}",
+                                "-c",
+                                "powershell \"cp ${local_storage_folder}\\Investigator_em710.hvf ${local_storage_folder}\\Vessel.hvf\""
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Create HIPS file",
+            "TimeoutSeconds": 180
+        },
+        "Create HIPS file": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "${caris_ip}",
+                                "-c",
+                                "powershell \"md \"${local_storage_folder}\\GA-0364_BlueFin_MB\" ;carisbatch --run CreateHIPSFile  --output-crs EPSG:32755 \"${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\"\""
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Import to HIPS",
+            "TimeoutSeconds": 360
+        },
+        "Import to HIPS": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "${caris_ip}",
+                                "-c",
+                                "powershell \"cd ${local_storage_folder}\\Rawdata; Get-ChildItem -File -Path  ./* -Include *.all | foreach {carisbatch --run ImportToHIPS --input-format KONGSBERG --input-crs EPSG:32755 --vessel-file ${local_storage_folder}\\Vessel.hvf --convert-navigation --gps-height-device GGK  $_.fullname ${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips }\" "
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Upload checkpoint 1 to s3",
+            "TimeoutSeconds": 60000
+        },
+        "Upload checkpoint 1 to s3": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command.$": "$.s3_up_sync_command"
+                        }
+                    ]
+                }
+            },
+            "Next": "Import HIPS From Auxiliary",
+            "TimeoutSeconds": 6000
+        },
+        "Import HIPS From Auxiliary": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "${caris_ip}",
+                                "-c",
+                                "powershell \"cd ${local_storage_folder}\\000; carisbatch  --run ImportHIPSFromAuxiliary --input-format APP_POSMV --allow-partial --maximum-gap 1000sec \"./*.*\" --delayed-heave 0sec --delayed-heave-rms 0sec --navigation --navigation-rms 0sec --gyro 0sec --gyro-rms 0sec --pitch 0sec --pitch-rms 0sec --roll 0sec --roll-rms 0sec --gps-height 0sec --gps-height-rms 0sec  \"file:///${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" ; Remove-Item  ${local_storage_folder}\\GA-0364_BlueFin_MB\\TrackLines_GA-0364_BlueFin_MB\\*.rawdataindex -Recurse -Force \" "
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Upload checkpoint 2 to s3",
+            "TimeoutSeconds": 60000
+        },
+        "Upload checkpoint 2 to s3": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command.$": "$.s3_up_sync_command"
+                        }
+                    ]
+                }
+            },
+            "Next": "change vessel config file to calculated",
+            "TimeoutSeconds": 6000
+        },
+        "change vessel config file to calculated": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "${caris_ip}",
+                                "-c",
+                                "powershell \"cp ${local_storage_folder}\\Investigator_em710_4ers_calc.hvf ${local_storage_folder}\\Vessel.hvf\""
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Compute GPS Vertical Adjustment",
+            "TimeoutSeconds": 180
+        },
+        "Compute GPS Vertical Adjustment": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "${caris_ip}",
+                                "-c",
+                                "powershell \"carisbatch  --run GeoreferenceHIPSBathymetry  --vertical-datum-reference GPS --compute-gps-vertical-adjustment  --sounding-datum-offset -7.74m --heave-source DELAYED_HEAVE --output-components \"file:///${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" \" "
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "change vessel config file to original",
+            "TimeoutSeconds": 60000
+        },
+        "change vessel config file to original": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "${caris_ip}",
+                                "-c",
+                                "powershell \"cp ${local_storage_folder}\\Investigator_em710.hvf ${local_storage_folder}\\Vessel.hvf\""
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Georeference HIPS Bathymetry",
+            "TimeoutSeconds": 180
+        },
+        "Georeference HIPS Bathymetry": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "${caris_ip}",
+                                "-c",
+                                "powershell \"carisbatch  --run GeoreferenceHIPSBathymetry  --vertical-datum-reference GPS --sounding-datum-offset 0m --heave-source DELAYED_HEAVE --compute-tpu --tide-measured 0.0m --tide-zoning 0.1m --sv-measured 1.0m/s --sv-surface 0.2m/s --source-navigation REALTIME --source-sonar REALTIME --source-gyro REALTIME --source-pitch REALTIME --source-roll REALTIME --source-heave DELAYED --source-tide STATIC --output-components \"file:///${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips\" \" "
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Upload checkpoint 3 to s3",
+            "TimeoutSeconds": 60000
+        },
+        "Upload checkpoint 3 to s3": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command.$": "$.s3_up_sync_command"
+                        }
+                    ]
+                }
+            },
+            "Next": "Create Variable Resolution HIPS Grid With Cube",
+            "TimeoutSeconds": 6000
+        },
+        "Create Variable Resolution HIPS Grid With Cube": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "${caris_ip}",
+                                "-c",
+                                "powershell \"carisbatch --run CreateVRSurface --estimation-method RANGE --range-file ${local_storage_folder}\\depth_ranges.txt --range-method PERCENTILE --range-percentile 50 --input-band DEPTH --max-grid-size 64 --min-grid-size 4 --include-flag ACCEPTED ${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.csar; carisbatch --run PopulateVRSurface --population-method CUBE --input-band Depth --include-flag ACCEPTED --vertical-uncertainty \\\"Depth TPU\\\" --horizontal-uncertainty \\\"Position TPU\\\" --display-bias HIGHEST --disambiguation-method DENSITY_LOCALE --cube-config-file=D:\\Bluefin\\CUBEParams_AusSeabed_2019.xml --cube-config-name=AusSeabed_VR  ${local_storage_folder}\\GA-0364_BlueFin_MB\\GA-0364_BlueFin_MB.hips ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.csar\""
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Upload checkpoint 5 to s3",
+            "TimeoutSeconds": 60000
+        },
+        "Upload checkpoint 5 to s3": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command.$": "$.s3_up_sync_command"
+                        }
+                    ]
+                }
+            },
+            "Next": "Export raster as BAG",
+            "TimeoutSeconds": 6000
+        },
+        "Export raster as BAG": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "${caris_ip}",
+                                "-c",
+                                "powershell \" carisbatch --run ExportVRSurfaceToBAG --include-band Depth --uncertainty Uncertainty --uncertainty-type PRODUCT_UNCERT --abstract undefined --status UNDER_DEV --vertical-datum \\\"Mean Sea Level\\\" --party-name undefined --party-position undefined --party-organization undefined --party-role POINT_OF_CONTACT --legal-constraints OTHER_RESTRICTIONS --other-constraints NA --security-constraints UNCLASSIFIED --notes NA --compression-level 1 ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.bag \" "
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Export raster as LAS",
+            "TimeoutSeconds": 60000
+        },
+        "Export raster as LAS": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "-ip",
+                                "${caris_ip}",
+                                "-c",
+                                "powershell \" carisbatch --run ExportPoints --output-format LAS --las-version 1.4 --include-band Depth ELEVATION ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.csar ${local_storage_folder}\\GA-0364_BlueFin_MB\\BlueFin_2018-172_VR.las \""
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Next": "Upload processed data to s3",
+            "TimeoutSeconds": 60000
+        },
+        "Upload processed data to s3": {
+            ${runtask},
+            "Parameters": {
+                ${parameters},
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command.$": "$.s3_up_sync_command"
+                        }
+                    ]
+                }
+            },
+            "Next": "Stop caris machine",
+            "TimeoutSeconds": 60000
+        },
+        "Stop caris machine": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::ecs:runTask.sync",
+            "ResultPath": "$.previous_step__result",
+            "Parameters": {
+                "LaunchType": "FARGATE",
+                "Cluster": "${aws_ecs_cluster_arn}",
+                "TaskDefinition": "${aws_ecs_task_definition_startstopec2_arn}",
+                "NetworkConfiguration": {
+                    "AwsvpcConfiguration": {
+                        "AssignPublicIp": "ENABLED",
+                        "SecurityGroups": [
+                            "${aws_ecs_task_definition_caris_sg}"
+                        ],
+                        "Subnets": [
+                            "${aws_ecs_task_definition_caris_subnet}"
+                        ]
+                    }
+                },
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "app",
+                            "Command": [
+                                "OFF",
+                                "caris"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "End": true,
+            "TimeoutSeconds": 180
+        }
+    }
+}

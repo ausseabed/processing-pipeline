@@ -18,5 +18,4 @@ geoserver_initial_memory="2G"
 geoserver_maximum_memory="2G"
 
 postgres_server_spec="db.t2.micro"
-postgres_admin_password=""
 

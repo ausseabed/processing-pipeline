@@ -25,3 +25,6 @@ variable "server_memory"{}
 variable "geoserver_initial_memory"{}
 variable "geoserver_maximum_memory"{}
 variable "geoserver_admin_password"{}
+
+variable "postgres_admin_password"{}
+variable "postgres_server_spec"{}

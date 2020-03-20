@@ -1,5 +1,4 @@
 aws_region = "ap-southeast-2"
-project_name = "ausseabed-processing-pipeline"
 vpc_cidr = "173.31.0.0/16"
 public_cidrs = [
     "173.31.0.0/16"

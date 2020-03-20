@@ -7,7 +7,7 @@ orbs:
 jobs:
   build_and_push_caris_caller_image:
     machine:
-      image: ubuntu-1604:201903-01
+      image: ubuntu-1604:202303-01
     steps:
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
@@ -47,7 +47,7 @@ jobs:
 
   build_and_push_geoserver_image:
     machine:
-      image: ubuntu-1604:201903-01
+      image: ubuntu-1604:202303-01
     steps:
       - checkout
       - attach_workspace:
@@ -69,7 +69,7 @@ jobs:
           #tag: 'ausseabed-geoserver-2.16.2' 
   build_and_push_startstopec2_image:
     machine:
-      image: ubuntu-1604:201903-01
+      image: ubuntu-1604:202303-01
     steps:
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
@@ -124,7 +124,7 @@ jobs:
       - checkout
       - run:
           name: Install terraform
-          command: wget https://releases.hashicorp.com/terraform/0.12.19/terraform_0.12.19_linux_amd64.zip && unzip terraform_0.12.19_linux_amd64.zip && chmod +x terraform && sudo mv terraform /usr/bin/
+          command: wget https://releases.hashicorp.com/terraform/0.12.23/terraform_0.12.23_linux_amd64.zip && unzip terraform_0.12.23_linux_amd64.zip && chmod +x terraform && sudo mv terraform /usr/bin/
       - run:
           name: terraform init
           working_directory: ./infra
@@ -150,7 +150,7 @@ jobs:
       - checkout
       - run:
           name: Install terraform
-          command: wget https://releases.hashicorp.com/terraform/0.12.19/terraform_0.12.19_linux_amd64.zip && unzip terraform_0.12.19_linux_amd64.zip && chmod +x terraform && sudo mv terraform /usr/bin/
+          command: wget https://releases.hashicorp.com/terraform/0.12.23/terraform_0.12.23_linux_amd64.zip && unzip terraform_0.12.23_linux_amd64.zip && chmod +x terraform && sudo mv terraform /usr/bin/
       - run:
           name: terraform init
           working_directory: ./infra_warehouse
@@ -158,11 +158,11 @@ jobs:
       - run:
           name: terraform plan
           working_directory: ./infra_warehouse
-          command: terraform plan 
+          command: terraform plan
       - run:
           name: terraform apply 
           working_directory: ./infra_warehouse
-          command: terraform apply --auto-approve      
+          command: terraform apply --auto-approve 
     
 
 workflows:

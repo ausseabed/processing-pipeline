@@ -17,4 +17,3 @@ geoserver_image = "288871573946.dkr.ecr.ap-southeast-2.amazonaws.com/ausseabed-g
 
 geoserver_initial_memory="2G"
 geoserver_maximum_memory="2G"
-geoserver_admin_password="c1d2-54fe-84f9-7149-f005-ffa8-cbe6-e7b4"

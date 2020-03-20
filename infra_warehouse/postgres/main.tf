@@ -8,7 +8,7 @@ resource "aws_db_instance" "default" {
   iam_database_authentication_enabled = false
   storage_type         = "gp2"
   engine               = "postgres"
-  engine_version       = "11.7"
+  engine_version       = "11.6"
   instance_class       = var.postgres_server_spec 
   name                 = "asb-datawarehouse"
   username             = "postgres"

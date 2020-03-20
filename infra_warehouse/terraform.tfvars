@@ -21,3 +21,4 @@ geoserver_admin_password="c1d2-54fe-84f9-7149-f005-ffa8-cbe6-e7b4"
 
 postgres_server_spec="db.t2.micro"
 postgres_admin_password=""
+

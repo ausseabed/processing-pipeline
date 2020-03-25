@@ -20,10 +20,25 @@ module "networking" {
   jumpboxip     = var.jumpboxip
 }
 
+module "ssm" {
+  source = "./ssm"
+  environment = var.environment
+  owner = var.owner
+  stack_name = var.stack_name
+}
+
+
+module "ancillary" {
+  source = "./ancillary"
+  ausseabed-processing-pipeline = module.pipelines.ausseabed-processing-pipeline-ga
+}
+
 module "compute" {
+
   source                      = "./compute"
   fargate_cpu                 = var.fargate_cpu
   fargate_memory              = var.fargate_memory
+  caris_windows_instance_profile_name   = module.ancillary.caris-windows-instance-profile
   caris_caller_image                   = var.caris_caller_image
   startstopec2_image                   = var.startstopec2_image
   gdal_image = var.gdal_image
@@ -34,11 +49,6 @@ module "compute" {
   private_sg  = module.networking.private_sg
   public_subnets  = module.networking.public_subnets
   public_sg  = module.networking.public_sg
-}
-
-module "ancillary" {
-  source = "./ancillary"
-  ausseabed-processing-pipeline = module.pipelines.ausseabed-processing-pipeline-ga
 }
 
 module "pipelines" {

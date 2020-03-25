@@ -176,21 +176,36 @@ DEFINITION
 data "aws_caller_identity" "current" {}
 
 
-
-#data "aws_ami" "caris" {
-#  most_recent = true
-#  owners = ["self"] # Canonical
-#}
-
+data "aws_ami" "caris" {
+  name_regex = "Caris 11\\.2.*"
+  most_recent = true
+  owners = ["self"] # Canonical
+}
 
 resource "aws_instance" "caris-instance" {
-  ami           = "ami-0d7d61afb25447cf2"
+  ami           = data.aws_ami.caris.id
   instance_type = "t2.micro"
   subnet_id = var.public_subnets[0]
   vpc_security_group_ids = ["${var.public_sg}"]
+  #TODO Create key pair in Terraform as well
+  key_name = "ga-caris-windows-manual"
   tags = {
-    Name = "caris"
+    Name = "caris",
+    "Patch Group" = "windows"
   }
+
+  user_data = <<EOF
+<powershell>
+
+& "C:\Program Files\Tenable\Nessus Agent\nessuscli.exe" agent link --key=11731468f59adb10f0c4e16aed2257201d78d7496a42500aeec8415ead72edfb --name=$env:COMPUTERNAME --cloud --groups=ga-aws-ausseabed-nonprod
+
+
+</powershell>
+EOF
+
+  # This is defined in ../ancillary/iam_instance_profile.tf
+  iam_instance_profile = var.caris_windows_instance_profile_name
+
 }
 
 resource "aws_eip" "caris-instance" {

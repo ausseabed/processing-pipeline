@@ -1,5 +1,18 @@
 variable "aws_region" {}
 
+variable "stack_name" {
+  description = "The name of our application"
+  default     = "seabed"
+}
+
+variable "owner" {
+  description = "A group email address to be used in tags"
+  default     = "david.hudson@ga.gov.au"
+}
+
+variable "environment" {}
+
+
 #------ storage variables
 
 variable "local_storage_folder" {}

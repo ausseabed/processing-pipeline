@@ -2,6 +2,7 @@
 
 variable "fargate_cpu"{}
 variable "fargate_memory"{}
+variable "caris_windows_instance_profile_name" {}
 variable "caris_caller_image"{}
 variable "gdal_image"{}
 variable "mbsystem_image"{}

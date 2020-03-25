@@ -588,3 +588,36 @@ resource "aws_iam_role_policy" "getResumeFromStep-lambda-role-policy" {
 }
 DOC
 }
+
+resource "aws_iam_instance_profile" "caris_windows_instance_profile" {
+  name  = "caris-windows-instance-profile"
+  role = "${aws_iam_role.caris-windows-instance-role.id}"
+}
+
+# Caris Windows role
+resource "aws_iam_role" "caris-windows-instance-role" {
+  name = "caris-windows-instance-role"
+  path = "/"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+# Attach AWS default policy for Simple Systems Manager service role
+resource "aws_iam_role_policy_attachment" "ssm_policy_attachment" {
+  role       = "${aws_iam_role.caris-windows-instance-role.name}"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}

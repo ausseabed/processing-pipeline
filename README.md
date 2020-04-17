@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/ausseabed/processing-pipeline.svg?style=svg&circle-token=46ef01ebd72b56ec05a514c067d23655292ac5d8)]
+[![CircleCI](https://circleci.com/gh/ausseabed/processing-pipeline.svg?style=svg&circle-token=46ef01ebd72b56ec05a514c067d23655292ac5d8)](https://circleci.com/gh/ausseabed/processing-pipeline)
 
 
 This repo contains both the infrastructure and application code for ausseabed processing pipeline. There are two other supporting code repos

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # create_hillshade.sh creates a hillshade for bathymetry for presentation purposes
 
 echo Starting script

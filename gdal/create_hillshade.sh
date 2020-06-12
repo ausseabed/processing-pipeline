@@ -23,9 +23,15 @@ echo resulting variable VSIS3_DEST="$VSIS3_DEST"
 echo resulting variable LOCALNAME_DEST="$LOCALNAME_DEST"
 echo resulting variable S3DIR_DEST="$S3DIR_DEST"
 
+if [ `./exists.py "$S3DIR_DEST""$LOCALNAME_DEST.tif"` == "True" ] 
+then 
+  echo "$S3DIR_DEST""$LOCALNAME_DEST.tif" already exists
+  exit 0
+fi
+
 set -x
 echo Creating hillshade
-gdaldem hillshade "$VSIS3_SRC" "$LOCALNAME_DEST".tif -az 30 -alt 45 -s 2
+gdaldem hillshade -co compress=DEFLATE -co TILED=YES -co BIGTIFF=IF_SAFER "$VSIS3_SRC" "$LOCALNAME_DEST".tif -az 30 -alt 45 -s 2
 
 echo Adding overlays
 gdaladdo -r average "$LOCALNAME_DEST".tif 2 4 8 16

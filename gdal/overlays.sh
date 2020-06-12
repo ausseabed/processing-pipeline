@@ -26,9 +26,15 @@ echo resulting variable VSIS3_DEST="$VSIS3_DEST"
 echo resulting variable LOCALNAME_DEST="$LOCALNAME_DEST"
 echo resulting variable S3DIR_DEST="$S3DIR_DEST"
 
+if [ `./exists.py "$S3DIR_DEST""$LOCALNAME_DEST.tif"` == "True" ] 
+then 
+  echo "$S3DIR_DEST""$LOCALNAME_DEST.tif" already exists
+  exit 0
+fi
+
 set -x
 echo Copying local
-gdal_translate -co compress=lzw -co "TILED=YES" "$VSIS3_SRC" "$LOCALNAME_DEST".tif 
+gdal_translate -co compress=DEFLATE -co TILED=YES -co BIGTIFF=IF_SAFER "$VSIS3_SRC" "$LOCALNAME_DEST".tif 
 
 echo Adding overlays
 gdaladdo -r average "$LOCALNAME_DEST".tif 2 4 8 16

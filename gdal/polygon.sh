@@ -22,7 +22,13 @@ echo resulting variable VSIS3_DEST="$VSIS3_DEST"
 echo resulting variable LOCALNAME_DEST="$LOCALNAME_DEST"
 echo resulting variable S3DIR_DEST="$S3DIR_DEST"
 
-gdal_translate -co compress=lzw -b 1 -ot byte -scale 1 1 "$VSIS3_SRC" "$LOCALNAME_DEST".tif 
+if [ `./exists.py "$S3DIR_DEST""$LOCALNAME_DEST.shp"` == "True" ] 
+then 
+  echo "$S3DIR_DEST""$LOCALNAME_DEST.shp" already exists
+  exit 0
+fi
+
+gdal_translate -co compress=DEFLATE -b 1 -ot byte -scale 1 1 "$VSIS3_SRC" "$LOCALNAME_DEST".tif 
 #gdal_translate -co compress=lzw -b 1 -ot byte -scale 1 1 /vsis3/bathymetry-survey-288871573946/TestObject.tif output.tif 
 echo Starting Polygonise
 /usr/bin/gdal_polygonize.py "$LOCALNAME_DEST".tif "$LOCALNAME_DEST".shp

@@ -1,5 +1,9 @@
 #!/bin/bash
 # create_hillshade.sh creates a hillshade for bathymetry for presentation purposes
+# requires environment variables:
+# S3_SRC_TIF
+# S3_DEST_TIF
+# SCALING_FACTOR (111120 for geographic, 1 for projection with horizontal unit of metres)
 
 echo Starting script
 
@@ -8,6 +12,7 @@ echo Starting script
 # S3_DEST_TIF="s3://ausseabed-public-bathymetry/L3/68f44afd-78d0-412f-bf9c-9c9fdbe43968/01_Bathy_Overlay.tif"
 
 echo Starting translate of "$S3_SRC_TIF"
+echo Scaling factor = "$SCALING_FACTOR"
 VSIS3_SRC=`echo "$S3_SRC_TIF" | sed "s/^s3../\/vsis3/"`
 LOCALNAME_SRC=`echo "$VSIS3_SRC" | sed "s/.*\///" | sed "s/\.[^\.]\+$//"`
 S3DIR_SRC=`echo "$S3_SRC_TIF" | sed "s/\/[^\/]\+$/\//"`
@@ -31,7 +36,7 @@ fi
 
 set -x
 echo Creating hillshade
-gdaldem hillshade -co compress=DEFLATE -co TILED=YES -co BIGTIFF=IF_SAFER "$VSIS3_SRC" "$LOCALNAME_DEST".tif -az 30 -alt 45 -s 2
+gdaldem hillshade -co compress=DEFLATE -co TILED=YES -co BIGTIFF=IF_SAFER "$VSIS3_SRC" "$LOCALNAME_DEST".tif -az 30 -alt 45 -z 2 -s "$SCALING_FACTOR"
 
 echo Adding overlays
 gdaladdo -r average "$LOCALNAME_DEST".tif 2 4 8 16

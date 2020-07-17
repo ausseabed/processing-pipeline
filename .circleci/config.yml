@@ -32,14 +32,6 @@ jobs:
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
           create-repo: false
-          dockerfile: ./gdal/Dockerfile
-          path: ./gdal/
-          region: AWS_REGION_ENV_VAR_NAME
-          repo: "ausseabed-gdal"
-          tag: "latest"
-      - aws-ecr/build-and-push-image:
-          account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
-          create-repo: false
           dockerfile: ./mbsystem/Dockerfile
           path: ./mbsystem/
           region: AWS_REGION_ENV_VAR_NAME
@@ -52,6 +44,19 @@ jobs:
           path: ./pdal/
           region: AWS_REGION_ENV_VAR_NAME
           repo: "ausseabed-pdal"
+          tag: "latest"
+
+  build_and_push_gdal_image:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
+          create-repo: false
+          dockerfile: ./gdal/Dockerfile
+          path: ./gdal/
+          region: AWS_REGION_ENV_VAR_NAME
+          repo: "ausseabed-gdal"
           tag: "latest"
 
 workflows:
@@ -67,3 +72,9 @@ workflows:
             branches:
               only:
                 - master
+      - build_and_push_gdal_image:
+          filters:
+            branches:
+              only:
+                - master
+                - /.*NGA-383.*/

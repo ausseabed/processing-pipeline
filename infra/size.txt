@@ -1,8 +1,0 @@
-{
-                "s3_dest_las": "s3://bathymetry-survey-288871573946/L0Coverage/Rawdata/0118_20180618_121806_BlueFin.las",
-                "s3_dest_shp": {
-                    "Name": "INPUT_FILES_74",
-                    "Value": "s3://bathymetry-survey-288871573946/L0Coverage/Rawdata/0118_20180618_121806_BlueFin.shp"
-                },
-                "s3_src_instrument": "s3://bathymetry-survey-288871573946-1/Rawdata//Rawdata/0118_20180618_121806_BlueFin.all"
-            },

@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   aws-ecr: circleci/aws-ecr@6.5.0
-  
 
 jobs:
   build_and_push_caris_caller_image:
@@ -16,8 +15,8 @@ jobs:
           path: ./carisbatch/
           region: AWS_REGION_ENV_VAR_NAME
           repo: callcarisbatch
-          tag: 'caris_caller_image-latest'
-  
+          tag: "caris_caller_image-latest"
+
   build_and_push_startstopec2_image:
     machine:
       image: ubuntu-1604:201903-01
@@ -29,58 +28,31 @@ jobs:
           path: ./startstopec2/
           region: AWS_REGION_ENV_VAR_NAME
           repo: callcarisbatch
-          tag: 'startstopec2_image-latest'
+          tag: "startstopec2_image-latest"
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
           create-repo: false
           dockerfile: ./gdal/Dockerfile
           path: ./gdal/
           region: AWS_REGION_ENV_VAR_NAME
-          repo: 'ausseabed-gdal'
-          tag: 'latest'
+          repo: "ausseabed-gdal"
+          tag: "latest"
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
           create-repo: false
           dockerfile: ./mbsystem/Dockerfile
           path: ./mbsystem/
           region: AWS_REGION_ENV_VAR_NAME
-          repo: 'ausseabed-mbsystem'
-          tag: 'latest'
+          repo: "ausseabed-mbsystem"
+          tag: "latest"
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
           create-repo: false
           dockerfile: ./pdal/Dockerfile
           path: ./pdal/
           region: AWS_REGION_ENV_VAR_NAME
-          repo: 'ausseabed-pdal'
-          tag: 'latest'                    
-  deploy_pipeline:
-    docker:
-      - image: circleci/python:3.7-stretch
-    steps:
-      - run:
-          name: Install awscli
-          command: sudo pip install awscli
-      - run:
-          name: check s3
-          command: aws sts get-caller-identity
-      - checkout
-      - run:
-          name: Install terraform
-          command: wget https://releases.hashicorp.com/terraform/0.12.23/terraform_0.12.23_linux_amd64.zip && unzip terraform_0.12.23_linux_amd64.zip && chmod +x terraform && sudo mv terraform /usr/bin/
-      - run:
-          name: terraform init
-          working_directory: ./infra
-          command: pwd && echo $CIRCLE_WORKING_DIRECTORY && terraform init
-      - run:
-          name: terraform plan
-          working_directory: ./infra
-          command: terraform plan 
-      - run:
-          name: terraform apply 
-          working_directory: ./infra
-          command: terraform apply --auto-approve
-  
+          repo: "ausseabed-pdal"
+          tag: "latest"
 
 workflows:
   update_infra_and_application:
@@ -89,18 +61,9 @@ workflows:
           filters:
             branches:
               only:
-               - master
+                - master
       - build_and_push_startstopec2_image:
           filters:
             branches:
               only:
-               - master
-      - deploy_pipeline:
-          filters:
-            branches:
-              only:
-               - master
-          requires:
-            - build_and_push_caris_caller_image
-            - build_and_push_startstopec2_image           
-  
+                - master

@@ -48,4 +48,4 @@ echo Ensuring cloud optimised layout
 gdal_translate -co compress=DEFLATE -co LEVEL=9 -co TILED=YES -co BIGTIFF=IF_SAFER -co COPY_SRC_OVERVIEWS=YES -of COG "$LOCALNAME_DEST"_in.tif "$LOCALNAME_DEST".tif 
 
 echo AWS commit
-/usr/local/bin/aws s3 cp "$LOCALNAME_DEST".tif "$S3DIR_DEST""$LOCALNAME_DEST.tif"
+/usr/local/bin/aws s3 cp "$LOCALNAME_DEST".tif "$S3DIR_DEST""$LOCALNAME_DEST.tif" --acl bucket-owner-full-control

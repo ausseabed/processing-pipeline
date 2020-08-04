@@ -33,4 +33,4 @@ gdal_translate -co compress=DEFLATE -b 1 -ot byte -scale 1 1 "$VSIS3_SRC" "$LOCA
 echo Starting Polygonise
 /usr/bin/gdal_polygonize.py "$LOCALNAME_DEST".tif "$LOCALNAME_DEST".shp
 echo AWS commit
-/usr/local/bin/aws s3 cp . "$S3DIR_DEST" --recursive --exclude "*" --include "$LOCALNAME_DEST*" --exclude "*.tif" 
+/usr/local/bin/aws s3 cp . "$S3DIR_DEST" --recursive --exclude "*" --include "$LOCALNAME_DEST*" --exclude "*.tif" --acl bucket-owner-full-control

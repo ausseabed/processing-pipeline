@@ -42,7 +42,7 @@ echo Creating hillshade
 gdaldem hillshade -co compress=DEFLATE -co TILED=YES -co BIGTIFF=IF_SAFER "$LOCALNAME_DEST"_local.tif "$LOCALNAME_DEST"_in.tif -az 30 -alt 45 -z 2 -s "$SCALING_FACTOR"
 
 echo Adding overlays
-gdaladdo -r average "$LOCALNAME_DEST"_in.tif 2 4 8 16
+gdaladdo -r average "$LOCALNAME_DEST"_in.tif 2 4 8 16 32
 
 echo Ensuring cloud optimised layout
 gdal_translate -co compress=DEFLATE -co LEVEL=9 -co TILED=YES -co BIGTIFF=IF_SAFER -co COPY_SRC_OVERVIEWS=YES -of COG "$LOCALNAME_DEST"_in.tif "$LOCALNAME_DEST".tif 

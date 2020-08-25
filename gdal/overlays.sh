@@ -39,7 +39,7 @@ gdal_translate -co compress=DEFLATE -co TILED=YES -co BIGTIFF=IF_SAFER "$VSIS3_S
 
 df
 echo Adding overlays
-gdaladdo -r average "$LOCALNAME_DEST"_in.tif 2 4 8 16
+gdaladdo -r average "$LOCALNAME_DEST"_in.tif 2 4 8 16 32
 
 df
 echo Ensuring cloud optimised layout

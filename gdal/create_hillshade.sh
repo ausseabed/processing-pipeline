@@ -35,12 +35,18 @@ then
   exit 0
 fi
 
-set -x
-echo Copying local
-gdal_translate -co compress=DEFLATE -co TILED=YES -co BIGTIFF=IF_SAFER "$VSIS3_SRC" "$LOCALNAME_DEST"_local.tif 
+SIZE=`aws s3 ls "$S3_SRC_TIF" | head -1 | awk '{print $3}'`
+
+TARGET="$VSIS3_SRC"
+if [ $SIZE -lt 3000000000 ]
+then 
+  echo "Copying local to speed up processing (can't do this for very large grids)"
+  TARGET="$LOCALNAME_DEST"_local.tif 
+  gdal_translate -co compress=DEFLATE -co TILED=YES -co BIGTIFF=IF_SAFER "$VSIS3_SRC" "$TARGET" 
+fi
 
 echo Creating hillshade
-gdaldem hillshade -co compress=DEFLATE -co TILED=YES -co BIGTIFF=IF_SAFER "$LOCALNAME_DEST"_local.tif "$LOCALNAME_DEST"_in.tif -az 30 -alt 45 -z 2 -s "$SCALING_FACTOR"
+gdaldem hillshade -co compress=DEFLATE -co TILED=YES -co BIGTIFF=IF_SAFER "$TARGET" "$LOCALNAME_DEST"_in.tif -az 30 -alt 45 -z 2 -s "$SCALING_FACTOR"
 
 echo Adding overlays
 gdaladdo -r average "$LOCALNAME_DEST"_in.tif 2 4 8 16 32

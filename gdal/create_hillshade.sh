@@ -28,6 +28,7 @@ S3DIR_DEST=`echo "$S3_DEST_TIF" | sed "s/\/[^\/]\+$/\//"`
 echo resulting variable VSIS3_DEST="$VSIS3_DEST"
 echo resulting variable LOCALNAME_DEST="$LOCALNAME_DEST"
 echo resulting variable S3DIR_DEST="$S3DIR_DEST"
+set -x
 
 if [ `./exists.py "$S3DIR_DEST""$LOCALNAME_DEST.tif"` == "True" ] 
 then 
@@ -36,9 +37,10 @@ then
 fi
 
 SIZE=`aws s3 ls "$S3_SRC_TIF" | head -1 | awk '{print $3}'`
+echo "$SIZE"
 
 TARGET="$VSIS3_SRC"
-if [ $SIZE -lt 3000000000 ]
+if [ "$SIZE" -lt 3000000000 ]
 then 
   echo "Copying local to speed up processing (can't do this for very large grids)"
   TARGET="$LOCALNAME_DEST"_local.tif 

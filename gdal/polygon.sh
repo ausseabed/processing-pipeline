@@ -5,6 +5,8 @@ env
 # test with export AWS_NO_SIGN_REQUEST=YES
 
 # test with s3://bathymetry-survey-288871573946/TestObject.tif
+
+echo "S3_ACCOUNT_CANONICAL_ID=$S3_ACCOUNT_CANONICAL_ID"
 echo Starting translate of "$S3_SRC_TIF"
 VSIS3_SRC=`echo "$S3_SRC_TIF" | sed "s/^s3../\/vsis3/"`
 LOCALNAME=`echo "$VSIS3_SRC" | sed "s/.*\///" | sed "s/\.[^\.]\+$//"`
@@ -63,4 +65,4 @@ echo Simplifying polygon
 ogr2ogr "$LOCALNAME_DEST".shp area_"$LOCALNAME_DEST".shp -simplify $SIMPLIFY_CELL_SIZE
 
 echo AWS commit
-/usr/local/bin/aws s3 cp . "$S3DIR_DEST" --recursive --exclude "*" --include "$LOCALNAME_DEST*" --exclude "*.tif" --acl bucket-owner-full-control
+/usr/local/bin/aws s3 cp . "$S3DIR_DEST" --recursive --exclude "*" --include "$LOCALNAME_DEST*" --exclude "*.tif" --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=id="$S3_ACCOUNT_CANONICAL_ID"

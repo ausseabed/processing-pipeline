@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/usr/bin/python3
 import boto3
 from urllib.parse import urlparse
 import logging

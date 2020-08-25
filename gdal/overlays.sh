@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # overlays.sh creates 'overlays' and 'tiles' for geotiffs and
 # stores them internal to the .tiff. This means that Geoserver's
 # S3GeoTiff plugin can read them.

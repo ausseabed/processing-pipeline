@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # create_hillshade.sh creates a hillshade for bathymetry for presentation purposes
 # requires environment variables:
 # S3_SRC_TIF

@@ -39,7 +39,12 @@ echo Creating single polygon exactly replicating raster
 ogr2ogr poly_"$LOCALNAME_DEST".shp polies_"$LOCALNAME_DEST".shp -dialect sqlite -sql "SELECT ST_Collect(geometry) AS geometry FROM polies_$LOCALNAME_DEST"
 
 echo Adding area calcs to single polygon exactly replicating raster
-ogr2ogr "$LOCALNAME_DEST"_full.shp poly_"$LOCALNAME_DEST".shp -sql "SELECT *, OGR_GEOM_AREA AS area FROM poly_$LOCALNAME_DEST"
+if [ -z "${GEOGRAPHIC}" ] 
+then
+  ogr2ogr "$LOCALNAME_DEST"_full.shp poly_"$LOCALNAME_DEST".shp -sql "SELECT *, OGR_GEOM_AREA AS area_dg2 FROM poly_$LOCALNAME_DEST"
+else
+  ogr2ogr "$LOCALNAME_DEST"_full.shp poly_"$LOCALNAME_DEST".shp -sql "SELECT *, OGR_GEOM_AREA / 1000000 AS area_km2 FROM poly_$LOCALNAME_DEST"
+fi
 
 gdalinfo "$LOCALNAME_DEST".tif 
 
@@ -56,8 +61,12 @@ echo Creating single polygon
 ogr2ogr poly_min_"$LOCALNAME_DEST".shp polies_"$LOCALNAME_DEST".shp -dialect sqlite -sql "SELECT ST_Collect(geometry) AS geometry FROM polies_$LOCALNAME_DEST WHERE Area(geometry) > $SIMPLE_AREA"
 
 echo Adding area calcs
-ogr2ogr area_"$LOCALNAME_DEST".shp poly_min_"$LOCALNAME_DEST".shp -sql "SELECT *, OGR_GEOM_AREA AS area FROM poly_min_$LOCALNAME_DEST"
-
+if [ -z "${GEOGRAPHIC}" ] 
+then
+  ogr2ogr area_"$LOCALNAME_DEST".shp poly_min_"$LOCALNAME_DEST".shp -sql "SELECT *, OGR_GEOM_AREA AS area_dg2 AS area FROM poly_min_$LOCALNAME_DEST"
+else
+  ogr2ogr area_"$LOCALNAME_DEST".shp poly_min_"$LOCALNAME_DEST".shp -sql "SELECT *, OGR_GEOM_AREA / 1000000 AS area_km2 AS area FROM poly_min_$LOCALNAME_DEST"
+fi
 
 echo New cell size = $SIMPLIFY_CELL_SIZE
 

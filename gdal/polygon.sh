@@ -36,7 +36,7 @@ echo Starting polygonise
 /usr/bin/gdal_polygonize.py "$LOCALNAME_DEST".tif polies_"$LOCALNAME_DEST".shp 
 
 echo Creating single polygon exactly replicating raster
-ogr2ogr poly_"$LOCALNAME_DEST".shp polies_"$LOCALNAME_DEST".shp -dialect sqlite -sql "SELECT ST_Union(geometry) AS geometry FROM polies_$LOCALNAME_DEST"
+ogr2ogr poly_"$LOCALNAME_DEST".shp polies_"$LOCALNAME_DEST".shp -dialect sqlite -sql "SELECT ST_Collect(geometry) AS geometry FROM polies_$LOCALNAME_DEST"
 
 echo Adding area calcs to single polygon exactly replicating raster
 ogr2ogr "$LOCALNAME_DEST"_full.shp poly_"$LOCALNAME_DEST".shp -sql "SELECT *, OGR_GEOM_AREA AS area FROM poly_$LOCALNAME_DEST"
@@ -53,7 +53,7 @@ fi
 SIMPLE_AREA=`echo "$SIMPLIFY_CELL_SIZE * $SIMPLIFY_CELL_SIZE" | bc`
 
 echo Creating single polygon
-ogr2ogr poly_min_"$LOCALNAME_DEST".shp polies_"$LOCALNAME_DEST".shp -dialect sqlite -sql "SELECT ST_Union(geometry) AS geometry FROM polies_$LOCALNAME_DEST WHERE Area(geometry) > $SIMPLE_AREA"
+ogr2ogr poly_min_"$LOCALNAME_DEST".shp polies_"$LOCALNAME_DEST".shp -dialect sqlite -sql "SELECT ST_Collect(geometry) AS geometry FROM polies_$LOCALNAME_DEST WHERE Area(geometry) > $SIMPLE_AREA"
 
 echo Adding area calcs
 ogr2ogr area_"$LOCALNAME_DEST".shp poly_min_"$LOCALNAME_DEST".shp -sql "SELECT *, OGR_GEOM_AREA AS area FROM poly_min_$LOCALNAME_DEST"

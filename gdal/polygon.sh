@@ -41,9 +41,9 @@ ogr2ogr poly_"$LOCALNAME_DEST".shp polies_"$LOCALNAME_DEST".shp -dialect sqlite 
 echo Adding area calcs to single polygon exactly replicating raster
 if [ -z "${GEOGRAPHIC}" ] 
 then
-  ogr2ogr "$LOCALNAME_DEST"_full.shp poly_"$LOCALNAME_DEST".shp -sql "SELECT *, CAST(OGR_GEOM_AREA / 1000000 AS area_km2 as float(19)) FROM poly_$LOCALNAME_DEST"
+  ogr2ogr "$LOCALNAME_DEST"_full.shp poly_"$LOCALNAME_DEST".shp -sql "SELECT *, CAST(OGR_GEOM_AREA / 1000000 AS float(19)) AS area_km2 FROM poly_$LOCALNAME_DEST"
 else
-  ogr2ogr "$LOCALNAME_DEST"_full.shp poly_"$LOCALNAME_DEST".shp -sql "SELECT *, CAST(OGR_GEOM_AREA AS area_dg2 as float(19)) FROM poly_$LOCALNAME_DEST"
+  ogr2ogr "$LOCALNAME_DEST"_full.shp poly_"$LOCALNAME_DEST".shp -sql "SELECT *, CAST(OGR_GEOM_AREA AS float(19)) AS area_dg2 FROM poly_$LOCALNAME_DEST"
 fi
 
 gdalinfo "$LOCALNAME_DEST".tif 
@@ -63,9 +63,9 @@ ogr2ogr poly_min_"$LOCALNAME_DEST".shp polies_"$LOCALNAME_DEST".shp -dialect sql
 echo Adding area calcs
 if [ -z "${GEOGRAPHIC}" ] 
 then
-  ogr2ogr area_"$LOCALNAME_DEST".shp poly_min_"$LOCALNAME_DEST".shp -sql "SELECT *, CAST(OGR_GEOM_AREA / 1000000 AS area_km2 as float(19)) FROM poly_min_$LOCALNAME_DEST"
+  ogr2ogr area_"$LOCALNAME_DEST".shp poly_min_"$LOCALNAME_DEST".shp -sql "SELECT *, CAST(OGR_GEOM_AREA / 1000000 AS float(19)) AS area_km2 FROM poly_min_$LOCALNAME_DEST"
 else
-  ogr2ogr area_"$LOCALNAME_DEST".shp poly_min_"$LOCALNAME_DEST".shp -sql "SELECT *, CAST((OGR_GEOM_AREA AS area_dg2 as float(19)) FROM poly_min_$LOCALNAME_DEST"
+  ogr2ogr area_"$LOCALNAME_DEST".shp poly_min_"$LOCALNAME_DEST".shp -sql "SELECT *, CAST(OGR_GEOM_AREA AS float(19)) AS area_dg2 FROM poly_min_$LOCALNAME_DEST"
 fi
 
 echo New cell size = $SIMPLIFY_CELL_SIZE

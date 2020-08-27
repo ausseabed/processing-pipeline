@@ -33,10 +33,10 @@ fi
 gdal_translate -co compress=DEFLATE -b 1 -ot byte -scale 1 1 "$VSIS3_SRC" "$LOCALNAME_DEST".tif 
 #gdal_translate -co compress=lzw -b 1 -ot byte -scale 1 1 /vsis3/bathymetry-survey-288871573946/TestObject.tif output.tif 
 echo Starting polygonise
-/usr/bin/gdal_polygonize.py "$LOCALNAME_DEST".tif polies_"$LOCALNAME_DEST".shp 
+/usr/bin/gdal_polygonize.py "$LOCALNAME_DEST".tif polies.shp 
 
 echo Creating single polygon exactly replicating raster
-ogr2ogr poly_"$LOCALNAME_DEST".shp polies_"$LOCALNAME_DEST".shp -dialect sqlite -sql "SELECT ST_Collect(geometry) AS geometry FROM polies_$LOCALNAME_DEST"
+ogr2ogr poly.shp polies.shp -dialect sqlite -sql "SELECT ST_Collect(geometry) AS geometry FROM polies"
 
 # TODO change geographic into a multiplier
 
@@ -48,7 +48,7 @@ else
   SCALING_FACTOR_SQ=`echo "$SCALING_FACTOR * $SCALING_FACTOR" | bc`
 fi
 
-ogr2ogr "$LOCALNAME_DEST"_full.shp poly_"$LOCALNAME_DEST".shp -sql "SELECT *, CAST(OGR_GEOM_AREA * $SCALING_FACTOR_SQ / 1000000 AS float(19)) AS area_km2 FROM poly_$LOCALNAME_DEST"
+ogr2ogr "$LOCALNAME_DEST"_full.shp poly.shp -sql "SELECT *, CAST(OGR_GEOM_AREA * $SCALING_FACTOR_SQ / 1000000 AS float(19)) AS area_km2 FROM poly"
 
 gdalinfo "$LOCALNAME_DEST".tif 
 
@@ -62,15 +62,15 @@ fi
 SIMPLE_AREA=`echo "$SIMPLIFY_CELL_SIZE * $SIMPLIFY_CELL_SIZE" | bc`
 
 echo Creating single polygon
-ogr2ogr poly_min_"$LOCALNAME_DEST".shp polies_"$LOCALNAME_DEST".shp -dialect sqlite -sql "SELECT ST_Collect(geometry) AS geometry FROM polies_$LOCALNAME_DEST WHERE Area(geometry) > $SIMPLE_AREA"
+ogr2ogr poly_min.shp polies.shp -dialect sqlite -sql "SELECT ST_Collect(geometry) AS geometry FROM polies WHERE Area(geometry) > $SIMPLE_AREA"
 
 echo Adding area calcs
-ogr2ogr area_"$LOCALNAME_DEST".shp poly_min_"$LOCALNAME_DEST".shp -sql "SELECT *, CAST(OGR_GEOM_AREA * $SCALING_FACTOR_SQ / 1000000 AS float(19)) AS area_km2 FROM poly_min_$LOCALNAME_DEST"
+ogr2ogr area.shp poly_min.shp -sql "SELECT *, CAST(OGR_GEOM_AREA * $SCALING_FACTOR_SQ / 1000000 AS float(19)) AS area_km2 FROM poly_min"
 
 echo New cell size = $SIMPLIFY_CELL_SIZE
 
 echo Simplifying polygon
-ogr2ogr "$LOCALNAME_DEST".shp area_"$LOCALNAME_DEST".shp -simplify $SIMPLIFY_CELL_SIZE
+ogr2ogr "$LOCALNAME_DEST".shp area.shp -simplify $SIMPLIFY_CELL_SIZE
 
 echo AWS commit
 /usr/local/bin/aws s3 cp . "$S3DIR_DEST" --recursive --exclude "*" --include "$LOCALNAME_DEST*" --exclude "*.tif" --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=id="$S3_ACCOUNT_CANONICAL_ID"

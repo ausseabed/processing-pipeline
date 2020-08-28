@@ -30,7 +30,7 @@ then
   exit 0
 fi
 
-gdal_translate -co compress=DEFLATE -b 1 -ot byte -scale 1 1 "$VSIS3_SRC" "$LOCALNAME_DEST".tif 
+gdal_translate -co compress=DEFLATE -b 1 -ot byte -scale 1 1 1 1 "$VSIS3_SRC" "$LOCALNAME_DEST".tif 
 #gdal_translate -co compress=lzw -b 1 -ot byte -scale 1 1 /vsis3/bathymetry-survey-288871573946/TestObject.tif output.tif 
 echo Starting polygonise
 /usr/bin/gdal_polygonize.py "$LOCALNAME_DEST".tif polies.shp 

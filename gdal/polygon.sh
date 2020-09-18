@@ -31,7 +31,7 @@ then
 fi
 
 echo "Create raster mask (1 across whole region)"
-gdal_translate -co compress=DEFLATE -b 1 -ot byte -scale 1 1 1 1 "$VSIS3_SRC" "$LOCALNAME_DEST"_a.tif 
+gdal_translate -co compress=DEFLATE -b 1 -a_nodata  255 -ot byte -scale 1 1 1 1 "$VSIS3_SRC" "$LOCALNAME_DEST"_a.tif 
 
 echo "Growing by a few pixels"
 /usr/bin/gdal_fillnodata.py -md 3 "$LOCALNAME_DEST"_a.tif "$LOCALNAME_DEST".tif -co compress=DEFLATE  
@@ -61,16 +61,18 @@ else
 fi
 echo SCALING_FACTOR_SQ = $SCALING_FACTOR_SQ
 
-gdalinfo "$LOCALNAME_DEST".tif 
+gdalinfo "$LOCALNAME_DEST"_a.tif 
 
 if [ -z "${SIMPLIFY_CELL_SIZE}" ] 
 then
   echo "SIMPLIFY_CELL_SIZE not set - esimated cell size"
-  cell_size=`gdalinfo "$LOCALNAME_DEST".tif | grep "Pixel Size" | sed "s/.*([-]\?//" | sed "s/,.*//"`
+  cell_size=`gdalinfo "$LOCALNAME_DEST"_a.tif | grep "Pixel Size" | sed "s/.*([-]\?//" | sed "s/,.*//"`
   SIMPLIFY_CELL_SIZE=`echo "$cell_size * 5" | bc`
 fi
 
 SIMPLE_AREA=`echo "$SIMPLIFY_CELL_SIZE * $SIMPLIFY_CELL_SIZE" | bc`
+
+echo "SIMPLE AREA THRESHOLD = $SIMPLE_AREA"
 
 echo "Creating single polygon"
 ogr2ogr poly_min.shp polies.shp -dialect sqlite -sql "SELECT ST_UNION(geometry) AS geometry FROM polies WHERE Area(geometry) > $SIMPLE_AREA"
@@ -94,4 +96,4 @@ mv "$LOCALNAME_DEST".dbf "$LOCALNAME_DEST".dbf.bak
 cp "$LOCALNAME_DEST"_full.dbf "$LOCALNAME_DEST".dbf
 
 echo "AWS commit"
-/usr/local/bin/aws s3 cp . "$S3DIR_DEST" --recursive --exclude "*" --include "$LOCALNAME_DEST*" --exclude "*.tif" --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=id="$S3_ACCOUNT_CANONICAL_ID"
+/usr/local/bin/aws s3 cp . "$S3DIR_DEST" --recursive --include "$LOCALNAME_DEST*" --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=id="$S3_ACCOUNT_CANONICAL_ID"

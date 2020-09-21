@@ -34,12 +34,12 @@ echo "Create raster mask (1 across whole region)"
 gdal_translate -co compress=DEFLATE -b 1 -a_nodata  255 -ot byte -scale 1 1 1 1 "$VSIS3_SRC" "$LOCALNAME_DEST"_a.tif 
 
 echo "Growing by a few pixels"
-/usr/bin/gdal_fillnodata.py -md 3 "$LOCALNAME_DEST"_a.tif "$LOCALNAME_DEST".tif -co compress=DEFLATE  
+/usr/bin/gdal_fillnodata.py -md 3 "$LOCALNAME_DEST"_a.tif "$LOCALNAME_DEST".tif -co compress=DEFLATE
 
 echo "Identifying the cells one shy of the current edge"
 # Create an output tif because the NoData value is inherited from the output
 cp "$LOCALNAME_DEST".tif "$LOCALNAME_DEST"_prox.tif
-/usr/bin/gdal_proximity.py "$LOCALNAME_DEST"_prox.tif "$LOCALNAME_DEST"_prox.tif -distunits PIXEL -values 1 -maxdist 1 -co compress=DEFLATE 
+/usr/bin/gdal_proximity.py "$LOCALNAME_DEST"_prox.tif "$LOCALNAME_DEST"_prox.tif -distunits PIXEL -values 1 -maxdist 1 -co compress=DEFLATE
 
 echo "Highlight the internal pixels (with value 1)"
 # Create an output tif because the NoData value is inherited from the output
@@ -47,7 +47,9 @@ cp "$LOCALNAME_DEST"_prox.tif "$LOCALNAME_DEST"_prox2.tif
 /usr/bin/gdal_proximity.py "$LOCALNAME_DEST"_prox2.tif "$LOCALNAME_DEST"_prox2.tif -distunits PIXEL -values 1 -maxdist 3 -fixed-buf-val 0 -co compress=DEFLATE -use_input_nodata YES
 
 echo "Combine the rasters to form a mask"
-/usr/bin/gdal_merge.py -o "$LOCALNAME_DEST"_prox3.tif -n 255 -a_nodata 0 -co compress=DEFLATE "$LOCALNAME_DEST".tif "$LOCALNAME_DEST"_prox2.tif
+# Runs out of memory - but quicker
+#/usr/bin/gdal_merge.py -o "$LOCALNAME_DEST"_prox3.tif -n 255 -a_nodata 0 -co compress=DEFLATE "$LOCALNAME_DEST".tif "$LOCALNAME_DEST"_prox2.tif
+/usr/bin/gdalwarp -co compress=DEFLATE -dstnodata 0 -srcnodata 255 -ot byte -wm 6144 -co tiled=YES "$LOCALNAME_DEST".tif "$LOCALNAME_DEST"_prox2.tif "$LOCALNAME_DEST"_prox3.tif
 
 echo "Starting polygonise"
 /usr/bin/gdal_polygonize.py -8 "$LOCALNAME_DEST".tif -mask "$LOCALNAME_DEST"_prox3.tif  polies.shp 
@@ -85,8 +87,13 @@ echo "New cell size = $SIMPLIFY_CELL_SIZE"
 echo "Simplifying polygon"
 ogr2ogr "$LOCALNAME_DEST".shp area.shp -simplify $SIMPLIFY_CELL_SIZE
 
+echo "Creating single polygon exactly replicating raster (for areas)"
+
+echo "Polygonise from original"
+/usr/bin/gdal_polygonize.py -8 "$LOCALNAME_DEST"_a.tif polies_a.shp 
+
 echo "Creating single polygon exactly replicating raster"
-ogr2ogr poly.shp polies.shp -dialect sqlite -sql "SELECT ST_Collect(geometry) AS geometry FROM polies"
+ogr2ogr poly.shp polies_a.shp -dialect sqlite -sql "SELECT ST_Collect(geometry) AS geometry FROM polies_a"
 
 echo "Adding area calcs to single polygon exactly replicating raster"
 ogr2ogr "$LOCALNAME_DEST"_full.shp poly.shp -sql "SELECT *, CAST(OGR_GEOM_AREA * $SCALING_FACTOR_SQ / 1000000 AS float(19)) AS area_km2 FROM poly"
@@ -96,4 +103,4 @@ mv "$LOCALNAME_DEST".dbf "$LOCALNAME_DEST".dbf.bak
 cp "$LOCALNAME_DEST"_full.dbf "$LOCALNAME_DEST".dbf
 
 echo "AWS commit"
-/usr/local/bin/aws s3 cp . "$S3DIR_DEST" --recursive --include "$LOCALNAME_DEST*" --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=id="$S3_ACCOUNT_CANONICAL_ID"
+/usr/local/bin/aws s3 cp . "$S3DIR_DEST" --recursive --exclude "*" --include "$LOCALNAME_DEST*" --exclude "*.tif" --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=id="$S3_ACCOUNT_CANONICAL_ID"

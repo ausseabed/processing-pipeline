@@ -2,6 +2,11 @@
 echo Starting script
 env
 
+# Create and run from a temporary folder
+tmp_dir=$(mktemp -d -t ci-$(date +%Y-%m-%d-%H-%M-%S)-XXXXXXXXXX --tmpdir=$PWD)
+echo $tmp_dir
+cd $tmp_dir
+
 # test with export AWS_NO_SIGN_REQUEST=YES
 
 # test with s3://bathymetry-survey-288871573946/TestObject.tif
@@ -24,7 +29,7 @@ echo resulting variable VSIS3_DEST="$VSIS3_DEST"
 echo resulting variable LOCALNAME_DEST="$LOCALNAME_DEST"
 echo resulting variable S3DIR_DEST="$S3DIR_DEST"
 
-if [ `./exists.py "$S3DIR_DEST""$LOCALNAME_DEST.shp"` == "True" ] 
+if [ `/usr/src/app/exists.py "$S3DIR_DEST""$LOCALNAME_DEST.shp"` == "True" ] 
 then 
   echo "$S3DIR_DEST""$LOCALNAME_DEST.shp" already exists
   exit 0
@@ -104,3 +109,6 @@ cp "$LOCALNAME_DEST"_full.dbf "$LOCALNAME_DEST".dbf
 
 echo "AWS commit"
 /usr/local/bin/aws s3 cp . "$S3DIR_DEST" --recursive --exclude "*" --include "$LOCALNAME_DEST*" --exclude "*.tif" --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=id="$S3_ACCOUNT_CANONICAL_ID"
+
+cd ..
+rm -rf $tmp_dir

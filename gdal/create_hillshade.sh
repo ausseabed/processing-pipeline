@@ -7,6 +7,11 @@
 
 echo Starting script
 
+# Create and run from a temporary folder
+tmp_dir=$(mktemp -d -t ci-$(date +%Y-%m-%d-%H-%M-%S)-XXXXXXXXXX --tmpdir=$PWD)
+echo $tmp_dir
+cd $tmp_dir
+
 # test with export AWS_NO_SIGN_REQUEST=YES
 # S3_SRC_TIF="s3://ausseabed-public-bathymetry/L3/68f44afd-78d0-412f-bf9c-9c9fdbe43968/01_Bathy.tif"
 # S3_DEST_TIF="s3://ausseabed-public-bathymetry/L3/68f44afd-78d0-412f-bf9c-9c9fdbe43968/01_Bathy_Overlay.tif"
@@ -30,7 +35,7 @@ echo resulting variable LOCALNAME_DEST="$LOCALNAME_DEST"
 echo resulting variable S3DIR_DEST="$S3DIR_DEST"
 set -x
 
-if [ `./exists.py "$S3DIR_DEST""$LOCALNAME_DEST.tif"` == "True" ] 
+if [ `/usr/src/app/exists.py "$S3DIR_DEST""$LOCALNAME_DEST.tif"` == "True" ] 
 then 
   echo "$S3DIR_DEST""$LOCALNAME_DEST.tif" already exists
   exit 0
@@ -58,3 +63,6 @@ gdal_translate -co compress=DEFLATE -co LEVEL=9 -co TILED=YES -co BIGTIFF=IF_SAF
 
 echo AWS commit
 /usr/local/bin/aws s3 cp "$LOCALNAME_DEST".tif "$S3DIR_DEST""$LOCALNAME_DEST.tif" --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers full=id="$S3_ACCOUNT_CANONICAL_ID"
+
+cd ..
+rm -rf $tmp_dir

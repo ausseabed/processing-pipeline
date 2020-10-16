@@ -35,6 +35,17 @@ RUN apk --no-cache add \
 RUN apk update && apk add python3 && apk add py3-pip && \
 pip3 install boto3
 
+# RUN apk add --no-cache gcc libffi-dev musl-dev openssl-dev make bash
+RUN apk add --no-cache dpkg binutils nfs-utils stunnel openssl util-linux git \
+    && mkdir -p /tmp/efsutils \
+    && cd /tmp/efsutils \
+    && git clone https://github.com/aws/efs-utils . \
+    && ./build-deb.sh \
+    && dpkg --force-all -i ./build/amazon-efs-utils*.deb \
+    && rm -Rf /tmp/efsutils
+RUN sed -i '/#region = us-east-1/s/^#//' /etc/amazon/efs/efs-utils.conf && cat /etc/amazon/efs/efs-utils.conf
+
+
 WORKDIR /usr/src/app
 
 COPY *.sh /usr/src/app/

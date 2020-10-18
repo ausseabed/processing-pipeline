@@ -43,8 +43,10 @@ RUN apk add --no-cache dpkg binutils nfs-utils stunnel openssl util-linux git \
     && ./build-deb.sh \
     && dpkg --force-all -i ./build/amazon-efs-utils*.deb \
     && rm -Rf /tmp/efsutils
-RUN sed -i '/#region = us-east-1/s/^#//' /etc/amazon/efs/efs-utils.conf && cat /etc/amazon/efs/efs-utils.conf
 
+# RUN sed -i 's/#region = us-east-1/region = ap-southeast-2/' /etc/amazon/efs/efs-utils.conf && cat /etc/amazon/efs/efs-utils.conf
+RUN mkdir /mnt/efs
+RUN chmod 755 /mnt/efs
 
 WORKDIR /usr/src/app
 

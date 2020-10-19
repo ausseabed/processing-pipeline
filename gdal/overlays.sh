@@ -6,7 +6,7 @@
 echo Starting script
 
 # Create and run from a temporary folder
-tmp_dir=$(mktemp -d -t ci-$(date +%Y-%m-%d-%H-%M-%S)-XXXXXXXXXX --tmpdir=$PWD)
+tmp_dir=$(mktemp -d -t ci-$(date +%Y-%m-%d-%H-%M-%S)-XXXXXXXXXX -p "$PWD")
 echo $tmp_dir
 cd $tmp_dir
 

@@ -56,6 +56,6 @@ COPY *.py /usr/src/app/
 RUN chmod +x /usr/src/app/*.py
 
 # restore link to python3 for gdal commands that use #!/usr/bin/env python3
-RUN ln -s /usr/bin/python3 /usr/bin/python
+RUN ln -s /usr/bin/python /usr/bin/python3
 
 CMD ["./polygon.sh"] 

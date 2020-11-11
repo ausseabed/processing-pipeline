@@ -26,7 +26,7 @@ class S3Exists():
             return False
         logging.debug("File exists - s3://%s/%s " % (bucket, s3_key))
         return True
-
+ 
 
 if __name__ == '__main__':
     s3Exists = S3Exists(str(sys.argv[1]))

@@ -39,47 +39,6 @@ Each step in the step function is either a lambda execution or a docker containe
 ## TODOs:
 ### Test cases:
 1. There arn't any test cases at the moment because there is very little custom code. Most of the system is built using integration of various off the shelf components. However, this calls for at least some form of integration testing. A simple but very effective test will be to run the pipeline on a known dataset and comparing the output to the known output. This test will be run using the CI pipeline while deploying a new version of the data pipleine.
-### Caris on docker:
-If this is possible then we can get rid of the static EC2 instance hosting Caris. The step function can then diretly execute carisbatch commands in caris docker instead of hopping through a python "pass-thru" container. As of today this "pass-thru" contianer existing as a bridge between Step function and Caris on EC2. The contianer establishes an ssh connection to the EC2 and executes carisbatch commands over ssh while retieveing stdout and stderr.
 
 ...more to come
-
-
-
-____________________
-#### Some notes on how to run the step function:
-
-1. Create an S3 bucket.
-2. Upload survey data including vessel config, metadata/instruction and depth ranges files to S3. This is intented to be automated using: https://gajira.atlassian.net/browse/NGA-94 (https://gajira.atlassian.net/browse/NGA-94). However, it can still be done manually when required.
-1. Trigger the appropiate pipeline from the AWS console or using AWS step function api.
-1. The input of the step function is currently(December 2019) , update parameters as required:
-  ```json
-  {
-  "s3_up_sync_command": [
-    "-ip",
-    "52.62.84.70",
-    "-c",
-    "aws s3 sync d:\\awss3bucket s3://bathymetry-survey-288871573946-csiro-matt-byod --acl public-read"
-  ],
-  "s3_down_sync_command": [
-    "-ip",
-    "52.62.84.70",
-    "-c",
-    "aws s3 sync s3://bathymetry-survey-288871573946-csiro-matt-byod d:\\awss3bucket"
-  ],
-  "resume_from": "data quality check"
-}
-```
-1. The step function will start the appropiate caris instance. Either
-  1. the caris instance in the same account
-  1. Or using the "-ip" argument as passed to the docker comamnd.
-1. Next the step function will identify which step to resume from as per:
-  1. Either the value of "resume_from_step"  input parameter
-  1. or the failed step during the last execution
-
-
-
-
-
-
    

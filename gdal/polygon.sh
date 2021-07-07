@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 echo Starting script
 env
 
@@ -44,12 +44,12 @@ echo "Growing by a few pixels"
 echo "Identifying the cells one shy of the current edge"
 # Create an output tif because the NoData value is inherited from the output
 cp "$LOCALNAME_DEST".tif "$LOCALNAME_DEST"_prox.tif
-/usr/bin/gdal_proximity.py "$LOCALNAME_DEST"_prox.tif "$LOCALNAME_DEST"_prox.tif -distunits PIXEL -values 1 -maxdist 1 -co compress=DEFLATE
+/usr/bin/gdal_proximity.py "$LOCALNAME_DEST"_prox.tif "$LOCALNAME_DEST"_prox.tif -distunits PIXEL -values 1 -maxdist 1 -co compress=DEFLATE -co CHECK_DISK_FREE_SPACE=FALSE
 
 echo "Highlight the internal pixels (with value 1)"
 # Create an output tif because the NoData value is inherited from the output
 cp "$LOCALNAME_DEST"_prox.tif "$LOCALNAME_DEST"_prox2.tif
-/usr/bin/gdal_proximity.py "$LOCALNAME_DEST"_prox2.tif "$LOCALNAME_DEST"_prox2.tif -distunits PIXEL -values 1 -maxdist 3 -fixed-buf-val 0 -co compress=DEFLATE -use_input_nodata YES
+/usr/bin/gdal_proximity.py "$LOCALNAME_DEST"_prox2.tif "$LOCALNAME_DEST"_prox2.tif -distunits PIXEL -values 1 -maxdist 3 -fixed-buf-val 0 -co compress=DEFLATE -co CHECK_DISK_FREE_SPACE=FALSE -use_input_nodata YES
 
 echo "Combine the rasters to form a mask"
 # Runs out of memory - but quicker

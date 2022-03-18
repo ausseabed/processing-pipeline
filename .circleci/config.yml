@@ -5,8 +5,8 @@ orbs:
 
 jobs:
   build_and_push_caris_caller_image:
-    machine:
-      image: cimg/base:2022.03
+    docker:
+      - image: cimg/base:2022.03
     steps:
       - aws-ecr/build-image:
           dockerfile: ./carisbatch/Dockerfile
@@ -16,8 +16,8 @@ jobs:
           tag: "caris_caller_image-latest"
 
   build_and_push_startstopec2_image:
-    machine:
-      image: cimg/base:2022.03
+    docker:
+      - image: cimg/base:2022.03
     steps:
       - aws-ecr/build-image:
           dockerfile: ./startstopec2/Dockerfile
@@ -39,8 +39,8 @@ jobs:
           tag: "latest"
 
   build_and_push_gdal_image:
-    machine:
-      image: cimg/base:2022.03
+    docker:
+      - image: cimg/base:2022.03
     steps:
       - aws-ecr/build-image:
           dockerfile: ./gdal/Dockerfile

@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  aws-ecr: circleci/aws-ecr@7.0.0
+  aws-ecr: circleci/aws-ecr@8.0.0
 
 jobs:
   build_and_push_caris_caller_image:
@@ -9,7 +9,6 @@ jobs:
       image: cimg/base:2022.03
     steps:
       - aws-ecr/build-and-push-image:
-          account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
           create-repo: false
           dockerfile: ./carisbatch/Dockerfile
           path: ./carisbatch/
@@ -22,7 +21,6 @@ jobs:
       image: cimg/base:2022.03
     steps:
       - aws-ecr/build-and-push-image:
-          account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
           create-repo: false
           dockerfile: ./startstopec2/Dockerfile
           path: ./startstopec2/
@@ -30,7 +28,6 @@ jobs:
           repo: callcarisbatch
           tag: "startstopec2_image-latest"
       - aws-ecr/build-and-push-image:
-          account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
           create-repo: false
           dockerfile: ./mbsystem/Dockerfile
           path: ./mbsystem/
@@ -38,7 +35,6 @@ jobs:
           repo: "ausseabed-mbsystem"
           tag: "latest"
       - aws-ecr/build-and-push-image:
-          account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
           create-repo: false
           dockerfile: ./pdal/Dockerfile
           path: ./pdal/
@@ -51,7 +47,6 @@ jobs:
       image: cimg/base:2022.03
     steps:
       - aws-ecr/build-and-push-image:
-          account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
           create-repo: false
           dockerfile: ./gdal/Dockerfile
           path: ./gdal/

@@ -8,6 +8,8 @@ jobs:
     docker:
       - image: cimg/base:2022.03
     steps:
+      - setup_remote_docker:
+          version: 20.10.11
       - aws-ecr/build-image:
           dockerfile: ./carisbatch/Dockerfile
           path: ./carisbatch/
@@ -19,6 +21,8 @@ jobs:
     docker:
       - image: cimg/base:2022.03
     steps:
+      - setup_remote_docker:
+          version: 20.10.11
       - aws-ecr/build-image:
           dockerfile: ./startstopec2/Dockerfile
           path: ./startstopec2/
@@ -42,6 +46,8 @@ jobs:
     docker:
       - image: cimg/base:2022.03
     steps:
+      - setup_remote_docker:
+          version: 20.10.11
       - aws-ecr/build-image:
           dockerfile: ./gdal/Dockerfile
           path: ./gdal/

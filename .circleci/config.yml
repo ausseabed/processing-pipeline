@@ -6,7 +6,7 @@ orbs:
 jobs:
   build_and_push_caris_caller_image:
     machine:
-      image: cimg/base:2022.03
+      image: ubuntu-2004:202201-02
     steps:
       - aws-ecr/build-and-push-image:
           create-repo: false
@@ -18,7 +18,7 @@ jobs:
 
   build_and_push_startstopec2_image:
     machine:
-      image: cimg/base:2022.03
+      image: ubuntu-2004:202201-02
     steps:
       - aws-ecr/build-and-push-image:
           create-repo: false
@@ -44,7 +44,7 @@ jobs:
 
   build_and_push_gdal_image:
     machine:
-      image: cimg/base:2022.03
+      image: ubuntu-2004:202201-02
     steps:
       - aws-ecr/build-and-push-image:
           create-repo: false

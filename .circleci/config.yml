@@ -6,10 +6,9 @@ orbs:
 jobs:
   build_and_push_caris_caller_image:
     machine:
-      image: ubuntu-2004:202201-02
+      image: cimg/base:2022.03
     steps:
-      - aws-ecr/build-and-push-image:
-          create-repo: false
+      - aws-ecr/build-image:
           dockerfile: ./carisbatch/Dockerfile
           path: ./carisbatch/
           region: AWS_REGION_ENV_VAR_NAME
@@ -18,24 +17,21 @@ jobs:
 
   build_and_push_startstopec2_image:
     machine:
-      image: ubuntu-2004:202201-02
+      image: cimg/base:2022.03
     steps:
-      - aws-ecr/build-and-push-image:
-          create-repo: false
+      - aws-ecr/build-image:
           dockerfile: ./startstopec2/Dockerfile
           path: ./startstopec2/
           region: AWS_REGION_ENV_VAR_NAME
           repo: callcarisbatch
           tag: "startstopec2_image-latest"
-      - aws-ecr/build-and-push-image:
-          create-repo: false
+      - aws-ecr/build-image:
           dockerfile: ./mbsystem/Dockerfile
           path: ./mbsystem/
           region: AWS_REGION_ENV_VAR_NAME
           repo: "ausseabed-mbsystem"
           tag: "latest"
-      - aws-ecr/build-and-push-image:
-          create-repo: false
+      - aws-ecr/build-image:
           dockerfile: ./pdal/Dockerfile
           path: ./pdal/
           region: AWS_REGION_ENV_VAR_NAME
@@ -44,10 +40,9 @@ jobs:
 
   build_and_push_gdal_image:
     machine:
-      image: ubuntu-2004:202201-02
+      image: cimg/base:2022.03
     steps:
-      - aws-ecr/build-and-push-image:
-          create-repo: false
+      - aws-ecr/build-image:
           dockerfile: ./gdal/Dockerfile
           path: ./gdal/
           region: AWS_REGION_ENV_VAR_NAME

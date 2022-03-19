@@ -33,11 +33,31 @@ jobs:
           region: ${AWS_REGION_ENV_VAR_NAME}
           repo: callcarisbatch
           tag: "startstopec2_image-latest"
+
+  build_and_push_mbsystem_image:
+    docker:
+      - image: cimg/base:2022.03
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.11
+      - aws-ecr/ecr-login:
+          region: ${AWS_REGION_ENV_VAR_NAME}
       - aws-ecr/build-image:
           path: ./mbsystem
           region: ${AWS_REGION_ENV_VAR_NAME}
           repo: "ausseabed-mbsystem"
           tag: "latest"
+
+  build_and_push_pdal_image:
+    docker:
+      - image: cimg/base:2022.03
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.11
+      - aws-ecr/ecr-login:
+          region: ${AWS_REGION_ENV_VAR_NAME}
       - aws-ecr/build-image:
           path: ./pdal
           region: ${AWS_REGION_ENV_VAR_NAME}
@@ -68,6 +88,16 @@ workflows:
               only:
                 - master
       - build_and_push_startstopec2_image:
+          filters:
+            branches:
+              only:
+                - master
+      - build_and_push_mbsystem_image:
+          filters:
+            branches:
+              only:
+                - master
+      - build_and_push_pdal_image:
           filters:
             branches:
               only:

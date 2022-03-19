@@ -11,6 +11,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 20.10.11
+      - aws-ecr/ecr-login
       - aws-ecr/build-image:
           path: ./carisbatch
           region: ${AWS_REGION_ENV_VAR_NAME}
@@ -24,6 +25,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 20.10.11
+      - aws-ecr/ecr-login
       - aws-ecr/build-image:
           path: ./startstopec2
           region: ${AWS_REGION_ENV_VAR_NAME}
@@ -47,6 +49,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 20.10.11
+      - aws-ecr/ecr-login
       - aws-ecr/build-image:
           path: ./gdal
           region: ${AWS_REGION_ENV_VAR_NAME}

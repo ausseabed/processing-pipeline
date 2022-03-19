@@ -8,6 +8,7 @@ jobs:
     docker:
       - image: cimg/base:2022.03
     steps:
+      - checkout
       - setup_remote_docker:
           version: 20.10.11
       - aws-ecr/build-image:
@@ -20,6 +21,7 @@ jobs:
     docker:
       - image: cimg/base:2022.03
     steps:
+      - checkout
       - setup_remote_docker:
           version: 20.10.11
       - aws-ecr/build-image:
@@ -42,6 +44,7 @@ jobs:
     docker:
       - image: cimg/base:2022.03
     steps:
+      - checkout
       - setup_remote_docker:
           version: 20.10.11
       - aws-ecr/build-image:

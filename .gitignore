@@ -1,5 +1,7 @@
 *.pyc
 .terraform
 .vscode
+.idea/
 node_modules/
 *.log
+target/

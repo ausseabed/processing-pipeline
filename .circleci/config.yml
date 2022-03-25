@@ -79,6 +79,22 @@ jobs:
           repo: "ausseabed-gdal"
           tag: "latest"
 
+  build_and_push_surveyzip_image:
+    docker:
+      - image: cimg/openjdk:11.0.13
+    steps:
+      - checkout
+      - run: mvn -f ./surveyzip/pom.xml clean package
+      - setup_remote_docker:
+          version: 20.10.11
+      - aws-ecr/ecr-login:
+          region: ${AWS_REGION_ENV_VAR_NAME}
+      - aws-ecr/build-image:
+          path: ./surveyzip
+          region: ${AWS_REGION_ENV_VAR_NAME}
+          repo: "ausseabed-surveyzip"
+          tag: "latest"
+
 workflows:
   update_infra_and_application:
     jobs:
@@ -108,3 +124,8 @@ workflows:
               only:
                 - master
                 - /.*NGA-383.*/
+      - build_and_push_surveyzip_image:
+          filters:
+            branches:
+              only:
+                - master

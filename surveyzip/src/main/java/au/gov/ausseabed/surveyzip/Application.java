@@ -70,7 +70,7 @@ public class Application {
             transferManager.complete();
         }
 
-        logger.info("Writing manifest file: {}", surveyZipFile.getManifestFilename());
-        s3Client.putObject(Config.getOutputBucket(), surveyZipFile.getManifestFilename(), gson.toJson(manifest));
+        logger.info("Writing manifest file: s3://{}/{}", Config.getOutputBucket(), Config.getOutputPrefix() + surveyZipFile.getManifestFilename());
+        s3Client.putObject(Config.getOutputBucket(), Config.getOutputPrefix() + surveyZipFile.getManifestFilename(), gson.toJson(manifest));
     }
 }

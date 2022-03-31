@@ -58,11 +58,18 @@ public class Application {
                     zipOutputStream.write(bytes, 0, length);
                 }
                 stream.close();
+                zipOutputStream.closeEntry();
 
                 manifest.add(
                         new ManifestEntry(cog.getFilename(), object.getObjectMetadata().getETag())
                 );
             }
+
+            ZipEntry zipEntry = new ZipEntry("metadata.txt");
+            zipOutputStream.putNextEntry(zipEntry);
+            byte[] bytes = surveyZipFile.getMetadata().getBytes();
+            zipOutputStream.write(bytes, 0, bytes.length);
+            zipOutputStream.closeEntry();
         } catch (Exception e) {
             transferManager.abort();
             logger.error("Error creating survey zip file", e);

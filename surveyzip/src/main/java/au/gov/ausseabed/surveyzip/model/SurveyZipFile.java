@@ -8,6 +8,7 @@ public class SurveyZipFile {
     private int surveyId;
     private String filename;
     private List<String> cogs;
+    private String metadata;
 
     public int getSurveyId() {
         return surveyId;
@@ -37,12 +38,21 @@ public class SurveyZipFile {
         this.cogs = cogs;
     }
 
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
+    }
+
     @Override
     public String toString() {
         return "SurveyZipFile{" +
                 "surveyId=" + surveyId +
                 ", filename='" + filename + '\'' +
                 ", cogs=" + cogs +
+                ", metadata='" + metadata + '\'' +
                 '}';
     }
 }

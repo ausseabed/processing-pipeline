@@ -16,7 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -35,6 +37,7 @@ public class Application {
 
         List<ManifestEntry> manifest = new ArrayList<>();
         StreamTransferManager transferManager = new StreamTransferManager(Config.getOutputBucket(), Config.getOutputPrefix() + surveyZipFile.getFilename(), s3Client);
+        Map<String, Integer> counts = new HashMap<>();
 
         try (
                 MultiPartOutputStream multiPartOutputStream = transferManager.getMultiPartOutputStreams().get(0);
@@ -43,11 +46,12 @@ public class Application {
             for (String cogLocation : surveyZipFile.getCogs()) {
                 COGFile cog = new COGFile(cogLocation);
 
-                logger.info("Adding {} to zip file", cog.getFilename());
+                int count = counts.merge(cog.getFilename(), 1, Integer::sum);
+                logger.info("Adding {} to zip file", cog.getFilename(count));
 
                 S3Object object = s3Client.getObject(cog.getBucket(), cog.getPrefix());
 
-                ZipEntry zipEntry = new ZipEntry(cog.getFilename());
+                ZipEntry zipEntry = new ZipEntry(cog.getFilename(count));
                 zipOutputStream.putNextEntry(zipEntry);
 
                 S3ObjectInputStream stream = object.getObjectContent();
@@ -61,7 +65,7 @@ public class Application {
                 zipOutputStream.closeEntry();
 
                 manifest.add(
-                        new ManifestEntry(cog.getFilename(), object.getObjectMetadata().getETag())
+                        new ManifestEntry(cogLocation, object.getObjectMetadata().getETag())
                 );
             }
 

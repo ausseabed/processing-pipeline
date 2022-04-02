@@ -33,6 +33,15 @@ public class COGFile {
         return filename;
     }
 
+    public String getFilename(int count) {
+        if (count > 1) {
+            String[] tokens = filename.split(".+?/(?=[^/]+$)");
+            return tokens[0] + "_" + (count - 1) + "." + tokens[1];
+        }
+
+        return filename;
+    }
+
     @Override
     public String toString() {
         return "BucketAndPrefix{" +

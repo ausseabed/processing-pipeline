@@ -1,16 +1,16 @@
 package au.gov.ausseabed.surveyzip.model;
 
 public class ManifestEntry {
-    private final String filename;
+    private final String location;
     private final String eTag;
 
-    public ManifestEntry(String filename, String eTag) {
-        this.filename = filename;
+    public ManifestEntry(String location, String eTag) {
+        this.location = location;
         this.eTag = eTag;
     }
 
-    public String getFilename() {
-        return filename;
+    public String getLocation() {
+        return location;
     }
 
     public String geteTag() {
@@ -20,7 +20,7 @@ public class ManifestEntry {
     @Override
     public String toString() {
         return "ManifestEntry{" +
-                "filename='" + filename + '\'' +
+                "location='" + location + '\'' +
                 ", eTag='" + eTag + '\'' +
                 '}';
     }

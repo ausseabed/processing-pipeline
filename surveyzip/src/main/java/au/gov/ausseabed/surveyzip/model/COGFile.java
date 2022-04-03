@@ -35,7 +35,7 @@ public class COGFile {
 
     public String getFilename(int count) {
         if (count > 1) {
-            String[] tokens = filename.split(".+?/(?=[^/]+$)");
+            String[] tokens = filename.split("\\.(?=[^\\.]+$)");
             return tokens[0] + "_" + (count - 1) + "." + tokens[1];
         }
 

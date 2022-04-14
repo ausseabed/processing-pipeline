@@ -6,6 +6,7 @@ import au.gov.ausseabed.surveyzip.model.COGFile;
 import au.gov.ausseabed.surveyzip.model.Config;
 import au.gov.ausseabed.surveyzip.model.ManifestEntry;
 import au.gov.ausseabed.surveyzip.model.SurveyZipFile;
+import au.gov.ausseabed.surveyzip.s3upload.CustomStreamTransferManager;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -36,7 +37,7 @@ public class Application {
         logger.info("Creating zip file: s3://{}/{}", Config.getOutputBucket(), Config.getOutputPrefix() + surveyZipFile.getFilename());
 
         List<ManifestEntry> manifest = new ArrayList<>();
-        StreamTransferManager transferManager = new StreamTransferManager(Config.getOutputBucket(), Config.getOutputPrefix() + surveyZipFile.getFilename(), s3Client);
+        StreamTransferManager transferManager = new CustomStreamTransferManager(Config.getOutputBucket(), Config.getOutputPrefix() + surveyZipFile.getFilename(), s3Client);
         Map<String, Integer> counts = new HashMap<>();
 
         try (
